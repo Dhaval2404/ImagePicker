@@ -1,2 +1,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.github.dhaval2404.imageprovider"/>
+    package="com.github.dhaval2404.imagepicker">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!--
+    If Not using Crop/Camera feature, Add following line in app manifest
+    This will remove permission while manifest merge
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
+    -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--
+    If Not using Camera feature, Add following line in app manifest.
+    This will remove permission while manifest merge
+    <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/>
+    -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application>
+
+        <activity android:name=".ImagePickerActivity" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_picker_provider_paths" />
+
+        </provider>
+
+    </application>
+
+</manifest>
