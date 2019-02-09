@@ -22,9 +22,11 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
     companion object {
         /**
-         * Permission Require for Image Capture using Camera
+         * Permission Require for Image Pick, For image pick just storage permission is need but
+         * to crop or compress image write permission is also required. as both permission is in
+         * same group, we have used write permission here.
          */
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
         private const val GALLERY_INTENT_REQ_CODE = 4261
         private const val PERMISSION_INTENT_REQ_CODE = 4262

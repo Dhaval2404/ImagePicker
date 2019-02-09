@@ -20,8 +20,7 @@ class MainActivity : AppCompatActivity() {
         private const val GALLERY_IMAGE_REQ_CODE = 102
         private const val CAMERA_IMAGE_REQ_CODE = 103
         private const val DEFAULT_IMAGE_URL =
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE2nnhjrSnA-nOn-pmBR1w1yIO5VytHaju-l-rUjNixn-w8oE4"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,21 +31,21 @@ class MainActivity : AppCompatActivity() {
         fab_add_photo.setOnClickListener {
             ImagePicker.with(this)
                 .cropSquare()
-                .maxResultSize(320, 320)  //2.0 Megapixel
+                .maxResultSize(620, 620)  //2.0 Megapixel
                 .start(PROFILE_IMAGE_REQ_CODE)
         }
 
         fab_add_gallery_photo.setOnClickListener {
             ImagePicker.with(this)
                 .galleryOnly()
-                .maxResultSize(320, 320)
+                .maxResultSize(620, 620)
                 .start(GALLERY_IMAGE_REQ_CODE)
         }
 
         fab_add_camera_photo.setOnClickListener {
             ImagePicker.with(this)
                 .cameraOnly()
-                .compress(40)
+                .compress(100)
                 .start(CAMERA_IMAGE_REQ_CODE)
         }
 

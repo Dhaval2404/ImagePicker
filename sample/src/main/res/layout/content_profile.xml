@@ -22,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            app:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorPrimary"
             android:layout_margin="4dp"
-            android:src="@drawable/outline_cloud_upload_24"
-            android:tint="@color/white"/>
+            android:src="@drawable/outline_cloud_upload_white_24"
+            app:tint="@color/white"/>
 
 </RelativeLayout>

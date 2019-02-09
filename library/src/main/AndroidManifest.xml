@@ -2,12 +2,6 @@
     package="com.github.dhaval2404.imagepicker">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!--
-    If Not using Crop/Camera feature, Add following line in app manifest
-    This will remove permission while manifest merge
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
-    -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--

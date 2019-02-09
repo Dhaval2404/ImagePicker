@@ -11,9 +11,9 @@
     <string name="message_gallery_permission_denied">Read External Storage permissions is needed to select Image. Please turn on requested permissions from Settings > Permissions.</string>
     <string name="message_camera_permission_denied">Camera and External Storage permissions are needed to capture image. Turning off any permission won\'t allow application run smoothly. Please turn on all requested permissions from Settings > Permissions.</string>
     <string name="permission_gallery_denied">
-        <![CDATA[Read Storage permissions are needed to Pick Gallery Image. Please turn on requested permissions from Settings > Permissions.]]></string>
+        <![CDATA[Storage permissions are needed to Pick Gallery Image. Please turn on requested permissions from Settings > Permissions.]]></string>
     <string name="permission_camera_denied">
-        <![CDATA[Camera and External Storage permissions are needed to capture image. Please all both requested permissions from Settings > Permissions.]]></string>
+        <![CDATA[Camera and Storage permissions are needed to capture image. Please all both requested permissions from Settings > Permissions.]]></string>
 
     <string name="error_failed_to_create_camera_image_file">Failed to create Camera image file</string>
     <string name="error_failed_pick_gallery_image">Failed to pick Gallery image</string>

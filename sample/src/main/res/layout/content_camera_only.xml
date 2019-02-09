@@ -3,35 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="280dp"
     android:layout_marginTop="24dp"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="12dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/action_camera_only"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgCamera"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/action_camera_only"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgCamera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_50"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_camera_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/outline_cloud_upload_24"
-        android:tint="@color/white"
-        app:backgroundTint="@color/colorAccent" />
+        android:layout_margin="10dp"
+        android:src="@drawable/outline_cloud_upload_white_24"
+        app:backgroundTint="@color/colorPrimary"
+        app:tint="@color/white" />
 
 </androidx.cardview.widget.CardView>

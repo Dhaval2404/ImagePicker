@@ -2,11 +2,11 @@ package com.github.dhaval2404.imagepicker.provider
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.util.Log
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
-import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.ImageUtil
 import java.io.File
@@ -52,9 +52,16 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
     /**
      * Check if compression is required
+     * @param file File object to apply Compression
      */
     fun isCompressionRequired(file: File): Boolean {
-        return isCompressEnabled() && file.length() > mMaxFileSize
+        val status = isCompressEnabled() && file.length() > mMaxFileSize
+        if(!status && mMaxWidth>0 && mMaxHeight>0){
+            //Check image resolution
+            val sizes = getImageSize(file)
+            return sizes[0]>mMaxWidth || sizes[1]>mMaxHeight
+        }
+        return status
     }
 
 
@@ -86,7 +93,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
                     handleResult(file)
                 } else {
                     //Post Error
-                    setError(R.string.error_failed_to_compress_image)
+                    setError(com.github.dhaval2404.imagepicker.R.string.error_failed_to_compress_image)
                 }
             }
         }.execute(file)
@@ -121,8 +128,6 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * Compress the file
      */
     private fun applyCompression(file: File, attempt: Int): File? {
-        Log.d(TAG, "Attempt:$attempt")
-
         val resList = resolutionList()
         if (attempt >= resList.size) {
             return null
@@ -183,6 +188,18 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      */
     private fun handleResult(file: File) {
         activity.setCompressedImage(file)
+    }
+
+    /**
+     *
+     * @param file File to get Image Size
+     * @return Int Array, Index 0 has width and Index 1 has height
+     */
+    private fun getImageSize(file: File): Array<Int> {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.absolutePath, options)
+        return arrayOf(options.outWidth, options.outHeight)
     }
 
 }

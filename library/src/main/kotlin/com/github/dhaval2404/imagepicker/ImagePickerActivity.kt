@@ -177,7 +177,7 @@ class ImagePickerActivity : FragmentActivity() {
     fun setError(message: String) {
         val intent = Intent()
         intent.putExtra(ImagePicker.EXTRA_ERROR, message)
-        setResult(Activity.RESULT_CANCELED, intent)
+        setResult(ImagePicker.RESULT_ERROR, intent)
         finish()
     }
 
