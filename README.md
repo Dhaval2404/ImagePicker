@@ -1,6 +1,22 @@
-# Image Picker Library for Android
+# 📸Image Picker Library for Android
 
-Simple Library to Pick image from Gallery or Capture image with Camera.
+[![Download](https://api.bintray.com/packages/dhaval2404/maven/imagepicker/images/download.svg) ](https://bintray.com/dhaval2404/maven/imagepicker/_latestVersion) 
+[![Releases](https://img.shields.io/github/release/dhaval2404/imagePicker/all.svg?style=flat-square)](https://github.com/Dhaval2404/ImagePicker/releases)
+[![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
+[![PRWelcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/Dhaval2404)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/Dhaval2404/ImagePicker.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20ImagePicker%20library%20to%20Pick%20an%20image%20from%20the%20Gallery%20or%20Capture%20image%20with%20Camera.%20https%3A%2F%2Fgithub.com%2FDhaval2404%2FImagePicker)
+
+<div align="center">
+  <sub>Built with ❤︎ by
+  <a href="https://twitter.com/Dhaval2404">Dhaval Patel</a> and
+  <a href="https://github.com/dhaval2404/imagepicker/graphs/contributors">
+    contributors
+  </a>
+</div>
+<br/>
+
+Simple Library to Pick an image from the Gallery or Capture image with Camera.
 
 Almost 90% of the app that I have developed has Image upload feature. To simplify the image pick/capture option I have created this library. Its easily configurable and easy to use.  
 
