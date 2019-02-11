@@ -43,5 +43,5 @@ dependencies {
     //Image Loading Lib
     implementation 'com.github.bumptech.glide:glide:4.8.0'
 
-    implementation project(":library")
+    implementation project(':imagepicker')
 }

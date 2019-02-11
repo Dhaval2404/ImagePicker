@@ -45,3 +45,34 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test:core:1.1.0'
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'imagepicker'
+
+    publishedGroupId = 'com.github.dhaval2404'
+    libraryName = 'imagepicker'
+    artifact = 'imagepicker'
+
+    libraryDescription = 'Pick image from Gallery or Capture new image with Camera.'
+
+    siteUrl = 'https://github.com/Dhaval2404/ImagePicker/'
+    gitUrl = 'https://github.com/Dhaval2404/ImagePicker.git'
+
+    libraryVersion = '1.0'
+    //If you are uploading new library try : gradlew install
+    //If you are updating existing library then execute: gradlew bintrayUpload
+    //In both the case don't forgot to put bintray credentials in local.properties file.
+
+    developerId = 'dhaval2404'
+    developerName = 'Dhaval Patel'
+    developerEmail = 'dhavalpatel244@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+// Place it at the end of the file
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
