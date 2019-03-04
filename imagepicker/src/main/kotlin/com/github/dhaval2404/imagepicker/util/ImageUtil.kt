@@ -16,7 +16,7 @@
 package com.github.dhaval2404.imagepicker.util
 
 import android.graphics.*
-import android.media.ExifInterface
+import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
