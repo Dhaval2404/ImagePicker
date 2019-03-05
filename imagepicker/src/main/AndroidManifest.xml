@@ -13,7 +13,8 @@
 
     <application>
 
-        <activity android:name=".ImagePickerActivity" />
+        <activity android:name=".ImagePickerActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
