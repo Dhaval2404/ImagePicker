@@ -29,7 +29,8 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	```groovy
 	allprojects {
 	   repositories {
-	      jcenter()
+	      	jcenter()
+           	maven { url "https://jitpack.io" }  //Make sure to add this in your project for uCrop
 	   }
 	}
 	```
