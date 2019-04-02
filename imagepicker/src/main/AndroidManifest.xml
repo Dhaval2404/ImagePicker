@@ -14,7 +14,8 @@
     <application>
 
         <activity android:name=".ImagePickerActivity"
-            android:screenOrientation="portrait"/>
+                  android:theme="@style/Theme.Transparent.ImagePicker"
+                  android:screenOrientation="unspecified"/>
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

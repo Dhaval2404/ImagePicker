@@ -3,6 +3,7 @@
 [![Download](https://api.bintray.com/packages/dhaval2404/maven/imagepicker/images/download.svg) ](https://bintray.com/dhaval2404/maven/imagepicker/_latestVersion) 
 [![Releases](https://img.shields.io/github/release/dhaval2404/imagePicker/all.svg?style=flat-square)](https://github.com/Dhaval2404/ImagePicker/releases)
 [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
+![Language](https://img.shields.io/badge/language-Kotlin-orange.svg)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ImagePicker-green.svg?style=flat )]( https://android-arsenal.com/details/1/7510 )
 [![PRWelcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Dhaval2404/ImagePicker)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/Dhaval2404)
@@ -30,22 +31,23 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	allprojects {
 	   repositories {
 	      jcenter()
+	      maven { url "https://jitpack.io" }  //Make sure to add this in your project for uCrop
 	   }
 	}
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.0'
+   implementation 'com.github.dhaval2404:imagepicker:1.1'
     ```
     
 2. The ImagePicker configuration is created using the builder pattern.
 
 	```kotlin
     ImagePicker.with(this)
-          .crop(1f, 1f)	    		//Crop Square image(Optional)
-   		  .compress(1024)			//Final image size will be less than 1 MB(Optional)
-          .maxResultSize(620, 620)	//Final image resolution will be less than 620 x 620(Optional)
-          .start()
+            .crop(1f, 1f)	    		//Crop Square image(Optional)
+            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+            .start()
     ```
     
 3. Override `onActivityResult` method and handle ImagePicker result.
@@ -77,52 +79,51 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 
 	```kotlin
 	ImagePicker.with(this)
-		    .galleryOnly()       //User can only select image from Gallery
-		    .start()			 //Default Request Code is ImagePicker.REQUEST_CODE
+		.galleryOnly()	//User can only select image from Gallery
+		.start()	//Default Request Code is ImagePicker.REQUEST_CODE
     ```
 
  *  Capture image using Camera
 
 	```kotlin
 	ImagePicker.with(this)
-		    .cameraOnly()       //User can only capture image using Camera
-		    .start()
+		.cameraOnly()	//User can only capture image using Camera
+		.start()
     ```
  *  Crop image
  		
     ```kotlin
     ImagePicker.with(this)
-		    .crop(16f, 9f)	   //Crop image with 16:9 aspect ratio
-		    .start()
+		.crop(16f, 9f)	//Crop image with 16:9 aspect ratio
+		.start()
     ```            
  *  Crop square image(e.g for profile)
  
      ```kotlin
      ImagePicker.with(this)
-		    .cropSquare()	   //Crop square image, its same as crop(1f, 1f)
+		    .cropSquare()	//Crop square image, its same as crop(1f, 1f)
 		    .start()
     ```
  *  Compress image size(e.g image should be maximum 1 MB)
 		
 	```kotlin
     ImagePicker.with(this)
-		    .compress(1024)	   //Final image size will be less than 1 MB
-		    .start()
+		.compress(1024)	//Final image size will be less than 1 MB
+		.start()
     ```
  *  Set Resize image resolution
  		
     ```kotlin
     ImagePicker.with(this)
-        	//Final image resolution will be less than 620 x 620
-		    .maxResultSize(620, 620)	   
-		    .start()
+		.maxResultSize(620, 620)	//Final image resolution will be less than 620 x 620	   
+		.start()
     ```
  *  You can also specify the request code with ImagePicker
  		
     ```kotlin
     ImagePicker.with(this)
-		    .maxResultSize(620, 620)	   
-		    .start(101)		//Here 101 is request code, you may use this in onActivityResult
+		.maxResultSize(620, 620)	   
+		.start(101)	//Here 101 is request code, you may use this in onActivityResult
     ```    
  
  *  Add Following parameters in your **colors.xml** file, If you want to customize uCrop Activity.
@@ -138,11 +139,11 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
   *  You don't need to add any permissions to manifest, everything is merged automatically from library's manifest file. You can remove unnecessary permission by adding **tools:node="remove** tag.
        
      ```xml
-        <!--
-        If Not using Camera feature, Add following line in app manifest.
-        This will remove permission while manifest merge
-        -->
-        <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/> 
+     <!--
+     If Not using Camera feature, Add following line in app manifest.
+     This will remove permission while manifest merge
+     -->
+     <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/> 
      ```         
  
     
@@ -152,6 +153,11 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
   * Sample - Android Lollipop 5.0+ (API 21)
   
 # ✔️Changelog
+
+### Version: 1.1
+
+  * Optimized Compression Logic
+  * Replace white screen with transparent one.
 
 ### Version: 1.0
 

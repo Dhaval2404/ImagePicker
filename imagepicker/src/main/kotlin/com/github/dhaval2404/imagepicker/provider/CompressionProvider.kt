@@ -55,15 +55,18 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * @param file File object to apply Compression
      */
     fun isCompressionRequired(file: File): Boolean {
-        val status = isCompressEnabled() && file.length() > mMaxFileSize
-        if(!status && mMaxWidth>0 && mMaxHeight>0){
+        val status = isCompressEnabled() && getSizeDiff(file) > 0L
+        if (!status && mMaxWidth > 0 && mMaxHeight > 0) {
             //Check image resolution
             val sizes = getImageSize(file)
-            return sizes[0]>mMaxWidth || sizes[1]>mMaxHeight
+            return sizes[0] > mMaxWidth || sizes[1] > mMaxHeight
         }
         return status
     }
 
+    private fun getSizeDiff(file: File): Long {
+        return file.length() - mMaxFileSize
+    }
 
     /**
      * Compress given file if enabled.
@@ -105,6 +108,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private fun startCompression(file: File): File? {
         var newFile: File? = null
         var attempt = 0
+        var lastAttempt = 0
         do {
             //Delete file if exist, fill will be exist in second loop.
             newFile?.delete()
@@ -112,13 +116,24 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             newFile = applyCompression(file, attempt)
             if (newFile == null) {
                 return if (attempt > 0) {
-                    applyCompression(file, attempt - 1)
+                    applyCompression(file, lastAttempt)
                 } else {
                     null
                 }
             }
+            lastAttempt = attempt
 
-            attempt++
+            if (mMaxFileSize > 0) {
+                val diff = getSizeDiff(newFile)
+                //Log.i(TAG, "Size Diff:$diff")
+                attempt += when {
+                    diff > 1024 * 1024 -> 3
+                    diff > 500 * 1024 -> 2
+                    else -> 1
+                }
+            } else {
+                attempt++
+            }
         } while (isCompressionRequired(newFile!!))
 
         return newFile
@@ -144,7 +159,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
                 maxWidth = mMaxWidth
             }
         }
-        Log.d(TAG, "maxWidth:$maxWidth, maxHeight:$maxHeight")
+        //Log.d(TAG, "maxWidth:$maxWidth, maxHeight:$maxHeight")
 
         //Check file format
         var format = Bitmap.CompressFormat.JPEG
@@ -171,15 +186,21 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      */
     private fun resolutionList(): List<Array<Int>> {
         return listOf<Array<Int>>(
-            arrayOf(2580, 1944),        //5.0 Megapixel
-            arrayOf(2080, 1542),        //3.3 Megapixel
-            arrayOf(1600, 1200),        //2.0 Megapixel
-            arrayOf(1392, 1024),        //1.3 Megapixel
-            arrayOf(640, 480),          //0.3 Megapixel
-            arrayOf(320, 240),          //0.15 Megapixel
-            arrayOf(160, 120),          //0.08 Megapixel
-            arrayOf(80, 60),             //0.04 Megapixel
-            arrayOf(40, 30)             //0.02 Megapixel
+            arrayOf(2448, 3264),        //8.0 Megapixel
+            arrayOf(2008, 3032),        //6.0 Megapixel
+            arrayOf(1944, 2580),        //5.0 Megapixel
+            arrayOf(1680, 2240),        //4.0 Megapixel
+            arrayOf(1536, 2048),        //3.0 Megapixel
+            arrayOf(1200, 1600),        //2.0 Megapixel
+            arrayOf(1024, 1392),        //1.3 Megapixel
+            arrayOf(960, 1280),         //1.0 Megapixel
+            arrayOf(768, 1024),         //0.7 Megapixel
+            arrayOf(600, 800),          //0.4 Megapixel
+            arrayOf(480, 640),          //0.3 Megapixel
+            arrayOf(240, 320),          //0.15 Megapixel
+            arrayOf(120, 160),          //0.08 Megapixel
+            arrayOf(60, 80),            //0.04 Megapixel
+            arrayOf(30, 40)             //0.02 Megapixel
         )
     }
 

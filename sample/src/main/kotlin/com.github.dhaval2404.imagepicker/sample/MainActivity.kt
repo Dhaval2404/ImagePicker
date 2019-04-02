@@ -30,22 +30,22 @@ class MainActivity : AppCompatActivity() {
 
         fab_add_photo.setOnClickListener {
             ImagePicker.with(this)
-                .cropSquare()
-                .maxResultSize(620, 620)  //2.0 Megapixel
+                .cropSquare()                               //Crop Square image(Optional)
+                .maxResultSize(620, 620)       //Final image resolution will be less than 620 x 620(Optional)
                 .start(PROFILE_IMAGE_REQ_CODE)
         }
 
         fab_add_gallery_photo.setOnClickListener {
             ImagePicker.with(this)
-                .galleryOnly()
-                .maxResultSize(620, 620)
+                .galleryOnly()                              //User can only select image from Gallery(Optional)
+                .maxResultSize(1080, 1920)     //Final image resolution will be less than 1080 x 1920(Optional)
                 .start(GALLERY_IMAGE_REQ_CODE)
         }
 
         fab_add_camera_photo.setOnClickListener {
             ImagePicker.with(this)
-                .cameraOnly()
-                .compress(100)
+                .cameraOnly()                               //User can only capture image using Camera(Optional)
+                .compress(1024)                     //Final image size will be less than 1 MB(Optional)
                 .start(CAMERA_IMAGE_REQ_CODE)
         }
 
