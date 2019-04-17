@@ -5,7 +5,8 @@ import android.os.StatFs
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Date
 
 /**
  * File Utility Methods
@@ -25,19 +26,19 @@ object FileUtil {
             // Create an image file name
             val imageFileName = "IMG_${getTimestamp()}.jpg"
 
-            //Create File Directory Object
+            // Create File Directory Object
             val storageDir = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
                 "Camera"
             )
 
-            //Create Directory If not exist
+            // Create Directory If not exist
             if (!storageDir.exists()) storageDir.mkdirs()
 
-            //Create File Object
+            // Create File Object
             val file = File(storageDir, imageFileName)
 
-            //Create empty file
+            // Create empty file
             file.createNewFile()
 
             return file
@@ -68,5 +69,4 @@ object FileUtil {
         val blockSize = stat.blockSizeLong
         return availBlocks * blockSize
     }
-
 }

@@ -17,5 +17,4 @@ class ExampleInstrumentedTest {
 
         assertEquals("com.github.dhaval2404.imagepicker.test", appContext.packageName)
     }
-
 }

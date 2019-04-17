@@ -66,10 +66,10 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * Create Temporary File object and Pass it to Camera Intent
      */
     private fun startCameraIntent() {
-        //Create and get empty file to store capture image content
+        // Create and get empty file to store capture image content
         mCameraFile = FileUtil.getCameraFile()
 
-        //Check if file exists
+        // Check if file exists
         if (mCameraFile != null && mCameraFile!!.exists()) {
             val cameraIntent = IntentUtils.getCameraIntent(this, mCameraFile!!)
             activity.startActivityForResult(cameraIntent, CAMERA_INTENT_REQ_CODE)
@@ -82,13 +82,13 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * Handle Requested Permission Result
      */
     fun onRequestPermissionsResult(requestCode: Int) {
-        if(requestCode==PERMISSION_INTENT_REQ_CODE) {
-            //Check again if permission is granted
+        if (requestCode == PERMISSION_INTENT_REQ_CODE) {
+            // Check again if permission is granted
             if (isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
-                //Permission is granted, Start Camera Intent
+                // Permission is granted, Start Camera Intent
                 startCameraIntent()
             } else {
-                //Exit with error message
+                // Exit with error message
                 val error = getString(R.string.permission_camera_denied)
                 setError(error)
             }
@@ -98,8 +98,8 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Handle Camera Intent Activity Result
      *
-     * @param requestCode  It must be {@link CameraProvider#CAMERA_INTENT_REQ_CODE}
-     * @param resultCode  For success it should be {@link Activity#RESULT_OK}
+     * @param requestCode It must be {@link CameraProvider#CAMERA_INTENT_REQ_CODE}
+     * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -122,8 +122,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Delete Camera file is exists
      */
-    override fun onFailure(){
+    override fun onFailure() {
         mCameraFile?.delete()
     }
-
 }

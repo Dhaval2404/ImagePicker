@@ -19,7 +19,7 @@ import java.io.File
 class ImagePicker {
 
     companion object {
-        //Default Request Code to Pick Image
+        // Default Request Code to Pick Image
         const val REQUEST_CODE = 2404
         const val RESULT_ERROR = 64
 
@@ -75,19 +75,18 @@ class ImagePicker {
          */
         fun getFile(data: Intent?): File? {
             val path = getFilePath(data)
-            if(path!=null){
+            if (path != null) {
                 return File(path)
             }
             return null
         }
-
     }
 
     class Builder(private val activity: Activity) {
 
         private var fragment: Fragment? = null
 
-        //Image Provider
+        // Image Provider
         private var imageProvider = ImageProvider.BOTH
 
         /*
@@ -182,7 +181,7 @@ class ImagePicker {
          */
         fun start(reqCode: Int) {
             if (imageProvider == ImageProvider.BOTH) {
-                //Pick Image Provider if not specified
+                // Pick Image Provider if not specified
                 showImageProviderDialog(reqCode)
             } else {
                 startActivity(reqCode)
@@ -207,7 +206,7 @@ class ImagePicker {
         private fun startActivity(reqCode: Int) {
             val bundle = Bundle()
             bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
-            //bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
+            // bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
 
             bundle.putFloat(EXTRA_CROP_X, cropX)
             bundle.putFloat(EXTRA_CROP_Y, cropY)
@@ -225,8 +224,5 @@ class ImagePicker {
                 activity.startActivityForResult(intent, reqCode)
             }
         }
-
     }
-
-
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import android.util.Log
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -33,11 +32,11 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     init {
         val bundle = activity.intent.extras!!
 
-        //Get Max Width/Height parameter from Intent
+        // Get Max Width/Height parameter from Intent
         mMaxWidth = bundle.getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)
         mMaxHeight = bundle.getInt(ImagePicker.EXTRA_MAX_HEIGHT, 0)
 
-        //Get Maximum Allowed file size
+        // Get Maximum Allowed file size
         mMaxFileSize = bundle.getLong(ImagePicker.EXTRA_IMAGE_MAX_SIZE, 0)
     }
 
@@ -57,7 +56,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     fun isCompressionRequired(file: File): Boolean {
         val status = isCompressEnabled() && getSizeDiff(file) > 0L
         if (!status && mMaxWidth > 0 && mMaxHeight > 0) {
-            //Check image resolution
+            // Check image resolution
             val sizes = getImageSize(file)
             return sizes[0] > mMaxWidth || sizes[1] > mMaxHeight
         }
@@ -85,17 +84,17 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
         mOriginalFile = file
         object : AsyncTask<File, Void, File>() {
             override fun doInBackground(vararg params: File): File? {
-                //Perform operation in background
+                // Perform operation in background
                 return startCompression(params[0])
             }
 
             override fun onPostExecute(file: File?) {
                 super.onPostExecute(file)
                 if (file != null) {
-                    //Post Result
+                    // Post Result
                     handleResult(file)
                 } else {
-                    //Post Error
+                    // Post Error
                     setError(com.github.dhaval2404.imagepicker.R.string.error_failed_to_compress_image)
                 }
             }
@@ -110,7 +109,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
         var attempt = 0
         var lastAttempt = 0
         do {
-            //Delete file if exist, fill will be exist in second loop.
+            // Delete file if exist, fill will be exist in second loop.
             newFile?.delete()
 
             newFile = applyCompression(file, attempt)
@@ -125,7 +124,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
             if (mMaxFileSize > 0) {
                 val diff = getSizeDiff(newFile)
-                //Log.i(TAG, "Size Diff:$diff")
+                // Log.i(TAG, "Size Diff:$diff")
                 attempt += when {
                     diff > 1024 * 1024 -> 3
                     diff > 500 * 1024 -> 2
@@ -148,7 +147,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             return null
         }
 
-        //Apply logic to get scaled bitmap resolution.
+        // Apply logic to get scaled bitmap resolution.
         val resolution = resList[attempt]
         var maxWidth = resolution[0]
         var maxHeight = resolution[1]
@@ -159,9 +158,9 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
                 maxWidth = mMaxWidth
             }
         }
-        //Log.d(TAG, "maxWidth:$maxWidth, maxHeight:$maxHeight")
+        // Log.d(TAG, "maxWidth:$maxWidth, maxHeight:$maxHeight")
 
-        //Check file format
+        // Check file format
         var format = Bitmap.CompressFormat.JPEG
         var quality = 90
         if (file.absolutePath.endsWith(".png")) {
@@ -186,21 +185,21 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      */
     private fun resolutionList(): List<Array<Int>> {
         return listOf<Array<Int>>(
-            arrayOf(2448, 3264),        //8.0 Megapixel
-            arrayOf(2008, 3032),        //6.0 Megapixel
-            arrayOf(1944, 2580),        //5.0 Megapixel
-            arrayOf(1680, 2240),        //4.0 Megapixel
-            arrayOf(1536, 2048),        //3.0 Megapixel
-            arrayOf(1200, 1600),        //2.0 Megapixel
-            arrayOf(1024, 1392),        //1.3 Megapixel
-            arrayOf(960, 1280),         //1.0 Megapixel
-            arrayOf(768, 1024),         //0.7 Megapixel
-            arrayOf(600, 800),          //0.4 Megapixel
-            arrayOf(480, 640),          //0.3 Megapixel
-            arrayOf(240, 320),          //0.15 Megapixel
-            arrayOf(120, 160),          //0.08 Megapixel
-            arrayOf(60, 80),            //0.04 Megapixel
-            arrayOf(30, 40)             //0.02 Megapixel
+            arrayOf(2448, 3264), // 8.0 Megapixel
+            arrayOf(2008, 3032), // 6.0 Megapixel
+            arrayOf(1944, 2580), // 5.0 Megapixel
+            arrayOf(1680, 2240), // 4.0 Megapixel
+            arrayOf(1536, 2048), // 3.0 Megapixel
+            arrayOf(1200, 1600), // 2.0 Megapixel
+            arrayOf(1024, 1392), // 1.3 Megapixel
+            arrayOf(960, 1280), // 1.0 Megapixel
+            arrayOf(768, 1024), // 0.7 Megapixel
+            arrayOf(600, 800), // 0.4 Megapixel
+            arrayOf(480, 640), // 0.3 Megapixel
+            arrayOf(240, 320), // 0.15 Megapixel
+            arrayOf(120, 160), // 0.08 Megapixel
+            arrayOf(60, 80), // 0.04 Megapixel
+            arrayOf(30, 40) // 0.02 Megapixel
         )
     }
 
@@ -222,5 +221,4 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
         BitmapFactory.decodeFile(file.absolutePath, options)
         return arrayOf(options.outWidth, options.outHeight)
     }
-
 }

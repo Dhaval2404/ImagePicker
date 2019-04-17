@@ -48,7 +48,7 @@ class ImagePickerActivity : FragmentActivity() {
         val bundle = intent.extras!!
         val provider = bundle.getSerializable(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider
 
-        //Create provider object and start process
+        // Create provider object and start process
         when (provider) {
             ImageProvider.GALLERY -> {
                 mGalleryProvider = GalleryProvider(this)
@@ -64,9 +64,11 @@ class ImagePickerActivity : FragmentActivity() {
     /**
      * Dispatch incoming result to the correct provider.
      */
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         mCameraProvider?.onRequestPermissionsResult(requestCode)
         mGalleryProvider?.onRequestPermissionsResult(requestCode)
@@ -115,15 +117,15 @@ class ImagePickerActivity : FragmentActivity() {
         mCropFile = file
 
         mCameraProvider?.let {
-            //Delete Camera file after crop. Else there will be two image for the same action.
-            //In case of Gallery Provider, we will get original image path, so we will not delete that.
+            // Delete Camera file after crop. Else there will be two image for the same action.
+            // In case of Gallery Provider, we will get original image path, so we will not delete that.
             mOriginalFile?.delete()
             mOriginalFile = null
         }
 
-        if(mCompressionProvider.isCompressionRequired(file)){
+        if (mCompressionProvider.isCompressionRequired(file)) {
             mCompressionProvider.compress(file)
-        }else{
+        } else {
             setResult(file)
         }
     }
@@ -134,14 +136,14 @@ class ImagePickerActivity : FragmentActivity() {
      * @param file Compressed image file
      */
     fun setCompressedImage(file: File) {
-        //This is the case when Crop is not enabled
+        // This is the case when Crop is not enabled
         mCameraProvider?.let {
-            //Delete Camera file after Compress. Else there will be two image for the same action.
-            //In case of Gallery Provider, we will get original image path, so we will not delete that.
+            // Delete Camera file after Compress. Else there will be two image for the same action.
+            // In case of Gallery Provider, we will get original image path, so we will not delete that.
             mOriginalFile?.delete()
         }
 
-        //If crop file is not null, Delete it after crop
+        // If crop file is not null, Delete it after crop
         mCropFile?.delete()
         mCropFile = null
 
@@ -180,5 +182,4 @@ class ImagePickerActivity : FragmentActivity() {
         setResult(ImagePicker.RESULT_ERROR, intent)
         finish()
     }
-
 }

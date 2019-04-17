@@ -1,0 +1,38 @@
+//Reference Site
+//https://medium.com/trendyol-tech/ktlint-for-android-89d73e7669a9
+
+//Official Site
+//https://ktlint.github.io/
+
+repositories {
+    jcenter()
+}
+
+configurations {
+    ktlint
+}
+
+dependencies {
+    ktlint "com.github.shyiko:ktlint:0.31.0"
+    // additional 3rd party ruleset(s) can be specified here
+    // just add them to the classpath (ktlint 'groupId:artifactId:version') and
+    // ktlint will pick them up
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.github.shyiko.ktlint.Main"
+    classpath = configurations.ktlint
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/shyiko/ktlint#usage for more
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.github.shyiko.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "src/**/*.kt"
+}

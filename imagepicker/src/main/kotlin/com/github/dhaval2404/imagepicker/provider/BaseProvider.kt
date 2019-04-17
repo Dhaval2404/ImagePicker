@@ -28,7 +28,7 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) : Conte
      *
      * @param errorRes Error Message
      */
-    protected fun setError(errorRes:Int){
+    protected fun setError(errorRes: Int) {
         setError(getString(errorRes))
     }
 
@@ -37,7 +37,7 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) : Conte
      *
      * @param messageRes String message resource
      */
-    protected fun showToast(messageRes:Int){
+    protected fun showToast(messageRes: Int) {
         Toast.makeText(this, messageRes, Toast.LENGTH_SHORT).show()
     }
 
@@ -45,7 +45,7 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) : Conte
      * Call this method when task is cancel in between the operation.
      * E.g. user hit back-press
      */
-    protected fun setResultCancel(){
+    protected fun setResultCancel() {
         onFailure()
         activity.setResultCancel()
     }
@@ -53,7 +53,6 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) : Conte
     /**
      * This method will be Call on Error, It can be used for clean up Tasks
      */
-    protected open fun onFailure(){
+    protected open fun onFailure() {
     }
-
 }
