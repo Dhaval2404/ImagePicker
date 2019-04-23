@@ -18,7 +18,7 @@
 </div>
 <br/>
 
-Simple Library to Pick an image from the Gallery or Capture image with Camera.
+Simple Library to **Pick an image from the Gallery or Capture image using Camera**. It also allows to **Crop and Compress the Image based on resolution and image size**.
 
 Almost 90% of the app that I have developed has Image upload feature. To simplify the image pick/capture option I have created this library. Its easily configurable and easy to use.  
 
