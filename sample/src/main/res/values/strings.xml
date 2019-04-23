@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Image Picker</string>
+    <string name="app_name">Image Picker Support</string>
     <string name="action_settings">Settings</string>
     
     <string name="action_camera_only">Camera Only</string>

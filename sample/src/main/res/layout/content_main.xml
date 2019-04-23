@@ -9,7 +9,7 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <androidx.core.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -27,6 +27,6 @@
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
