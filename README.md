@@ -40,10 +40,28 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
    implementation 'com.github.dhaval2404:imagepicker:1.1'
     ```
     
+   **If you are yet to Migrate on AndroidX, Use support build artifact:**
+   ```groovy
+   implementation 'com.github.dhaval2404:imagepicker-support:1.1'
+    ```
+
+    
 2. The ImagePicker configuration is created using the builder pattern.
 
+	**Kotlin**
+    
 	```kotlin
     ImagePicker.with(this)
+            .crop(1f, 1f)	    		//Crop Square image(Optional)
+            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+            .start()
+    ```
+    
+    **Java**
+    
+    ```kotlin
+    ImagePicker.Companion.with(this)
             .crop(1f, 1f)	    		//Crop Square image(Optional)
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
