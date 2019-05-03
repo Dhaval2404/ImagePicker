@@ -22,7 +22,6 @@ open class ImagePicker {
 
     companion object {
         //Default Request Code to Pick Image
-        const val REQUEST_CODE = 2404
         const val RESULT_ERROR = 64
 
         internal const val EXTRA_IMAGE_PROVIDER = "extra.image_provider"
@@ -176,29 +175,22 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            start(REQUEST_CODE, completionHandler)
-        }
-
-        /**
-         * Start Image Picker Activity
-         */
-        fun start(reqCode: Int, completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
             if (imageProvider == ImageProvider.BOTH) {
                 //Pick Image Provider if not specified
-                showImageProviderDialog(reqCode, completionHandler)
+                showImageProviderDialog(completionHandler)
             } else {
-                startActivity(reqCode, completionHandler)
+                startActivity(completionHandler)
             }
         }
 
         /**
          * Pick Image Provider if not specified
          */
-        private fun showImageProviderDialog(reqCode: Int, completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+        private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
                 override fun onResult(t: ImageProvider) {
                     imageProvider = t
-                    startActivity(reqCode, completionHandler)
+                    startActivity(completionHandler)
                 }
             })
         }
@@ -206,7 +198,7 @@ open class ImagePicker {
         /**
          * Start ImagePickerActivity with given Argument
          */
-        private fun startActivity(reqCode: Int, completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+        private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
             val bundle = Bundle()
             bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
             //bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
