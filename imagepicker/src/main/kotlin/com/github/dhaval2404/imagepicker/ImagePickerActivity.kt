@@ -86,8 +86,8 @@ class ImagePickerActivity : FragmentActivity() {
      * Handle Activity Back Press
      */
     override fun onBackPressed() {
+        setResultCancel(false) //needs to be set before onBackPressed or else won't work
         super.onBackPressed()
-        setResultCancel()
     }
 
     /**
@@ -164,9 +164,10 @@ class ImagePickerActivity : FragmentActivity() {
     /**
      * User has cancelled the task
      */
-    fun setResultCancel() {
+    fun setResultCancel(finish: Boolean = true) {
         setResult(Activity.RESULT_CANCELED, Intent())
-        finish()
+        if (finish)
+            finish()
     }
 
     /**
