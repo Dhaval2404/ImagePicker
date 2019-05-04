@@ -188,9 +188,13 @@ open class ImagePicker {
          */
         private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider) {
-                    imageProvider = t
-                    startActivity(completionHandler)
+                override fun onResult(t: ImageProvider?) {
+                    if (t != null) {
+                        imageProvider = t
+                        startActivity(completionHandler)
+                    } else {
+                        completionHandler?.invoke(Activity.RESULT_CANCELED, Intent())
+                    }
                 }
             })
         }
