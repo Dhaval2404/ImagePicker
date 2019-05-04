@@ -188,13 +188,9 @@ open class ImagePicker {
          */
         private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider?) {
-                    if (t != null) {
-                        imageProvider = t
-                        startActivity(completionHandler)
-                    } else {
-                        completionHandler?.invoke(Activity.RESULT_CANCELED, Intent())
-                    }
+                override fun onResult(t: ImageProvider) {
+                    imageProvider = t
+                    startActivity(completionHandler)
                 }
             })
         }
@@ -221,13 +217,13 @@ open class ImagePicker {
 
                 fragment?.startForResult(intent) { result ->
                     completionHandler?.invoke(result.resultCode, result.data)
+                }?.onFailed { result ->
+                    completionHandler?.invoke(result.resultCode, result.data)
                 }
-
-                //fragment?.startActivityForResult(intent, reqCode)
             } else {
-                //activity.startActivityForResult(intent, reqCode)
-
                 (activity as AppCompatActivity).startForResult(intent) { result ->
+                    completionHandler?.invoke(result.resultCode, result.data)
+                }?.onFailed { result ->
                     completionHandler?.invoke(result.resultCode, result.data)
                 }
             }
