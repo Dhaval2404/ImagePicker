@@ -31,7 +31,9 @@ internal object DialogHelper {
             .setOnCancelListener {
                 listener.onResult(null)
             }
-            .setNegativeButton(R.string.action_cancel) { _, _ -> }
+            .setNegativeButton(R.string.action_cancel) { _, _ ->
+                listener.onResult(null)
+            }
             .show()
 
         //Handle Camera option click
