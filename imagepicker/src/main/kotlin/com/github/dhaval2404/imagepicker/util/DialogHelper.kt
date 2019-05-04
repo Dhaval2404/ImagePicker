@@ -28,6 +28,9 @@ internal object DialogHelper {
         val dialog = AlertDialog.Builder(context)
             .setTitle(R.string.title_choose_image_provider)
             .setView(customView)
+            .setOnCancelListener {
+                listener.onResult(null)
+            }
             .setNegativeButton(R.string.action_cancel) { _, _ -> }
             .show()
 
