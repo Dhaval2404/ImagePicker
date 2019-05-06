@@ -113,7 +113,6 @@ open class ImagePicker {
         /*
          * Is Inline Activity Result library present
          */
-        private val inlineActivityPresent = isInlineActivityPresent()
         private fun isInlineActivityPresent() : Boolean {
             try {
                 Class.forName("com.github.florent37.inlineactivityresult")
@@ -251,7 +250,8 @@ open class ImagePicker {
          * Start ImagePickerActivity with given Argument
          */
         private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            if (inlineActivityPresent) {
+            if (isInlineActivityPresent()) {
+                Log.i("ImagePicker", "Debug 1kotl")
                 val bundle = Bundle()
                 bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
                 //bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
