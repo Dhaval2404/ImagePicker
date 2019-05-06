@@ -116,7 +116,7 @@ open class ImagePicker {
         private val inlineActivityPresent = isInlineActivityPresent()
         private fun isInlineActivityPresent() : Boolean {
             try {
-                Class.forName("com.github.florent37.inlineactivityresult.kotlin.startForResult")
+                Class.forName("com.github.florent37.inlineactivityresult")
                 return true
             } catch (e: Exception) {
                 return false
