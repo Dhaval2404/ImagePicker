@@ -16,3 +16,4 @@
 /build
 /captures
 .externalNativeBuild
+.idea/encodings.xml
