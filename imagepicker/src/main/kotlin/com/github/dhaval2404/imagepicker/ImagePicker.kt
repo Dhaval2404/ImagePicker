@@ -281,8 +281,8 @@ open class ImagePicker {
                     }
                 }
             } else {
-                Log.i("ImagePicker", "InlineActivityResult library not installed, please install " +
-                        "it from https://github.com/florent37/InlineActivityResult to make inline activity result work.")
+                Log.i("ImagePicker", "InlineActivityResult library not installed falling back to default method, please install " +
+                        "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.")
                 startActivity(REQUEST_CODE)
             }
         }

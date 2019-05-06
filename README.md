@@ -45,6 +45,11 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
    implementation 'com.github.dhaval2404:imagepicker-support:1.1'
     ```
 
+    **If you want to get the activity result inline in a modern way (lambda) install [InlineActivityResult](https://github.com/florent37/InlineActivityResult) library:**
+   ```groovy
+   implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
+    ```
+
     
 2. The ImagePicker configuration is created using the builder pattern.
 
@@ -68,7 +73,11 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
             .start()
     ```
     
-3. Override `onActivityResult` method and handle ImagePicker result.
+3. Handling results
+
+    
+    **Default method**
+    Override `onActivityResult` method and handle ImagePicker result.
 
     ```kotlin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,6 +98,31 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
              Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
          }
     }
+    ```
+
+    **Inline method (with InlineActivityResult library)**
+    ```kotlin
+    ImagePicker.with(this)
+            .crop(1f, 1f)               //Crop Square image(Optional)
+            .compress(1024)         //Final image size will be less than 1 MB(Optional)
+            .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+            .start { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) {
+                    //Image Uri will not be null for RESULT_OK
+                     val fileUri = data?.data
+                     imgProfile.setImageURI(fileUri)
+                  
+                    //You can get File object from intent
+                    val file:File = ImagePicker.getFile(data)
+                   
+                    //You can also get File Path from intent
+                    val filePath:String = ImagePicker.getFilePath(data)
+                } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
     ```
 
 # 🎨Customization
@@ -184,6 +218,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 ## 📃 Libraries Used
 * uCrop [https://github.com/Yalantis/uCrop](https://github.com/Yalantis/uCrop)
 * Compressor [https://github.com/zetbaitsu/Compressor](https://github.com/zetbaitsu/Compressor)
+* InlineActivityResult [https://github.com/florent37/InlineActivityResult](https://github.com/florent37/InlineActivityResult)
 
 ### Let us know!
 
