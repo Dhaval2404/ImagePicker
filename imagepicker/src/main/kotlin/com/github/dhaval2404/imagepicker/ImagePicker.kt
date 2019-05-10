@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.github.dhaval2404.imagepicker.constant.Camera
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
@@ -95,7 +96,7 @@ open class ImagePicker {
         private var imageProvider = ImageProvider.BOTH
 
         //Camera
-        private var camera = 0
+        private var camera = Camera.REAR
 
         /*
          * Crop Parameters
@@ -132,8 +133,8 @@ open class ImagePicker {
         /**
          * Specify Camera (Front or Rear)
          */
-        fun camera(type: Int): Builder {
-            imageProvider
+        fun camera(type: Camera): Builder {
+            camera = type
             return this
         }
 
@@ -313,7 +314,7 @@ open class ImagePicker {
             bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
 
             bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
-            bundle.putInt(EXTRA_CAMERA, camera)
+            bundle.putInt(EXTRA_CAMERA, camera.value)
 
             val intent = Intent(activity, ImagePickerActivity::class.java)
             intent.putExtras(bundle)
