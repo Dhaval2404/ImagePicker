@@ -121,14 +121,15 @@ open class ImagePicker {
         /**
          * Specify Image Provider (Camera, Gallery or Both)
          */
-        fun mode(provider: ImageProvider): Builder {
-            imageProvider = provider
+        fun provider(imageProvider: ImageProvider): Builder {
+            this.imageProvider = imageProvider
             return this
         }
 
         /**
          * Only Capture image using Camera
          */
+        @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
             imageProvider = ImageProvider.CAMERA
             return this
@@ -137,6 +138,7 @@ open class ImagePicker {
         /**
          * Only Pick image from gallery
          */
+        @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
             imageProvider = ImageProvider.GALLERY
             return this
