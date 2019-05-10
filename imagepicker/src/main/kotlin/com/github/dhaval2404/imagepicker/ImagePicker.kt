@@ -35,6 +35,7 @@ open class ImagePicker {
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
+        internal const val EXTRA_CAMERA = "extra.camera"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -93,6 +94,9 @@ open class ImagePicker {
         //Image Provider
         private var imageProvider = ImageProvider.BOTH
 
+        //Camera
+        private var camera = 0
+
         /*
          * Crop Parameters
          */
@@ -115,6 +119,22 @@ open class ImagePicker {
          */
         constructor(fragment: Fragment) : this(fragment.activity!!) {
             this.fragment = fragment
+        }
+
+        /**
+         * Specify Image Provider (Camera, Gallery or Both)
+         */
+        fun mode(provider: ImageProvider): Builder {
+            imageProvider = provider
+            return this
+        }
+
+        /**
+         * Specify Camera (Front or Rear)
+         */
+        fun camera(type: Int): Builder {
+            imageProvider
+            return this
         }
 
         /**
@@ -293,6 +313,7 @@ open class ImagePicker {
             bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
 
             bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+            bundle.putInt(EXTRA_CAMERA, camera)
 
             val intent = Intent(activity, ImagePickerActivity::class.java)
             intent.putExtras(bundle)

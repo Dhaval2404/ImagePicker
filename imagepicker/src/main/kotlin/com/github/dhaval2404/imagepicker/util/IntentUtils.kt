@@ -2,6 +2,7 @@ package com.github.dhaval2404.imagepicker.util
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -40,7 +41,7 @@ object IntentUtils {
     /**
      * @return Intent Camera Intent
      */
-    fun getCameraIntent(context: Context, file: File): Intent? {
+    fun getCameraIntent(context: Context, file: File, camera: Int): Intent? {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -51,6 +52,7 @@ object IntentUtils {
         } else {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
         }
+        intent.putExtra("android.intent.extras.CAMERA_FACING", camera)
 
         return intent
     }

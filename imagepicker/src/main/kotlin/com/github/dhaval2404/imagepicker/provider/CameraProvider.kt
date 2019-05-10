@@ -43,8 +43,8 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Start Camera Capture Intent
      */
-    fun startIntent() {
-        checkPermission()
+    fun startIntent(camera : Int = 0) {
+        checkPermission(camera)
     }
 
     /**
@@ -52,11 +52,11 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * If permission is not granted request Permission, Else start Camera Intent
      */
-    private fun checkPermission() {
+    private fun checkPermission(camera : Int = 0) {
         if (!PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
         } else {
-            startCameraIntent()
+            startCameraIntent(camera)
         }
     }
 
@@ -65,13 +65,13 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * Create Temporary File object and Pass it to Camera Intent
      */
-    private fun startCameraIntent() {
+    private fun startCameraIntent(camera : Int = 0) {
         //Create and get empty file to store capture image content
         mCameraFile = FileUtil.getCameraFile()
 
         //Check if file exists
         if (mCameraFile != null && mCameraFile!!.exists()) {
-            val cameraIntent = IntentUtils.getCameraIntent(this, mCameraFile!!)
+            val cameraIntent = IntentUtils.getCameraIntent(this, mCameraFile!!, camera)
             activity.startActivityForResult(cameraIntent, CAMERA_INTENT_REQ_CODE)
         } else {
             setError(R.string.error_failed_to_create_camera_image_file)
