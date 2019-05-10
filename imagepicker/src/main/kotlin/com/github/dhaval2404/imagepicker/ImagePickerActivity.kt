@@ -56,7 +56,7 @@ class ImagePickerActivity : FragmentActivity() {
             }
             ImageProvider.CAMERA -> {
                 mCameraProvider = CameraProvider(this)
-                mCameraProvider?.startIntent(bundle.getInt(ImagePicker.EXTRA_CAMERA, 0))
+                mCameraProvider?.startIntent()
             }
         }
     }
