@@ -3,10 +3,13 @@ package com.github.dhaval2404.imagepicker
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
+import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import java.io.File
 
 /**
@@ -16,7 +19,7 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class ImagePicker {
+open class ImagePicker {
 
     companion object {
         //Default Request Code to Pick Image
@@ -32,6 +35,7 @@ class ImagePicker {
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
+        internal const val EXTRA_CAMERA = "extra.camera"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -115,8 +119,17 @@ class ImagePicker {
         }
 
         /**
+         * Specify Image Provider (Camera, Gallery or Both)
+         */
+        fun provider(imageProvider: ImageProvider): Builder {
+            this.imageProvider = imageProvider
+            return this
+        }
+
+        /**
          * Only Capture image using Camera
          */
+        @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
             imageProvider = ImageProvider.CAMERA
             return this
@@ -125,6 +138,7 @@ class ImagePicker {
         /**
          * Only Pick image from gallery
          */
+        @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
             imageProvider = ImageProvider.GALLERY
             return this
@@ -190,15 +204,89 @@ class ImagePicker {
         }
 
         /**
+         * Start Image Picker Activity
+         */
+        fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+            if (imageProvider == ImageProvider.BOTH) {
+                //Pick Image Provider if not specified
+                showImageProviderDialog(completionHandler)
+            } else {
+                startActivity(completionHandler)
+            }
+        }
+
+        /**
          * Pick Image Provider if not specified
          */
         private fun showImageProviderDialog(reqCode: Int) {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider) {
-                    imageProvider = t
-                    startActivity(reqCode)
+                override fun onResult(t: ImageProvider?) {
+                    if (t != null) {
+                        imageProvider = t
+                        startActivity(reqCode)
+                    }
                 }
             })
+        }
+
+        /**
+         * Pick Image Provider if not specified
+         */
+        private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+            DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
+                override fun onResult(t: ImageProvider?) {
+                    if (t != null) {
+                        imageProvider = t
+                        startActivity(completionHandler)
+                    } else {
+                        completionHandler?.invoke(Activity.RESULT_CANCELED, Intent())
+                    }
+                }
+            })
+        }
+
+        /**
+         * Start ImagePickerActivity with given Argument
+         */
+        private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+
+            try {
+                val bundle = Bundle()
+                bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
+                //bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
+
+                bundle.putFloat(EXTRA_CROP_X, cropX)
+                bundle.putFloat(EXTRA_CROP_Y, cropY)
+
+                bundle.putInt(EXTRA_MAX_WIDTH, maxWidth)
+                bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
+
+                bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+
+                val intent = Intent(activity, ImagePickerActivity::class.java)
+                intent.putExtras(bundle)
+                if (fragment != null) {
+
+                    fragment?.startForResult(intent) { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }?.onFailed { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }
+                } else {
+                    (activity as AppCompatActivity).startForResult(intent) { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }?.onFailed { result ->
+                        completionHandler?.invoke(result.resultCode, result.data)
+                    }
+                }
+            } catch (e : Exception){
+                if (e is ClassNotFoundException) {
+                    Toast.makeText(if (fragment!= null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
+                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
+                    startActivity(REQUEST_CODE)
+                }
+            }
+
         }
 
         /**
@@ -225,6 +313,7 @@ class ImagePicker {
                 activity.startActivityForResult(intent, reqCode)
             }
         }
+
 
     }
 
