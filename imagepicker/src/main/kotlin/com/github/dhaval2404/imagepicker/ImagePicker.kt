@@ -22,7 +22,7 @@ import java.io.File
 open class ImagePicker {
 
     companion object {
-        //Default Request Code to Pick Image
+        // Default Request Code to Pick Image
         const val REQUEST_CODE = 2404
         const val RESULT_ERROR = 64
 
@@ -78,19 +78,18 @@ open class ImagePicker {
          */
         fun getFile(data: Intent?): File? {
             val path = getFilePath(data)
-            if(path!=null){
+            if (path != null) {
                 return File(path)
             }
             return null
         }
-
     }
 
     class Builder(private val activity: Activity) {
 
         private var fragment: Fragment? = null
 
-        //Image Provider
+        // Image Provider
         private var imageProvider = ImageProvider.BOTH
 
         /*
@@ -128,7 +127,7 @@ open class ImagePicker {
         /**
          * Only Capture image using Camera.
          */
-        //@Deprecated("Please use provider(ImageProvider.CAMERA) instead")
+        // @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
             this.imageProvider = ImageProvider.CAMERA
             return this
@@ -137,7 +136,7 @@ open class ImagePicker {
         /**
          * Only Pick image from gallery.
          */
-        //@Deprecated("Please use provider(ImageProvider.GALLERY) instead")
+        // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
             this.imageProvider = ImageProvider.GALLERY
             return this
@@ -195,7 +194,7 @@ open class ImagePicker {
          */
         fun start(reqCode: Int) {
             if (imageProvider == ImageProvider.BOTH) {
-                //Pick Image Provider if not specified
+                // Pick Image Provider if not specified
                 showImageProviderDialog(reqCode)
             } else {
                 startActivity(reqCode)
@@ -207,7 +206,7 @@ open class ImagePicker {
          */
         fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
             if (imageProvider == ImageProvider.BOTH) {
-                //Pick Image Provider if not specified
+                // Pick Image Provider if not specified
                 showImageProviderDialog(completionHandler)
             } else {
                 startActivity(completionHandler)
@@ -285,14 +284,13 @@ open class ImagePicker {
                         completionHandler?.invoke(result.resultCode, result.data)
                     }
                 }
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment!= null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
+                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
                             "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
                     startActivity(REQUEST_CODE)
                 }
             }
-
         }
 
         /**
@@ -307,9 +305,5 @@ open class ImagePicker {
                 activity.startActivityForResult(intent, reqCode)
             }
         }
-
-
     }
-
-
 }

@@ -24,7 +24,6 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
     companion object {
         private val TAG = CropProvider::class.java.simpleName
-
     }
 
     private val mMaxWidth: Int
@@ -37,11 +36,11 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     init {
         val bundle = activity.intent.extras!!
 
-        //Get Max Width/Height parameter from Intent
+        // Get Max Width/Height parameter from Intent
         mMaxWidth = bundle.getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)
         mMaxHeight = bundle.getInt(ImagePicker.EXTRA_MAX_HEIGHT, 0)
 
-        //Get Crop Aspect Ratio parameter from Intent
+        // Get Crop Aspect Ratio parameter from Intent
         mCropAspectX = bundle.getFloat(ImagePicker.EXTRA_CROP_X, 0f)
         mCropAspectY = bundle.getFloat(ImagePicker.EXTRA_CROP_Y, 0f)
     }
@@ -106,8 +105,8 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Handle Crop Intent Activity Result
      *
-     * @param requestCode  It must be {@link UCrop#REQUEST_CROP}
-     * @param resultCode  For success it should be {@link Activity#RESULT_OK}
+     * @param requestCode It must be {@link UCrop#REQUEST_CROP}
+     * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,7 +124,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * @param file cropped file
      */
-    private fun handleResult(file:File?) {
+    private fun handleResult(file: File?) {
         if (file != null) {
             activity.setCropImage(file)
         } else {
@@ -139,5 +138,4 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     override fun onFailure() {
         mCropImageFile?.delete()
     }
-
 }

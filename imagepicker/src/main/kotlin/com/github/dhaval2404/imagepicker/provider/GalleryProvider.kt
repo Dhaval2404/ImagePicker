@@ -35,7 +35,7 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Start Gallery Capture Intent
      */
-    fun startIntent(){
+    fun startIntent() {
         checkPermission()
     }
 
@@ -64,13 +64,13 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * Handle Requested Permission Result
      */
     fun onRequestPermissionsResult(requestCode: Int) {
-        if(requestCode==PERMISSION_INTENT_REQ_CODE) {
-            //Check again if permission is granted
+        if (requestCode == PERMISSION_INTENT_REQ_CODE) {
+            // Check again if permission is granted
             if (PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
-                //Permission is granted, Start Camera Intent
+                // Permission is granted, Start Camera Intent
                 startGalleryIntent()
             } else {
-                //Exit with error message
+                // Exit with error message
                 setError(getString(R.string.permission_gallery_denied))
             }
         }
@@ -79,8 +79,8 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Handle Camera Intent Activity Result
      *
-     * @param requestCode  It must be {@link CameraProvider#GALLERY_INTENT_REQ_CODE}
-     * @param resultCode  For success it should be {@link Activity#RESULT_OK}
+     * @param requestCode It must be {@link CameraProvider#GALLERY_INTENT_REQ_CODE}
+     * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -98,16 +98,15 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun handleResult(data: Intent?) {
         val uri = data?.data
-        if(uri!=null) {
-            val filePath:String? = FileUtils.getPath(activity, uri)
-            if(!filePath.isNullOrEmpty()) {
+        if (uri != null) {
+            val filePath: String? = FileUtils.getPath(activity, uri)
+            if (!filePath.isNullOrEmpty()) {
                 activity.setImage(File(filePath))
-            }else{
+            } else {
                 setError(R.string.error_failed_pick_gallery_image)
             }
-        }else{
+        } else {
             setError(R.string.error_failed_pick_gallery_image)
         }
     }
-
 }

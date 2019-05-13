@@ -31,22 +31,22 @@ class MainActivity : AppCompatActivity() {
 
         fab_add_photo.setOnClickListener {
             ImagePicker.with(this)
-                .cropSquare()                               //Crop Square image(Optional)
-                .maxResultSize(620, 620)       //Final image resolution will be less than 620 x 620(Optional)
+                .cropSquare() // Crop Square image(Optional)
+                .maxResultSize(620, 620) // Final image resolution will be less than 620 x 620(Optional)
                 .start(PROFILE_IMAGE_REQ_CODE)
         }
 
         fab_add_gallery_photo.setOnClickListener {
             ImagePicker.with(this)
-                .galleryOnly()                              //User can only select image from Gallery(Optional)
-                .maxResultSize(1080, 1920)     //Final image resolution will be less than 1080 x 1920(Optional)
+                .galleryOnly() // User can only select image from Gallery(Optional)
+                .maxResultSize(1080, 1920) // Final image resolution will be less than 1080 x 1920(Optional)
                 .start(GALLERY_IMAGE_REQ_CODE)
         }
 
         fab_add_camera_photo.setOnClickListener {
             ImagePicker.with(this)
-                .provider(ImageProvider.CAMERA)             //Default will be ImageProvider.BOTH
-                .compress(1024)                     //Final image size will be less than 1 MB(Optional)
+                .provider(ImageProvider.CAMERA) // Default will be ImageProvider.BOTH
+                .compress(1024) // Final image size will be less than 1 MB(Optional)
                 .start(CAMERA_IMAGE_REQ_CODE)
         }
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            //File object will not be null for RESULT_OK
+            // File object will not be null for RESULT_OK
             val file = ImagePicker.getFile(data)
 
             Log.e("TAG", "Path:${file?.absolutePath}")
@@ -71,5 +71,4 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

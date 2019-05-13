@@ -32,10 +32,9 @@ object PermissionUtil {
      *
      * @return true if all specified permission is granted
      */
-    fun isPermissionGranted(context: Context, permissions:Array<String>):Boolean{
+    fun isPermissionGranted(context: Context, permissions: Array<String>): Boolean {
         return permissions.filter {
             hasPermission(context, it)
         }.size == permissions.size
     }
-
 }

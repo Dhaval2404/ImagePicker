@@ -15,7 +15,11 @@
  */
 package com.github.dhaval2404.imagepicker.util
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.graphics.Canvas
+import android.graphics.Paint
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
@@ -82,13 +86,12 @@ object ImageUtil {
         val maxRatio = reqWidth / reqHeight
 
         if (actualHeight > reqHeight || actualWidth > reqWidth) {
-            //If Height is greater
+            // If Height is greater
             if (imgRatio < maxRatio) {
                 imgRatio = reqHeight / actualHeight
                 actualWidth = (imgRatio * actualWidth).toInt()
                 actualHeight = reqHeight.toInt()
-
-            }  //If Width is greater
+            } // If Width is greater
             else if (imgRatio > maxRatio) {
                 imgRatio = reqWidth / actualWidth
                 actualHeight = (imgRatio * actualHeight).toInt()
@@ -111,7 +114,6 @@ object ImageUtil {
             bmp = BitmapFactory.decodeFile(imageFile.absolutePath, options)
         } catch (exception: OutOfMemoryError) {
             exception.printStackTrace()
-
         }
 
         var scaledBitmap: Bitmap? = null
@@ -157,8 +159,6 @@ object ImageUtil {
         }
 
         return scaledBitmap
-
-
     }
 
     private fun calculateInSampleSize(

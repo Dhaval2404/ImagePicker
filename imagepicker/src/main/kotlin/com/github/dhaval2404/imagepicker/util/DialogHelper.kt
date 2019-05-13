@@ -21,7 +21,7 @@ internal object DialogHelper {
      * Show Image Provide Picker Dialog. This will streamline the code to pick/capture image
      *
      */
-    fun showChooseAppDialog(context: Context, listener: ResultListener<ImageProvider>){
+    fun showChooseAppDialog(context: Context, listener: ResultListener<ImageProvider>) {
         val layoutInflater = LayoutInflater.from(context)
         val customView = layoutInflater.inflate(R.layout.dialog_choose_app, null)
 
@@ -36,17 +36,16 @@ internal object DialogHelper {
             }
             .show()
 
-        //Handle Camera option click
+        // Handle Camera option click
         customView.lytCameraPick.setOnClickListener {
             listener.onResult(ImageProvider.CAMERA)
             dialog.dismiss()
         }
 
-        //Handle Gallery option click
+        // Handle Gallery option click
         customView.lytGalleryPick.setOnClickListener {
             listener.onResult(ImageProvider.GALLERY)
             dialog.dismiss()
         }
     }
-
 }
