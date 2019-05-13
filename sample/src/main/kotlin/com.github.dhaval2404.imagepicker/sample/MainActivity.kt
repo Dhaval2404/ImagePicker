@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         fab_add_camera_photo.setOnClickListener {
             ImagePicker.with(this)
-                .cameraOnly()                               //User can only capture image using Camera(Optional)
+                .provider(ImageProvider.CAMERA)             //Default will be ImageProvider.BOTH
                 .compress(1024)                     //Final image size will be less than 1 MB(Optional)
                 .start(CAMERA_IMAGE_REQ_CODE)
         }

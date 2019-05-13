@@ -35,7 +35,6 @@ open class ImagePicker {
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
-        internal const val EXTRA_CAMERA = "extra.camera"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -127,20 +126,20 @@ open class ImagePicker {
         }
 
         /**
-         * Only Capture image using Camera
+         * Only Capture image using Camera.
          */
-        @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
+        //@Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
-            imageProvider = ImageProvider.CAMERA
+            this.imageProvider = ImageProvider.CAMERA
             return this
         }
 
         /**
-         * Only Pick image from gallery
+         * Only Pick image from gallery.
          */
-        @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
+        //@Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
-            imageProvider = ImageProvider.GALLERY
+            this.imageProvider = ImageProvider.GALLERY
             return this
         }
 
@@ -221,8 +220,8 @@ open class ImagePicker {
         private fun showImageProviderDialog(reqCode: Int) {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
                 override fun onResult(t: ImageProvider?) {
-                    if (t != null) {
-                        imageProvider = t
+                    t?.let {
+                        imageProvider = it
                         startActivity(reqCode)
                     }
                 }
@@ -239,10 +238,29 @@ open class ImagePicker {
                         imageProvider = t
                         startActivity(completionHandler)
                     } else {
-                        completionHandler?.invoke(Activity.RESULT_CANCELED, Intent())
+                        val intent = ImagePickerActivity.getCancelledIntent(activity)
+                        completionHandler?.invoke(Activity.RESULT_CANCELED, intent)
                     }
                 }
             })
+        }
+
+        /**
+         * Get Bundle for ImagePickerActivity
+         */
+        private fun getBundle(): Bundle {
+            val bundle = Bundle()
+            bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
+
+            bundle.putFloat(EXTRA_CROP_X, cropX)
+            bundle.putFloat(EXTRA_CROP_Y, cropY)
+
+            bundle.putInt(EXTRA_MAX_WIDTH, maxWidth)
+            bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
+
+            bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+
+            return bundle
         }
 
         /**
@@ -251,20 +269,8 @@ open class ImagePicker {
         private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
 
             try {
-                val bundle = Bundle()
-                bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
-                //bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
-
-                bundle.putFloat(EXTRA_CROP_X, cropX)
-                bundle.putFloat(EXTRA_CROP_Y, cropY)
-
-                bundle.putInt(EXTRA_MAX_WIDTH, maxWidth)
-                bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
-
-                bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
-
                 val intent = Intent(activity, ImagePickerActivity::class.java)
-                intent.putExtras(bundle)
+                intent.putExtras(getBundle())
                 if (fragment != null) {
 
                     fragment?.startForResult(intent) { result ->
@@ -275,7 +281,7 @@ open class ImagePicker {
                 } else {
                     (activity as AppCompatActivity).startForResult(intent) { result ->
                         completionHandler?.invoke(result.resultCode, result.data)
-                    }?.onFailed { result ->
+                    }.onFailed { result ->
                         completionHandler?.invoke(result.resultCode, result.data)
                     }
                 }
@@ -293,20 +299,8 @@ open class ImagePicker {
          * Start ImagePickerActivity with given Argument
          */
         private fun startActivity(reqCode: Int) {
-            val bundle = Bundle()
-            bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
-            //bundle.putBoolean(EXTRA_ASK_PERMISSION, askPermission)
-
-            bundle.putFloat(EXTRA_CROP_X, cropX)
-            bundle.putFloat(EXTRA_CROP_Y, cropY)
-
-            bundle.putInt(EXTRA_MAX_WIDTH, maxWidth)
-            bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
-
-            bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
-
             val intent = Intent(activity, ImagePickerActivity::class.java)
-            intent.putExtras(bundle)
+            intent.putExtras(getBundle())
             if (fragment != null) {
                 fragment?.startActivityForResult(intent, reqCode)
             } else {
