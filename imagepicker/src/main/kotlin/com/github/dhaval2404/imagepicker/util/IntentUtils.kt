@@ -21,21 +21,46 @@ object IntentUtils {
     /**
      * @return Intent Gallery Intent
      */
-    fun getGalleryIntent(): Intent {
-        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //Show Document Intent
-            Intent(Intent.ACTION_OPEN_DOCUMENT)
+    fun getGalleryIntent(context: Context): Intent {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            var intent = getGalleryDocumentIntent()
+            if (intent.resolveActivity(context.packageManager) == null) {
+                // No Activity found that can handle this intent.
+                intent = getGalleryPickIntent()
+            }
+            intent
         } else {
-            //Show Gallery Intent, Will open google photos
-            Intent(Intent.ACTION_PICK)
+            getGalleryPickIntent()
         }
+    }
+
+    /**
+     * @return Intent Gallery Document Intent
+     */
+    private fun getGalleryDocumentIntent(): Intent {
+        //Show Document Intent
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
 
         intent.addCategory(Intent.CATEGORY_OPENABLE)
+
         //Apply filter to show image only in intent
         intent.type = "image/*"
+
         return intent
     }
 
+    /**
+     * @return Intent Gallery Pick Intent
+     */
+    private fun getGalleryPickIntent(): Intent {
+        //Show Gallery Intent, Will open google photos
+        val intent = Intent(Intent.ACTION_PICK)
+
+        //Apply filter to show image only in intent
+        intent.type = "image/*"
+
+        return intent
+    }
 
     /**
      * @return Intent Camera Intent
