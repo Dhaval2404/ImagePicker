@@ -37,7 +37,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.1'
+   implementation 'com.github.dhaval2404:imagepicker:1.2'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
