@@ -206,6 +206,11 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
   
 # ✔️Changelog
 
+### Version: 1.2
+
+  * Added Support for Inline Activity Result(Special Thanks to [soareseneves](https://github.com/soareseneves))
+  * Fixed issue [#6](https://github.com/Dhaval2404/ImagePicker/issues/6)
+  
 ### Version: 1.1
 
   * Optimized Compression Logic
