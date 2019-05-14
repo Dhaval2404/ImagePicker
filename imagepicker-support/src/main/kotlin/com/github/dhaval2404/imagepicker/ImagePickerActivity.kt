@@ -1,6 +1,7 @@
 package com.github.dhaval2404.imagepicker
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,6 +24,14 @@ class ImagePickerActivity : FragmentActivity() {
 
     companion object {
         private const val TAG = "image_picker"
+
+        internal fun getCancelledIntent(context: Context): Intent {
+            val intent = Intent()
+            val message = context.getString(R.string.error_task_cancelled)
+            intent.putExtra(ImagePicker.EXTRA_ERROR, message)
+            return intent
+        }
+
     }
 
     private var mGalleryProvider: GalleryProvider? = null
@@ -88,7 +97,6 @@ class ImagePickerActivity : FragmentActivity() {
      * Handle Activity Back Press
      */
     override fun onBackPressed() {
-        super.onBackPressed()
         setResultCancel()
     }
 
@@ -167,7 +175,7 @@ class ImagePickerActivity : FragmentActivity() {
      * User has cancelled the task
      */
     fun setResultCancel() {
-        setResult(Activity.RESULT_CANCELED, Intent())
+        setResult(Activity.RESULT_CANCELED, getCancelledIntent(this))
         finish()
     }
 

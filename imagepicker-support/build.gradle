@@ -39,6 +39,9 @@ dependencies {
 
     //More Info: https://github.com/Yalantis/uCrop
     implementation 'com.github.yalantis:ucrop:2.2.2'
+
+    //More Info: https://github.com/florent37/InlineActivityResult
+    compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
 }
 
 ext {

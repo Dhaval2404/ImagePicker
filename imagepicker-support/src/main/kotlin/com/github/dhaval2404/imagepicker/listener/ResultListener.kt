@@ -10,5 +10,5 @@ package com.github.dhaval2404.imagepicker.listener
  */
 internal interface ResultListener<T> {
 
-    fun onResult(t: T)
+    fun onResult(t: T?)
 }
