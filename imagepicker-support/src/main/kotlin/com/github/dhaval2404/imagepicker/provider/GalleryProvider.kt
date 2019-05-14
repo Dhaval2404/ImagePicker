@@ -56,7 +56,7 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * Start Gallery Intent
      */
     private fun startGalleryIntent() {
-        val galleryIntent = IntentUtils.getGalleryIntent()
+        val galleryIntent = IntentUtils.getGalleryIntent(activity)
         activity.startActivityForResult(galleryIntent, GALLERY_INTENT_REQ_CODE)
     }
 
