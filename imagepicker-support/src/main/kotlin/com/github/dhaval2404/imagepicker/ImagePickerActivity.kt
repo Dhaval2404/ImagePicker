@@ -31,7 +31,6 @@ class ImagePickerActivity : FragmentActivity() {
             intent.putExtra(ImagePicker.EXTRA_ERROR, message)
             return intent
         }
-
     }
 
     private var mGalleryProvider: GalleryProvider? = null
