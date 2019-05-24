@@ -183,23 +183,23 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * Image Resolution will be reduce with below parameters.
      *
      */
-    private fun resolutionList(): List<Array<Int>> {
-        return listOf<Array<Int>>(
-            arrayOf(2448, 3264), // 8.0 Megapixel
-            arrayOf(2008, 3032), // 6.0 Megapixel
-            arrayOf(1944, 2580), // 5.0 Megapixel
-            arrayOf(1680, 2240), // 4.0 Megapixel
-            arrayOf(1536, 2048), // 3.0 Megapixel
-            arrayOf(1200, 1600), // 2.0 Megapixel
-            arrayOf(1024, 1392), // 1.3 Megapixel
-            arrayOf(960, 1280), // 1.0 Megapixel
-            arrayOf(768, 1024), // 0.7 Megapixel
-            arrayOf(600, 800), // 0.4 Megapixel
-            arrayOf(480, 640), // 0.3 Megapixel
-            arrayOf(240, 320), // 0.15 Megapixel
-            arrayOf(120, 160), // 0.08 Megapixel
-            arrayOf(60, 80), // 0.04 Megapixel
-            arrayOf(30, 40) // 0.02 Megapixel
+    private fun resolutionList(): List<IntArray> {
+        return listOf(
+            intArrayOf(2448, 3264), // 8.0 Megapixel
+            intArrayOf(2008, 3032), // 6.0 Megapixel
+            intArrayOf(1944, 2580), // 5.0 Megapixel
+            intArrayOf(1680, 2240), // 4.0 Megapixel
+            intArrayOf(1536, 2048), // 3.0 Megapixel
+            intArrayOf(1200, 1600), // 2.0 Megapixel
+            intArrayOf(1024, 1392), // 1.3 Megapixel
+            intArrayOf(960, 1280), // 1.0 Megapixel
+            intArrayOf(768, 1024), // 0.7 Megapixel
+            intArrayOf(600, 800), // 0.4 Megapixel
+            intArrayOf(480, 640), // 0.3 Megapixel
+            intArrayOf(240, 320), // 0.15 Megapixel
+            intArrayOf(120, 160), // 0.08 Megapixel
+            intArrayOf(60, 80), // 0.04 Megapixel
+            intArrayOf(30, 40) // 0.02 Megapixel
         )
     }
 
@@ -215,10 +215,10 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * @param file File to get Image Size
      * @return Int Array, Index 0 has width and Index 1 has height
      */
-    private fun getImageSize(file: File): Array<Int> {
+    private fun getImageSize(file: File): IntArray {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(file.absolutePath, options)
-        return arrayOf(options.outWidth, options.outHeight)
+        return intArrayOf(options.outWidth, options.outHeight)
     }
 }
