@@ -19,7 +19,7 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class ImagePicker {
+open class ImagePicker {
 
     companion object {
         // Default Request Code to Pick Image
@@ -125,18 +125,20 @@ class ImagePicker {
         }
 
         /**
-         * Only Capture image using Camera
+         * Only Capture image using Camera.
          */
+        // @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
-            imageProvider = ImageProvider.CAMERA
+            this.imageProvider = ImageProvider.CAMERA
             return this
         }
 
         /**
-         * Only Pick image from gallery
+         * Only Pick image from gallery.
          */
+        // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
-            imageProvider = ImageProvider.GALLERY
+            this.imageProvider = ImageProvider.GALLERY
             return this
         }
 
@@ -284,12 +286,8 @@ class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(
-                        if (fragment != null) fragment!!.context else activity,
-                        "InlineActivityResult library not installed falling back to default method, please install " +
-                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
+                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
                     startActivity(REQUEST_CODE)
                 }
             }
