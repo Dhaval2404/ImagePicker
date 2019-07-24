@@ -37,7 +37,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.2'
+   implementation 'com.github.dhaval2404:imagepicker:1.3'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -202,9 +202,14 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 # 💥Compatibility
   
   * Library - Android Kitkat 4.4+ (API 19)
-  * Sample - Android Lollipop 5.0+ (API 21)
+  * Sample - Android Kitkat 4.4+ (API 19)
   
 # ✔️Changelog
+
+### Version: 1.3
+
+  * Sample app made compatible with Android Kitkat 4.4+ (API 19)
+  * Fixed Uri to File Conversion issue [#8](https://github.com/Dhaval2404/ImagePicker/issues/8)
 
 ### Version: 1.2
 

@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import java.io.File
 
 /**
  * https://gist.github.com/HBiSoft/15899990b8cd0723c3a894c1636550a8
@@ -15,7 +16,7 @@ import android.provider.MediaStore
  * This class acts as a drop in replacement for uCrop FileUtils class
  */
 
-object FileUtils2 {
+object FileUriUtils {
 
     fun getRealPath(context: Context, uri: Uri): String? {
 
@@ -38,7 +39,12 @@ object FileUtils2 {
                     }
                     // This is for checking SD Card
                 } else {
-                    "storage" + "/" + docId.replace(":", "/")
+                    val path = "storage" + "/" + docId.replace(":", "/")
+                    if(File(path).exists()){
+                        path
+                    }else{
+                        "/storage/sdcard/"+split[1];
+                    }
                 }
 
             } else if (isDownloadsDocument(uri)) {
