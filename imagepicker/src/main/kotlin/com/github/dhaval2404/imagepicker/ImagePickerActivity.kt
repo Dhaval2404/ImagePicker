@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
@@ -53,8 +54,8 @@ class ImagePickerActivity : FragmentActivity() {
         mCropProvider = CropProvider(this)
         mCompressionProvider = CompressionProvider(this)
 
-        val bundle = intent.extras!!
-        val provider = bundle.getSerializable(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider
+        val bundle = intent?.extras
+        val provider = bundle?.getSerializable(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider?
 
         // Create provider object and start process
         when (provider) {
@@ -65,6 +66,11 @@ class ImagePickerActivity : FragmentActivity() {
             ImageProvider.CAMERA -> {
                 mCameraProvider = CameraProvider(this)
                 mCameraProvider?.startIntent()
+            }
+            else->{
+                Log.e(TAG, "Image provider can not be null")
+                //Something went Wrong! This case should never happen
+                setError(getString(R.string.error_task_cancelled))
             }
         }
     }

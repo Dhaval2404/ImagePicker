@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
-import com.github.dhaval2404.imagepicker.util.FileUtils2
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.IntentUtils
 import com.github.dhaval2404.imagepicker.util.PermissionUtil
 import java.io.File
@@ -99,7 +99,7 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private fun handleResult(data: Intent?) {
         val uri = data?.data
         if (uri != null) {
-            val filePath: String? = FileUtils2.getRealPath(activity, uri)
+            val filePath: String? = FileUriUtils.getRealPath(activity, uri)
             if (!filePath.isNullOrEmpty()) {
                 activity.setImage(File(filePath))
             } else {

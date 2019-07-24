@@ -38,8 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="10dp"
         android:src="@drawable/outline_cloud_upload_white_24"
+        app:useCompatPadding="true"
         app:backgroundTint="@color/colorPrimary"
         app:tint="@color/white" />
 
