@@ -2,6 +2,7 @@ package com.github.dhaval2404.imagepicker.util
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -79,4 +80,9 @@ object IntentUtils {
 
         return intent
     }
+
+    fun isCameraHardwareAvailable(context: Context): Boolean {
+        return context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+    }
+
 }
