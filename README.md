@@ -187,17 +187,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
         <color name="ucrop_color_statusbar">@color/teal_700</color>
         <color name="ucrop_color_widget_active">@color/teal_500</color>
     </resources>    
-    ```         
-  *  You don't need to add any permissions to manifest, everything is merged automatically from library's manifest file. You can remove unnecessary permission by adding **tools:node="remove** tag.
-       
-     ```xml
-     <!--
-     If Not using Camera feature, Add following line in app manifest.
-     This will remove permission while manifest merge
-     -->
-     <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/> 
-     ```         
- 
+    ```
     
 # 💥Compatibility
   
@@ -210,6 +200,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 
   * Sample app made compatible with Android Kitkat 4.4+ (API 19)
   * Fixed Uri to File Conversion issue [#8](https://github.com/Dhaval2404/ImagePicker/issues/8)
+    (Special Thanks to [soareseneves](https://github.com/soareseneves))
 
 ### Version: 1.2
 
