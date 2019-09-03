@@ -37,12 +37,12 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.3'
+   implementation 'com.github.dhaval2404:imagepicker:1.4'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
    ```groovy
-   implementation 'com.github.dhaval2404:imagepicker-support:1.1'
+   implementation 'com.github.dhaval2404:imagepicker-support:1.3'
     ```
 
     **If you want to get the activity result inline in a modern way (lambda) install [InlineActivityResult](https://github.com/florent37/InlineActivityResult) library:**
@@ -195,6 +195,11 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
   * Sample - Android Kitkat 4.4+ (API 19)
   
 # ✔️Changelog
+
+### Version: 1.4
+
+  * Optimized Uri to File Conversion (Inspired by [Flutter ImagePicker](https://github.com/flutter/plugins/tree/master/packages/image_picker))
+  * Removed redundant CAMERA permission [#26](https://github.com/Dhaval2404/ImagePicker/issues/26) (Special Thanks to [PerrchicK](https://github.com/PerrchicK))
 
 ### Version: 1.3
 
