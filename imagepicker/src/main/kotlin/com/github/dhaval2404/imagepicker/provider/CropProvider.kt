@@ -67,7 +67,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     @Throws(IOException::class)
     private fun cropImage(file: File) {
-        mCropImageFile = FileUtil.getCameraFile()
+        mCropImageFile = FileUtil.getImageFile()
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")

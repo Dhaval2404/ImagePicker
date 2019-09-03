@@ -27,7 +27,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
          * Permission Require for Image Capture using Camera
          */
         private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
@@ -67,7 +66,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        mCameraFile = FileUtil.getCameraFile()
+        mCameraFile = FileUtil.getImageFile()
 
         // Check if file exists
         if (mCameraFile != null && mCameraFile!!.exists()) {

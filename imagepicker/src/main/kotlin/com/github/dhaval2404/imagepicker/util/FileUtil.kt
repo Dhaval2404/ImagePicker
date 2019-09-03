@@ -18,19 +18,23 @@ import java.util.Date
 object FileUtil {
 
     /**
+     * Get Image File
+     *
+     * Default it will take Camera folder as it's directory
+     *
+     * @param dir File Folder in which file needs tobe created.
+     * @param extension String Image file extension.
      * @return Return Empty file to store camera image.
      * @throws IOException if permission denied of failed to create new file.
      */
-    fun getCameraFile(): File? {
+    fun getImageFile(dir: File? = null, extension: String? = null): File? {
         try {
             // Create an image file name
-            val imageFileName = "IMG_${getTimestamp()}.jpg"
+            val ext = extension ?: ".jpg"
+            val imageFileName = "IMG_${getTimestamp()}$ext"
 
             // Create File Directory Object
-            val storageDir = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                "Camera"
-            )
+            val storageDir = dir ?: getCameraDirectory()
 
             // Create Directory If not exist
             if (!storageDir.exists()) storageDir.mkdirs()
@@ -46,6 +50,16 @@ object FileUtil {
             ex.printStackTrace()
             return null
         }
+    }
+
+    /**
+     * Get Camera Image Directory
+     *
+     * @return File Camera Image Directory
+     */
+    private fun getCameraDirectory(): File {
+        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+        return File(dir, "Camera")
     }
 
     /**

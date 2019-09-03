@@ -37,7 +37,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.3'
+   implementation 'com.github.dhaval2404:imagepicker:1.4'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -187,17 +187,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
         <color name="ucrop_color_statusbar">@color/teal_700</color>
         <color name="ucrop_color_widget_active">@color/teal_500</color>
     </resources>    
-    ```         
-  *  You don't need to add any permissions to manifest, everything is merged automatically from library's manifest file. You can remove unnecessary permission by adding **tools:node="remove** tag.
-       
-     ```xml
-     <!--
-     If Not using Camera feature, Add following line in app manifest.
-     This will remove permission while manifest merge
-     -->
-     <uses-permission android:name="android.permission.CAMERA" tools:node="remove"/> 
-     ```         
- 
+    ```
     
 # 💥Compatibility
   
@@ -206,10 +196,15 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
   
 # ✔️Changelog
 
+### Version: 1.4
+
+  * Optimized Uri to File Conversion (Inspired by [Flutter ImagePicker](https://github.com/flutter/plugins/tree/master/packages/image_picker))
+  * Removed redundant CAMERA permission [#26](https://github.com/Dhaval2404/ImagePicker/issues/26) (Special Thanks to [PerrchicK](https://github.com/PerrchicK))
+
 ### Version: 1.3
 
   * Sample app made compatible with Android Kitkat 4.4+ (API 19)
-  * Fixed Uri to File Conversion issue [#8](https://github.com/Dhaval2404/ImagePicker/issues/8)
+  * Fixed Uri to File Conversion issue [#8](https://github.com/Dhaval2404/ImagePicker/issues/8) (Special Thanks to [squeeish](https://github.com/squeeish))
 
 ### Version: 1.2
 
