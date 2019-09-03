@@ -199,8 +199,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 ### Version: 1.3
 
   * Sample app made compatible with Android Kitkat 4.4+ (API 19)
-  * Fixed Uri to File Conversion issue [#8](https://github.com/Dhaval2404/ImagePicker/issues/8)
-    (Special Thanks to [soareseneves](https://github.com/soareseneves))
+  * Fixed Uri to File Conversion issue [#8](https://github.com/Dhaval2404/ImagePicker/issues/8) (Special Thanks to [squeeish](https://github.com/squeeish))
 
 ### Version: 1.2
 
