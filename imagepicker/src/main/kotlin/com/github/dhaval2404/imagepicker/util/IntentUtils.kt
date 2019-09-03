@@ -84,5 +84,4 @@ object IntentUtils {
     fun isCameraHardwareAvailable(context: Context): Boolean {
         return context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
     }
-
 }
