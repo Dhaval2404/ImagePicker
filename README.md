@@ -20,12 +20,12 @@
 
 Simple Library to **Pick an image from the Gallery or Capture image using Camera**. It also allows to **Crop and Compress the Image based on resolution and image size**.
 
-Almost 90% of the app that I have developed has Image upload feature. To simplify the image pick/capture option I have created this library. Its easily configurable and easy to use.  
+Almost 90% of the app that I have developed has Image upload feature. To simplify the image pick/capture option I have created this library. Its easily configurable and easy to use.
 
 # 💻Usage
 
 
-1. Include the library as local library project.
+1. Gradle dependency:
 
 	```groovy
 	allprojects {
@@ -49,9 +49,20 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
    ```groovy
    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
     ```
-
     
-2. The ImagePicker configuration is created using the builder pattern.
+2.  **If you target Android 10 or higher, set the value of ``requestLegacyExternalStorage`` to true in your app's manifest file:**
+
+      ```xml
+    <manifest ... >
+          <!-- This attribute is "false" by default on apps targeting
+               Android 10 or higher. -->
+          <application android:requestLegacyExternalStorage="true" ... >
+            ...
+          </application>
+    </manifest>
+      ```
+
+3. The ImagePicker configuration is created using the builder pattern.
 
 	**Kotlin**
     
@@ -73,7 +84,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
             .start()
     ```
     
-3. Handling results
+4. Handling results
 
     
     **Default method**
