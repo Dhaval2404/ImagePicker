@@ -30,6 +30,14 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
+        /**
+         * Permission Require for Image Capture using Camera
+         */
+        private val REQUIRED_PERMISSIONS_EXTENDED = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        )
+
         private const val CAMERA_INTENT_REQ_CODE = 4281
         private const val PERMISSION_INTENT_REQ_CODE = 4282
     }
@@ -52,7 +60,14 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * If permission is not granted request Permission, Else start Camera Intent
      */
     private fun checkPermission() {
-        if (!PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
+        //Check if Camera permission defined in manifest
+        val requireCameraPermission = PermissionUtil.isPermissionInManifest(this, Manifest.permission.CAMERA)
+        if (requireCameraPermission && !isPermissionGranted(this, REQUIRED_PERMISSIONS_EXTENDED)) {
+            //If Camera permission defined in AndroidManifest then Need to request Camera Permission
+            //Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
+            requestPermissions(activity, REQUIRED_PERMISSIONS_EXTENDED, PERMISSION_INTENT_REQ_CODE)
+        } else if (!isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
+            //If Camera permission is not defined in AndroidManifest then no need to request Camera Permission
             requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
         } else {
             startCameraIntent()
