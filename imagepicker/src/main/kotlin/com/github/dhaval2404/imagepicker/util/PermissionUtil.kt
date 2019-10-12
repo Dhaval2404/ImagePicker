@@ -47,7 +47,7 @@ object PermissionUtil {
      *
      * @return true if permission defined in AndroidManifest.xml file, else return false.
      */
-    fun isPermissionInManifest(context: Context, permission: String) : Boolean {
+    fun isPermissionInManifest(context: Context, permission: String): Boolean {
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
         val permissions = packageInfo.requestedPermissions
 
