@@ -37,7 +37,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.4'
+   implementation 'com.github.dhaval2404:imagepicker:1.5'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -68,7 +68,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
     
 	```kotlin
     ImagePicker.with(this)
-            .crop(1f, 1f)	    		//Crop Square image(Optional)
+            .crop(1f, 1f)	    		//Crop Square image(Optional), Check Customization for more option
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
@@ -157,8 +157,16 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
  		
     ```kotlin
     ImagePicker.with(this)
+		.crop()	    //Crop image and let user choose aspect ratio.
+		.start()
+
+ *  Crop image with fixed Aspect Ratio
+ 		
+    ```kotlin
+    ImagePicker.with(this)
 		.crop(16f, 9f)	//Crop image with 16:9 aspect ratio
 		.start()
+		
     ```            
  *  Crop square image(e.g for profile)
  
@@ -206,6 +214,12 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
   * Sample - Android Kitkat 4.4+ (API 19)
   
 # ✔️Changelog
+
+### Version: 1.5
+
+  * Fixed app crash issue, due to Camera Permission in manifest [#34](https://github.com/Dhaval2404/ImagePicker/issues/34)
+  * Added Option for Dynamic Crop Ratio. Let User choose aspect ratio [#36](https://github.com/Dhaval2404/ImagePicker/issues/36) (Special Thanks to [Dor-Sloim](https://github.com/Dor-Sloim))
+
 
 ### Version: 1.4
 
