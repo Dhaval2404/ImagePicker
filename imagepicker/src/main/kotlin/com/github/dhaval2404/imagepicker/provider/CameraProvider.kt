@@ -179,5 +179,4 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         }
         return false
     }
-
 }
