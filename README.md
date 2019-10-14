@@ -68,7 +68,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
     
 	```kotlin
     ImagePicker.with(this)
-            .crop(1f, 1f)	    		//Crop Square image(Optional), Check Customization for more option
+            .crop()	    			//Crop image(Optional), Check Customization for more option
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
@@ -78,7 +78,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
     
     ```kotlin
     ImagePicker.Companion.with(this)
-            .crop(1f, 1f)	    		//Crop Square image(Optional)
+            .crop()	    			//Crop image(Optional), Check Customization for more option
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
