@@ -39,9 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
   * Pick Gallery Image
   * Capture Camera Image
-  * Crop Image
-  * Compress Image
+  * Crop Image(Its based on [uCrop](https://github.com/Yalantis/uCrop))
+  * Compress Image(Compress image based on resolution and size)
   * Handle Runtime Permission for Camera and Storage
+  * Retrive Image Result as File, File Path as String or Uri object
 
 [Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v1.5...HEAD
 [1.5]: https://github.com/Dhaval2404/ImagePicker/compare/v1.4...v1.5
