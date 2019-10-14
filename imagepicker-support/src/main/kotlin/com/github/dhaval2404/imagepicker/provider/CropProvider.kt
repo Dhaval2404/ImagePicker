@@ -29,6 +29,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private val mMaxWidth: Int
     private val mMaxHeight: Int
 
+    private val mCrop: Boolean
     private val mCropAspectX: Float
     private val mCropAspectY: Float
     private var mCropImageFile: File? = null
@@ -41,6 +42,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         mMaxHeight = bundle.getInt(ImagePicker.EXTRA_MAX_HEIGHT, 0)
 
         // Get Crop Aspect Ratio parameter from Intent
+        mCrop = bundle.getBoolean(ImagePicker.EXTRA_CROP, false)
         mCropAspectX = bundle.getFloat(ImagePicker.EXTRA_CROP_X, 0f)
         mCropAspectY = bundle.getFloat(ImagePicker.EXTRA_CROP_Y, 0f)
     }
@@ -50,9 +52,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * @return Boolean. True if Crop should be enabled else false.
      */
-    fun isCropEnabled(): Boolean {
-        return mCropAspectX > 0f && mCropAspectY > 0f
-    }
+    fun isCropEnabled() = mCrop
 
     /**
      * Start Crop Activity
@@ -67,7 +67,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     @Throws(IOException::class)
     private fun cropImage(file: File) {
-        mCropImageFile = FileUtil.getCameraFile()
+        mCropImageFile = FileUtil.getImageFile()
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")

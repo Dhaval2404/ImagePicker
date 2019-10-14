@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         fab_add_photo.setOnClickListener {
             ImagePicker.with(this)
-                .cropSquare() // Crop Square image(Optional)
+                .crop() // Crop Square image(Optional)
                 .maxResultSize(620, 620) // Final image resolution will be less than 620 x 620(Optional)
                 .start(PROFILE_IMAGE_REQ_CODE)
         }

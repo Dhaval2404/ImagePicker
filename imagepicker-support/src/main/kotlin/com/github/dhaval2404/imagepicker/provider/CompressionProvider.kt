@@ -168,7 +168,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             quality = 100
         }
 
-        val compressFile: File? = FileUtil.getCameraFile()
+        val compressFile: File? = FileUtil.getImageFile()
         return if (compressFile != null) {
             ImageUtil.compressImage(
                 file, maxWidth.toFloat(), maxHeight.toFloat(),

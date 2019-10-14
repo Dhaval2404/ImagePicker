@@ -132,7 +132,7 @@ object ImageUtil {
         scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
 
         val canvas = Canvas(scaledBitmap!!)
-        canvas.matrix = scaleMatrix
+        canvas.setMatrix(scaleMatrix)
         canvas.drawBitmap(
             bmp!!, middleX - bmp.width / 2,
             middleY - bmp.height / 2, Paint(Paint.FILTER_BITMAP_FLAG)

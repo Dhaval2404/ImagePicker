@@ -1,5 +1,4 @@
 package com.github.dhaval2404.imagepicker.util
-
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
@@ -8,17 +7,32 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import java.io.IOException
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 
 /**
- * https://gist.github.com/HBiSoft/15899990b8cd0723c3a894c1636550a8
+ * This file was taken from
+ *     https://gist.github.com/HBiSoft/15899990b8cd0723c3a894c1636550a8
  *
- * This class acts as a drop in replacement for uCrop FileUtils class
+ * Later on it was modified from the below resource:
+ *     https://raw.githubusercontent.com/iPaulPro/aFileChooser/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+ *     https://raw.githubusercontent.com/iPaulPro/aFileChooser/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
  */
 
 object FileUriUtils {
 
     fun getRealPath(context: Context, uri: Uri): String? {
+        var path = getPathFromLocalUri(context, uri)
+        if (path == null) {
+            path = getPathFromRemoteUri(context, uri)
+        }
+        return path
+    }
+
+    private fun getPathFromLocalUri(context: Context, uri: Uri): String? {
 
         val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
@@ -40,13 +54,12 @@ object FileUriUtils {
                     // This is for checking SD Card
                 } else {
                     val path = "storage" + "/" + docId.replace(":", "/")
-                    if(File(path).exists()){
+                    if (File(path).exists()) {
                         path
-                    }else{
-                        "/storage/sdcard/"+split[1];
+                    } else {
+                        "/storage/sdcard/" + split[1]
                     }
                 }
-
             } else if (isDownloadsDocument(uri)) {
                 val fileName = getFilePath(context, uri)
                 if (fileName != null) {
@@ -76,23 +89,24 @@ object FileUriUtils {
                 val selectionArgs = arrayOf(split[1])
 
                 return getDataColumn(context, contentUri, selection, selectionArgs)
-            }// MediaProvider
+            } // MediaProvider
             // DownloadsProvider
         } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
 
             // Return the remote address
             return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
-
         } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
             return uri.path
-        }// File
+        } // File
         // MediaStore (and general)
 
         return null
     }
 
     private fun getDataColumn(
-        context: Context, uri: Uri?, selection: String?,
+        context: Context,
+        uri: Uri?,
+        selection: String?,
         selectionArgs: Array<String>?
     ): String? {
 
@@ -106,12 +120,12 @@ object FileUriUtils {
                 val index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(index)
             }
+        } catch (ex: Exception) {
         } finally {
             cursor?.close()
         }
         return null
     }
-
 
     private fun getFilePath(context: Context, uri: Uri): String? {
 
@@ -128,6 +142,62 @@ object FileUriUtils {
             cursor?.close()
         }
         return null
+    }
+
+    private fun getPathFromRemoteUri(context: Context, uri: Uri): String? {
+        // The code below is why Java now has try-with-resources and the Files utility.
+        var file: File? = null
+        var inputStream: InputStream? = null
+        var outputStream: OutputStream? = null
+        var success = false
+        try {
+            val extension = getImageExtension(uri)
+            inputStream = context.contentResolver.openInputStream(uri)
+            file = FileUtil.getImageFile(context.cacheDir, extension)
+            outputStream = FileOutputStream(file)
+            if (inputStream != null) {
+                inputStream.copyTo(outputStream, bufferSize = 4 * 1024)
+                success = true
+            }
+        } catch (ignored: IOException) {
+        } finally {
+            try {
+                inputStream?.close()
+            } catch (ignored: IOException) {
+            }
+
+            try {
+                outputStream?.close()
+            } catch (ignored: IOException) {
+                // If closing the output stream fails, we cannot be sure that the
+                // target file was written in full. Flushing the stream merely moves
+                // the bytes into the OS, not necessarily to the file.
+                success = false
+            }
+        }
+        return if (success) file!!.path else null
+    }
+
+    /** @return extension of image with dot, or default .jpg if it none.
+     */
+    private fun getImageExtension(uriImage: Uri): String {
+        var extension: String? = null
+
+        try {
+            val imagePath = uriImage.path
+            if (imagePath != null && imagePath.lastIndexOf(".") != -1) {
+                extension = imagePath.substring(imagePath.lastIndexOf(".") + 1)
+            }
+        } catch (e: Exception) {
+            extension = null
+        }
+
+        if (extension == null || extension.isEmpty()) {
+            // default extension for matches the previous behavior of the plugin
+            extension = "jpg"
+        }
+
+        return ".$extension"
     }
 
     /**

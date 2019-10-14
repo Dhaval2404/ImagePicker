@@ -67,9 +67,9 @@ class ImagePickerActivity : FragmentActivity() {
                 mCameraProvider = CameraProvider(this)
                 mCameraProvider?.startIntent()
             }
-            else->{
+            else -> {
                 Log.e(TAG, "Image provider can not be null")
-                //Something went Wrong! This case should never happen
+                // Something went Wrong! This case should never happen
                 setError(getString(R.string.error_task_cancelled))
             }
         }

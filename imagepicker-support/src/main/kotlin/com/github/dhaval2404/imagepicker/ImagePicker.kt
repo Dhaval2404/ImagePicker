@@ -28,6 +28,7 @@ open class ImagePicker {
 
         internal const val EXTRA_IMAGE_PROVIDER = "extra.image_provider"
         internal const val EXTRA_IMAGE_MAX_SIZE = "extra.image_max_size"
+        internal const val EXTRA_CROP = "extra.crop"
         internal const val EXTRA_CROP_X = "extra.crop_x"
         internal const val EXTRA_CROP_Y = "extra.crop_y"
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
@@ -97,6 +98,7 @@ open class ImagePicker {
          */
         private var cropX: Float = 0f
         private var cropY: Float = 0f
+        private var crop: Boolean = false
 
         /*
          * Resize Parameters
@@ -152,6 +154,14 @@ open class ImagePicker {
         fun crop(x: Float, y: Float): Builder {
             cropX = x
             cropY = y
+            return crop()
+        }
+
+        /**
+         * Crop an image and let user set the aspect ratio.
+         */
+        fun crop(): Builder {
+            this.crop = true
             return this
         }
 
@@ -251,6 +261,7 @@ open class ImagePicker {
             val bundle = Bundle()
             bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
 
+            bundle.putBoolean(EXTRA_CROP, crop)
             bundle.putFloat(EXTRA_CROP_X, cropX)
             bundle.putFloat(EXTRA_CROP_Y, cropY)
 
