@@ -42,7 +42,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
    ```groovy
-   implementation 'com.github.dhaval2404:imagepicker-support:1.3'
+   implementation 'com.github.dhaval2404:imagepicker-support:1.5'
     ```
 
     **If you want to get the activity result inline in a modern way (lambda) install [InlineActivityResult](https://github.com/florent37/InlineActivityResult) library:**
