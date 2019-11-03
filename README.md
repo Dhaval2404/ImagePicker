@@ -50,7 +50,7 @@ Almost 90% of the app that I have developed has Image upload feature. To simplif
    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
     ```
     
-2.  If you target Android 10 or higher, set the value of ``requestLegacyExternalStorage`` to true in your app's manifest file:
+2.  <span style="color:red">**If you target Android 10 or higher(targetSdkVersion >= 29)**</span>, set the value of ``requestLegacyExternalStorage`` to true in your app's manifest file:
 
       ```xml
     <manifest ... >
