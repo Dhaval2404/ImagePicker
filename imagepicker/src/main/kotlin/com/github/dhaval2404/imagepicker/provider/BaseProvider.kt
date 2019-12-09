@@ -1,6 +1,7 @@
 package com.github.dhaval2404.imagepicker.provider
 
 import android.content.ContextWrapper
+import android.os.Bundle
 import android.widget.Toast
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 
@@ -54,5 +55,20 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) : Conte
      * This method will be Call on Error, It can be used for clean up Tasks
      */
     protected open fun onFailure() {
+    }
+
+    /**
+     * Save all appropriate provider state.
+     */
+    open fun onSaveInstanceState(outState: Bundle) {
+    }
+
+    /**
+     * Restores the saved state for all Providers.
+     *
+     * @param savedInstanceState the Bundle returned by {@link #onSaveInstanceState()}
+     * @see #onSaveInstanceState()
+     */
+    open fun onRestoreInstanceState(savedInstanceState: Bundle?) {
     }
 }

@@ -26,6 +26,11 @@ class ImagePickerActivity : FragmentActivity() {
     companion object {
         private const val TAG = "image_picker"
 
+        /**
+         * Key to Save/Retrieve Image File state
+         */
+        private const val STATE_IMAGE_FILE = "state.image_file"
+
         internal fun getCancelledIntent(context: Context): Intent {
             val intent = Intent()
             val message = context.getString(R.string.error_task_cancelled)
@@ -39,37 +44,68 @@ class ImagePickerActivity : FragmentActivity() {
     private lateinit var mCropProvider: CropProvider
     private lateinit var mCompressionProvider: CompressionProvider
 
-    private var mOriginalFile: File? = null
+    /** File provided by GalleryProvider or CameraProvider */
+    private var mImageFile: File? = null
+
+    /** File provided by CropProvider */
     private var mCropFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadBundle()
+        restoreInstanceState(savedInstanceState)
+        loadBundle(savedInstanceState)
+    }
+
+    /**
+     * Restore saved state
+     */
+    private fun restoreInstanceState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            mImageFile = savedInstanceState.getSerializable(STATE_IMAGE_FILE) as File?
+        }
+    }
+
+    /**
+     * Save all appropriate activity state.
+     */
+    public override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(STATE_IMAGE_FILE, mImageFile)
+        mCameraProvider?.onSaveInstanceState(outState)
+        mCropProvider.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
     }
 
     /**
      * Parse Intent Bundle and initialize variables
      */
-    private fun loadBundle() {
+    private fun loadBundle(savedInstanceState: Bundle?) {
+        // Create Crop Provider
         mCropProvider = CropProvider(this)
+        mCropProvider.onRestoreInstanceState(savedInstanceState)
+
+        // Create Compression Provider
         mCompressionProvider = CompressionProvider(this)
 
-        val bundle = intent?.extras
-        val provider = bundle?.getSerializable(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider?
+        // Retrieve Image Provider
+        val provider: ImageProvider? =
+            intent?.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider?
 
-        // Create provider object and start process
+        // Create Gallery/Camera Provider
         when (provider) {
             ImageProvider.GALLERY -> {
                 mGalleryProvider = GalleryProvider(this)
-                mGalleryProvider?.startIntent()
+                // Pick Gallery Image
+                savedInstanceState ?: mGalleryProvider?.startIntent()
             }
             ImageProvider.CAMERA -> {
                 mCameraProvider = CameraProvider(this)
-                mCameraProvider?.startIntent()
+                mCameraProvider?.onRestoreInstanceState(savedInstanceState)
+                // Pick Camera Image
+                savedInstanceState ?: mCameraProvider?.startIntent()
             }
             else -> {
-                Log.e(TAG, "Image provider can not be null")
                 // Something went Wrong! This case should never happen
+                Log.e(TAG, "Image provider can not be null")
                 setError(getString(R.string.error_task_cancelled))
             }
         }
@@ -111,7 +147,7 @@ class ImagePickerActivity : FragmentActivity() {
      * @param file Capture/Gallery image file
      */
     fun setImage(file: File) {
-        mOriginalFile = file
+        mImageFile = file
         when {
             mCropProvider.isCropEnabled() -> mCropProvider.startIntent(file)
             mCompressionProvider.isCompressionRequired(file) -> mCompressionProvider.compress(file)
@@ -132,8 +168,8 @@ class ImagePickerActivity : FragmentActivity() {
         mCameraProvider?.let {
             // Delete Camera file after crop. Else there will be two image for the same action.
             // In case of Gallery Provider, we will get original image path, so we will not delete that.
-            mOriginalFile?.delete()
-            mOriginalFile = null
+            mImageFile?.delete()
+            mImageFile = null
         }
 
         if (mCompressionProvider.isCompressionRequired(file)) {
@@ -153,7 +189,7 @@ class ImagePickerActivity : FragmentActivity() {
         mCameraProvider?.let {
             // Delete Camera file after Compress. Else there will be two image for the same action.
             // In case of Gallery Provider, we will get original image path, so we will not delete that.
-            mOriginalFile?.delete()
+            mImageFile?.delete()
         }
 
         // If crop file is not null, Delete it after crop
