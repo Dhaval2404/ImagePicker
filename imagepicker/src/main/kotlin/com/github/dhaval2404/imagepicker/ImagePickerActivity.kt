@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
@@ -21,7 +22,7 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class ImagePickerActivity : FragmentActivity() {
+class ImagePickerActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "image_picker"
