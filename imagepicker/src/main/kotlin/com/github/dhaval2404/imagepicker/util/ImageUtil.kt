@@ -17,8 +17,8 @@ package com.github.dhaval2404.imagepicker.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
