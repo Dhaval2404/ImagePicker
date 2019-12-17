@@ -43,7 +43,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation "androidx.exifinterface:exifinterface:1.0.0"
+    implementation "androidx.exifinterface:exifinterface:1.1.0"
 
     //More Info: https://github.com/Yalantis/uCrop
     implementation 'com.github.yalantis:ucrop:2.2.4'
