@@ -18,9 +18,19 @@
 </div>
 <br/>
 
-Simple Library to **Pick an image from the Gallery or Capture image using Camera**. It also allows to **Crop and Compress the Image based on resolution and image size**.
+Easy to use and configurable library to **Pick an image from the Gallery or Capture image using Camera**. It also allows to **Crop and Compresses the Image based on Aspect Ratio, Resolution and Image Size**.
 
-Almost 90% of the app that I have developed has Image upload feature. To simplify the image pick/capture option I have created this library. Its easily configurable and easy to use.
+Almost 90% of the app that I have developed has an Image upload feature. Along with the image selection, Sometimes  I needed a crop feature for profile image for that I've used uCrop. Most of the time I need to compress the image as the image captured from the camera is more than 5-10 MBs and sometimes we have a requirement to upload images with specific resolution/size, in that case, image compress is the way to go option. To simplify the image pick/capture option I have created ImagePicker library. I hope it will be useful to all.
+
+# 🐱‍🏍Features:
+	
+* Pick Gallery Image
+* Pick Image from Google Drive
+* Capture Camera Image
+* Crop Image(Crop image based on provided aspect ratio or let user choose one)
+* Compress Image(Compress image based on provided resolution and size)
+* Retrive Image Result as File, File Path as String or Uri object
+* Handle Runtime Permission for Camera and Storage
 
 # 💻Usage
 
