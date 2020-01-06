@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
@@ -24,6 +25,11 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
     companion object {
         private val TAG = CropProvider::class.java.simpleName
+
+        /**
+         * Key to Save/Retrieve Crop File state
+         */
+        private const val STATE_CROP_FILE = "state.crop_file"
     }
 
     private val mMaxWidth: Int
@@ -45,6 +51,29 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         mCrop = bundle.getBoolean(ImagePicker.EXTRA_CROP, false)
         mCropAspectX = bundle.getFloat(ImagePicker.EXTRA_CROP_X, 0f)
         mCropAspectY = bundle.getFloat(ImagePicker.EXTRA_CROP_Y, 0f)
+    }
+
+    /**
+     * Save CameraProvider state
+     *
+     * mCropImageFile will lose its state when activity is recreated on
+     * Orientation change or for Low memory device.
+     *
+     * Here, We Will save its state for later use
+     *
+     * Note: To produce this scenario, enable "Don't keep activities" from developer options
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Save crop file
+        outState.putSerializable(STATE_CROP_FILE, mCropImageFile)
+    }
+
+    /**
+     * Retrieve CropProvider state
+     */
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        // Restore crop file
+        mCropImageFile = savedInstanceState?.getSerializable(STATE_CROP_FILE) as File?
     }
 
     /**

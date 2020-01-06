@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,10 +43,10 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation "androidx.exifinterface:exifinterface:1.0.0"
+    implementation "androidx.exifinterface:exifinterface:1.1.0"
 
     //More Info: https://github.com/Yalantis/uCrop
-    implementation 'com.github.yalantis:ucrop:2.2.2'
+    implementation 'com.github.yalantis:ucrop:2.2.4'
 
     //More Info: https://github.com/florent37/InlineActivityResult
     compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
@@ -69,7 +69,7 @@ ext {
     siteUrl = 'https://github.com/Dhaval2404/ImagePicker/'
     gitUrl = 'https://github.com/Dhaval2404/ImagePicker.git'
 
-    libraryVersion = '1.5'
+    libraryVersion = '1.6'
     //If you are uploading new library try : gradlew install
     //If you are updating existing library then execute: gradlew bintrayUpload
     //In both the case don't forgot to put bintray credentials in local.properties file.

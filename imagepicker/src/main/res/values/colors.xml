@@ -4,4 +4,11 @@
     <color name="dialog_choose_icon_color">#757575</color>
     <color name="dialog_choose_text_color">#757575</color>
 
+    <!--uCrop Activity-->
+    <color name="ucrop_color_active_controls_color">@color/ucrop_color_widget_active</color>
+    <color name="ucrop_color_inactive_controls_color">#787878</color>
+    <color name="ucrop_color_widget_rotate_mid_line">@color/ucrop_color_widget_active</color>
+    <color name="ucrop_color_active_aspect_ratio">@color/ucrop_color_widget_active</color>
+    <color name="ucrop_color_widget_text">@color/ucrop_color_widget_active</color>
+
 </resources>

@@ -47,7 +47,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.5'
+   implementation 'com.github.dhaval2404:imagepicker:1.6'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -224,6 +224,13 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
   * Sample - Android Kitkat 4.4+ (API 19)
   
 # ✔️Changelog
+
+### Version: 1.6
+
+  * Improved UI/UX of sample app
+  * Removed Bitmap Deprecated Property [#33](https://github.com/Dhaval2404/ImagePicker/issues/33) (Special Thanks to [nauhalf](https://github.com/nauhalf))
+  * Camera opens twice when "Don't keep activities" option is ON [#41](https://github.com/Dhaval2404/ImagePicker/issues/41) (Special Thanks to [benji101](https://github.com/benji101))
+  * Fixed uCrop Crash Issue [#42](https://github.com/Dhaval2404/ImagePicker/issues/42)
 
 ### Version: 1.5
 

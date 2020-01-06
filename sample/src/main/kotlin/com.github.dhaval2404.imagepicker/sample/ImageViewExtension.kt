@@ -1,12 +1,13 @@
 package com.github.dhaval2404.imagepicker.sample
 
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import java.io.File
 
-fun ImageView.setRemoteImage(url: String, applyCircle: Boolean = false) {
-    val glide = Glide.with(this).load(url)
+fun ImageView.setDrawableImage(@DrawableRes resource: Int, applyCircle: Boolean = false) {
+    val glide = Glide.with(this).load(resource)
     if (applyCircle) {
         glide.apply(RequestOptions.circleCropTransform()).into(this)
     } else {
