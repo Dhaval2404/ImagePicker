@@ -4,10 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import com.github.dhaval2404.imagepicker.sample.util.FileUtil
+import com.github.dhaval2404.imagepicker.sample.util.IntentUtil
+import java.io.File
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
@@ -17,58 +23,130 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
+        private const val GITHUB_REPOSITORY = "https://github.com/Dhaval2404/ImagePicker"
+
         private const val PROFILE_IMAGE_REQ_CODE = 101
         private const val GALLERY_IMAGE_REQ_CODE = 102
         private const val CAMERA_IMAGE_REQ_CODE = 103
-        private const val DEFAULT_IMAGE_URL =
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE2nnhjrSnA-nOn-pmBR1w1yIO5VytHaju-l-rUjNixn-w8oE4"
     }
+
+    private var mCameraFile: File? = null
+    private var mGalleryFile: File? = null
+    private var mProfileFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        imgProfile.setDrawableImage(R.drawable.ic_person, true)
+    }
 
-        fab_add_photo.setOnClickListener {
-            ImagePicker.with(this)
-                .crop() // Crop Square image(Optional)
-                .maxResultSize(620, 620) // Final image resolution will be less than 620 x 620(Optional)
-                .start(PROFILE_IMAGE_REQ_CODE)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_github -> {
+                IntentUtil.openURL(this, GITHUB_REPOSITORY)
+                return true
+            }
         }
+        return super.onOptionsItemSelected(item)
+    }
 
-        fab_add_gallery_photo.setOnClickListener {
-            ImagePicker.with(this)
-                .galleryOnly() // User can only select image from Gallery(Optional)
-                .maxResultSize(1080, 1920) // Final image resolution will be less than 1080 x 1920(Optional)
-                .start(GALLERY_IMAGE_REQ_CODE)
-        }
+    fun pickProfileImage(view: View) {
+        ImagePicker.with(this)
+            // Crop Square image
+            .cropSquare()
+            // Image resolution will be less than 512 x 512
+            .maxResultSize(512, 512)
+            .start(PROFILE_IMAGE_REQ_CODE)
+    }
 
-        fab_add_camera_photo.setOnClickListener {
-            ImagePicker.with(this)
-                .provider(ImageProvider.CAMERA) // Default will be ImageProvider.BOTH
-                .compress(1024) // Final image size will be less than 1 MB(Optional)
-                .start(CAMERA_IMAGE_REQ_CODE)
-        }
+    fun pickGalleryImage(view: View) {
+        ImagePicker.with(this)
+            // Crop Image(User can choose Aspect Ratio)
+            .crop()
+            // User can only select image from Gallery
+            .galleryOnly()
+            // Image resolution will be less than 1080 x 1920
+            .maxResultSize(1080, 1920)
+            .start(GALLERY_IMAGE_REQ_CODE)
+    }
 
-        imgProfile.setRemoteImage(DEFAULT_IMAGE_URL, true)
+    fun pickCameraImage(view: View) {
+        ImagePicker.with(this)
+            // User can only capture image from Camera
+            .cameraOnly()
+            // Image size will be less than 1024 KB
+            .compress(1024)
+            .start(CAMERA_IMAGE_REQ_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+            Log.e("TAG", "Path:${ImagePicker.getFilePath(data)}")
             // File object will not be null for RESULT_OK
-            val file = ImagePicker.getFile(data)
-
-            Log.e("TAG", "Path:${file?.absolutePath}")
+            val file = ImagePicker.getFile(data)!!
             when (requestCode) {
-                PROFILE_IMAGE_REQ_CODE -> imgProfile.setLocalImage(file!!, true)
-                GALLERY_IMAGE_REQ_CODE -> imgGallery.setLocalImage(file!!)
-                CAMERA_IMAGE_REQ_CODE -> imgCamera.setLocalImage(file!!, false)
+                PROFILE_IMAGE_REQ_CODE -> {
+                    mProfileFile = file
+                    imgProfile.setLocalImage(file, true)
+                }
+                GALLERY_IMAGE_REQ_CODE -> {
+                    mGalleryFile = file
+                    imgGallery.setLocalImage(file)
+                }
+                CAMERA_IMAGE_REQ_CODE -> {
+                    mCameraFile = file
+                    imgCamera.setLocalImage(file, false)
+                }
             }
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
             Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun showImageCode(view: View) {
+        val resource = when (view) {
+            imgProfileCode -> R.drawable.img_profile_code
+            imgCameraCode -> R.drawable.img_camera_code
+            imgGalleryCode -> R.drawable.img_gallery_code
+            else -> 0
+        }
+        ImageViewerDialog.newInstance(resource).show(supportFragmentManager, "")
+    }
+
+    fun showImage(view: View) {
+        val file = when (view) {
+            imgProfile -> mProfileFile
+            imgCamera -> mCameraFile
+            imgGallery -> mGalleryFile
+            else -> null
+        }
+
+        file?.let {
+            IntentUtil.showImage(this, file)
+        }
+    }
+
+    fun showImageInfo(view: View) {
+        val file = when (view) {
+            imgProfileInfo -> mProfileFile
+            imgCameraInfo -> mCameraFile
+            imgGalleryInfo -> mGalleryFile
+            else -> null
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Image Info")
+            .setMessage(FileUtil.getFileInfo(file))
+            .setPositiveButton("Ok", null)
+            .show()
     }
 }

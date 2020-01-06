@@ -38,6 +38,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.browser:browser:1.2.0'
     implementation 'com.google.android.material:material:1.1.0-beta02'
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
 
@@ -52,4 +53,9 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
 
     implementation project(':imagepicker')
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
 }
