@@ -32,6 +32,13 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 * Retrive Image Result as File, File Path as String or Uri object
 * Handle Runtime Permission for Camera and Storage
 
+# 🎬Preview
+
+
+   Profile Image Picker    |         Gallery Only      |       Camera Only        |
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/Dhaval2404/ImagePicker/blob/master/art/imagepicker_profile_demo.gif)  |  ![](https://github.com/Dhaval2404/ImagePicker/blob/master/art/imagepicker_gallery_demo.gif.gif)  |  ![](https://github.com/Dhaval2404/ImagePicker/blob/master/art/imagepicker_camera_demo.gif.gif)
+
 # 💻Usage
 
 
