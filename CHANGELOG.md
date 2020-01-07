@@ -51,7 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Handle Runtime Permission for Camera and Storage
   * Retrive Image Result as File, File Path as String or Uri object
 
-[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v1.5...HEAD
+[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v1.6...HEAD
+[1.6]: https://github.com/Dhaval2404/ImagePicker/compare/v1.5...v1.6
 [1.5]: https://github.com/Dhaval2404/ImagePicker/compare/v1.4...v1.5
 [1.4]: https://github.com/Dhaval2404/ImagePicker/compare/v1.3...v1.4
 [1.3]: https://github.com/Dhaval2404/ImagePicker/compare/v1.2...v1.3
