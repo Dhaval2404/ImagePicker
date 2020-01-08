@@ -63,7 +63,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Camera image will be stored in below file directory
      */
-    private var mFileDir:File? = null
+    private var mFileDir: File? = null
 
     init {
         val bundle = activity.intent.extras!!

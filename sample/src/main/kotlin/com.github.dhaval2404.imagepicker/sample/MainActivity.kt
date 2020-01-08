@@ -84,8 +84,8 @@ class MainActivity : AppCompatActivity() {
             // Image size will be less than 1024 KB
             .compress(1024)
             .saveDir(Environment.getExternalStorageDirectory())
-            //.saveDir(Environment.getExternalStorageDirectory().absolutePath+File.separator+"ImagePicker")
-            //.saveDir(getExternalFilesDir(null)!!)
+            // .saveDir(Environment.getExternalStorageDirectory().absolutePath+File.separator+"ImagePicker")
+            // .saveDir(getExternalFilesDir(null)!!)
             .start(CAMERA_IMAGE_REQ_CODE)
     }
 

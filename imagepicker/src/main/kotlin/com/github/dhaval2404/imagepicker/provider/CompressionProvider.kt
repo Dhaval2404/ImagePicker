@@ -28,7 +28,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private val mMaxFileSize: Long
 
     private var mOriginalFile: File? = null
-    private var mFileDir:File? = null
+    private var mFileDir: File? = null
 
     init {
         val bundle = activity.intent.extras!!

@@ -39,7 +39,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private val mCropAspectX: Float
     private val mCropAspectY: Float
     private var mCropImageFile: File? = null
-    private var mFileDir:File? = null
+    private var mFileDir: File? = null
 
     init {
         val bundle = activity.intent.extras!!

@@ -119,7 +119,7 @@ open class ImagePicker {
          *
          * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
          */
-        private var saveDir:String? = null
+        private var saveDir: String? = null
 
         /**
          * Call this while picking image for fragment.
@@ -202,7 +202,7 @@ open class ImagePicker {
             return this
         }
 
-        fun saveDir(path:String): Builder {
+        fun saveDir(path: String): Builder {
             this.saveDir = path
             return this
         }
