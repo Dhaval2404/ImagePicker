@@ -33,6 +33,7 @@ open class ImagePicker {
         internal const val EXTRA_CROP_Y = "extra.crop_y"
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
+        internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
@@ -110,6 +111,15 @@ open class ImagePicker {
          * Max File Size
          */
         private var maxSize: Long = 0
+
+        /**
+         * File Directory
+         *
+         * Camera, Crop, Compress Image Will be store in this directory.
+         *
+         * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
+         */
+        private var saveDir:String? = null
 
         /**
          * Call this while picking image for fragment.
@@ -192,6 +202,16 @@ open class ImagePicker {
             return this
         }
 
+        fun saveDir(path:String): Builder {
+            this.saveDir = path
+            return this
+        }
+
+        fun saveDir(file: File): Builder {
+            this.saveDir = file.absolutePath
+            return this
+        }
+
         /**
          * Start Image Picker Activity
          */
@@ -269,6 +289,7 @@ open class ImagePicker {
             bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
 
             bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+            bundle.putString(EXTRA_SAVE_DIRECTORY, saveDir)
 
             return bundle
         }

@@ -28,6 +28,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private val mMaxFileSize: Long
 
     private var mOriginalFile: File? = null
+    private var mFileDir:File? = null
 
     init {
         val bundle = activity.intent.extras!!
@@ -38,6 +39,12 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
         // Get Maximum Allowed file size
         mMaxFileSize = bundle.getLong(ImagePicker.EXTRA_IMAGE_MAX_SIZE, 0)
+
+        // Get File Directory
+        val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
+        fileDir?.let {
+            mFileDir = File(it)
+        }
     }
 
     /**
@@ -168,7 +175,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             quality = 100
         }
 
-        val compressFile: File? = FileUtil.getImageFile()
+        val compressFile: File? = FileUtil.getImageFile(dir = mFileDir)
         return if (compressFile != null) {
             ImageUtil.compressImage(
                 file, maxWidth.toFloat(), maxHeight.toFloat(),

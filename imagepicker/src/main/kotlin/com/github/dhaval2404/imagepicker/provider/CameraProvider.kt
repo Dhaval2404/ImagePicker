@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.ActivityCompat.requestPermissions
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -60,6 +61,21 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         .isPermissionInManifest(this, Manifest.permission.CAMERA)
 
     /**
+     * Camera image will be stored in below file directory
+     */
+    private var mFileDir:File? = null
+
+    init {
+        val bundle = activity.intent.extras!!
+
+        // Get File Directory
+        val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
+        fileDir?.let {
+            mFileDir = File(it)
+        }
+    }
+
+    /**
      * Save CameraProvider state
 
      * mCameraFile will lose its state when activity is recreated on
@@ -111,7 +127,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        val file = FileUtil.getImageFile()
+        val file = FileUtil.getImageFile(dir = mFileDir)
         mCameraFile = file
 
         // Check if file exists

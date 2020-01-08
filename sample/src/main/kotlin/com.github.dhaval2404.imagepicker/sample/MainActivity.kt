@@ -3,6 +3,7 @@ package com.github.dhaval2404.imagepicker.sample
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -82,6 +83,9 @@ class MainActivity : AppCompatActivity() {
             .cameraOnly()
             // Image size will be less than 1024 KB
             .compress(1024)
+            .saveDir(Environment.getExternalStorageDirectory())
+            //.saveDir(Environment.getExternalStorageDirectory().absolutePath+File.separator+"ImagePicker")
+            //.saveDir(getExternalFilesDir(null)!!)
             .start(CAMERA_IMAGE_REQ_CODE)
     }
 
