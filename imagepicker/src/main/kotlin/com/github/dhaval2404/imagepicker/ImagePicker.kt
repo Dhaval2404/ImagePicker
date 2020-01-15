@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import com.github.dhaval2404.imagepicker.constant.ImageProvider.BOTH
+import com.github.dhaval2404.imagepicker.constant.ImageProvider.CAMERA
+import com.github.dhaval2404.imagepicker.constant.ImageProvider.GALLERY
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -91,7 +94,7 @@ open class ImagePicker {
         private var fragment: Fragment? = null
 
         // Image Provider
-        private var imageProvider = ImageProvider.BOTH
+        private var imageProvider = BOTH
 
         /*
          * Crop Parameters
@@ -110,6 +113,8 @@ open class ImagePicker {
          * Max File Size
          */
         private var maxSize: Long = 0
+
+        private var imageProviderInterceptor: ((ImageProvider) -> Unit)? = null
 
         /**
          * Call this while picking image for fragment.
@@ -131,7 +136,7 @@ open class ImagePicker {
          */
         // @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
-            this.imageProvider = ImageProvider.CAMERA
+            this.imageProvider = CAMERA
             return this
         }
 
@@ -140,7 +145,7 @@ open class ImagePicker {
          */
         // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
-            this.imageProvider = ImageProvider.GALLERY
+            this.imageProvider = GALLERY
             return this
         }
 
@@ -192,6 +197,11 @@ open class ImagePicker {
             return this
         }
 
+        fun setImageProviderInterceptor(imageProviderInterceptor: (ImageProvider) -> Unit): Builder {
+            this.imageProviderInterceptor = imageProviderInterceptor
+            return this
+        }
+
         /**
          * Start Image Picker Activity
          */
@@ -203,7 +213,7 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(reqCode: Int) {
-            if (imageProvider == ImageProvider.BOTH) {
+            if (imageProvider == BOTH) {
                 // Pick Image Provider if not specified
                 showImageProviderDialog(reqCode)
             } else {
@@ -215,7 +225,7 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            if (imageProvider == ImageProvider.BOTH) {
+            if (imageProvider == BOTH) {
                 // Pick Image Provider if not specified
                 showImageProviderDialog(completionHandler)
             } else {
@@ -231,6 +241,7 @@ open class ImagePicker {
                 override fun onResult(t: ImageProvider?) {
                     t?.let {
                         imageProvider = it
+                        imageProviderInterceptor?.invoke(imageProvider)
                         startActivity(reqCode)
                     }
                 }
@@ -245,6 +256,7 @@ open class ImagePicker {
                 override fun onResult(t: ImageProvider?) {
                     if (t != null) {
                         imageProvider = t
+                        imageProviderInterceptor?.invoke(imageProvider)
                         startActivity(completionHandler)
                     } else {
                         val intent = ImagePickerActivity.getCancelledIntent(activity)
@@ -297,8 +309,12 @@ open class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        if (fragment != null) fragment!!.context else activity,
+                        "InlineActivityResult library not installed falling back to default method, please install " +
+                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     startActivity(REQUEST_CODE)
                 }
             }
