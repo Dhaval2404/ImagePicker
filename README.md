@@ -128,7 +128,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     }
     ```
 
-    **Inline method (with InlineActivityResult library)**
+    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity)**
     ```kotlin
     ImagePicker.with(this)
             .crop(1f, 1f)               //Crop Square image(Optional)
