@@ -117,6 +117,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         }
 
         try {
+            activity.setCropImage(file)
             uCrop.start(activity, UCrop.REQUEST_CROP)
         } catch (ex: ActivityNotFoundException) {
             setError(

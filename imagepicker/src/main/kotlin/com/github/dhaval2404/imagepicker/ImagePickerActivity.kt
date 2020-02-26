@@ -31,6 +31,11 @@ class ImagePickerActivity : AppCompatActivity() {
          */
         private const val STATE_IMAGE_FILE = "state.image_file"
 
+        /**
+         * Key to Save/Retrieve Crop state
+         */
+        private const val STATE_CROP_STARTED = "state.crop_started"
+
         internal fun getCancelledIntent(context: Context): Intent {
             val intent = Intent()
             val message = context.getString(R.string.error_task_cancelled)
@@ -50,6 +55,9 @@ class ImagePickerActivity : AppCompatActivity() {
     /** File provided by CropProvider */
     private var mCropFile: File? = null
 
+    /** CropProvider started the Crop Activity*/
+    private var mStartedCropActivity: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         restoreInstanceState(savedInstanceState)
@@ -61,6 +69,7 @@ class ImagePickerActivity : AppCompatActivity() {
      */
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
+            mStartedCropActivity = savedInstanceState.getSerializable(STATE_CROP_STARTED) as Boolean
             mImageFile = savedInstanceState.getSerializable(STATE_IMAGE_FILE) as File?
         }
     }
@@ -69,6 +78,7 @@ class ImagePickerActivity : AppCompatActivity() {
      * Save all appropriate activity state.
      */
     public override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(STATE_CROP_STARTED, mStartedCropActivity)
         outState.putSerializable(STATE_IMAGE_FILE, mImageFile)
         mCameraProvider?.onSaveInstanceState(outState)
         mCropProvider.onSaveInstanceState(outState)
@@ -85,6 +95,11 @@ class ImagePickerActivity : AppCompatActivity() {
 
         // Create Compression Provider
         mCompressionProvider = CompressionProvider(this)
+
+        // If crop already started, don't start the Gallery/Camera activity again
+        if(mStartedCropActivity) {
+            return
+        }
 
         // Retrieve Image Provider
         val provider: ImageProvider? =
