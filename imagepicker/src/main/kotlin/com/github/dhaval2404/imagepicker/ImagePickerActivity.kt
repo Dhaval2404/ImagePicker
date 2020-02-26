@@ -171,6 +171,13 @@ class ImagePickerActivity : AppCompatActivity() {
     }
 
     /**
+     * Called by CropProvider.cropImage to indicate that the Crop Activity started.
+     */
+    fun cropStarted() {
+        mStartedCropActivity = true
+    }
+
+    /**
      * {@link CropProviders} Result will be available here.
      *
      * Check if compression is enable/required. If yes then start compression else return result.
