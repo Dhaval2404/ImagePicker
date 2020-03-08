@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
 import com.github.dhaval2404.imagepicker.provider.CompressionProvider
@@ -97,9 +98,10 @@ class ImagePickerActivity : AppCompatActivity() {
         mCompressionProvider = CompressionProvider(this)
 
         // If crop already started, don't start the Gallery/Camera activity again
-        if(mStartedCropActivity) {
-            return
-        }
+
+        var callingActivityName = callingActivity?.className
+        var referrer = ActivityCompat.getReferrer(this)
+        var test = referrer.toString()
 
         // Retrieve Image Provider
         val provider: ImageProvider? =
