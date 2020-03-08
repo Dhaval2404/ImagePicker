@@ -58,8 +58,15 @@ class ImagePickerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        restoreInstanceState(savedInstanceState)
-        loadBundle(savedInstanceState)
+
+        // If crop already started, don't start the Gallery/Camera activity again
+        if(CROP_STARTED) {
+            finish()
+        }
+        else {
+            restoreInstanceState(savedInstanceState)
+            loadBundle(savedInstanceState)
+        }
     }
 
     /**
@@ -91,11 +98,6 @@ class ImagePickerActivity : AppCompatActivity() {
 
         // Create Compression Provider
         mCompressionProvider = CompressionProvider(this)
-
-        // If crop already started, don't start the Gallery/Camera activity again
-        if(CROP_STARTED) {
-            return
-        }
 
         // Retrieve Image Provider
         val provider: ImageProvider? =
