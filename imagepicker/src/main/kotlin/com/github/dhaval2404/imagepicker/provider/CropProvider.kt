@@ -118,6 +118,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
         try {
             activity.cropStarted()
+            activity.onSaveInstanceState(Bundle())
             uCrop.start(activity, UCrop.REQUEST_CROP)
         } catch (ex: ActivityNotFoundException) {
             setError(
