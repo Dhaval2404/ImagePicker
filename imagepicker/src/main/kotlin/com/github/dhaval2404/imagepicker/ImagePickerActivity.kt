@@ -33,9 +33,9 @@ class ImagePickerActivity : AppCompatActivity() {
         private const val STATE_IMAGE_FILE = "state.image_file"
 
         /**
-         * Key to Save/Retrieve Crop state
+         * Indicates that the Crop activity started
          */
-        private const val STATE_CROP_STARTED = "state.crop_started"
+        var CROP_STARTED = false
 
         internal fun getCancelledIntent(context: Context): Intent {
             val intent = Intent()
@@ -56,9 +56,6 @@ class ImagePickerActivity : AppCompatActivity() {
     /** File provided by CropProvider */
     private var mCropFile: File? = null
 
-    /** CropProvider started the Crop Activity*/
-    private var mStartedCropActivity: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         restoreInstanceState(savedInstanceState)
@@ -70,7 +67,6 @@ class ImagePickerActivity : AppCompatActivity() {
      */
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
-            mStartedCropActivity = savedInstanceState.getSerializable(STATE_CROP_STARTED) as Boolean
             mImageFile = savedInstanceState.getSerializable(STATE_IMAGE_FILE) as File?
         }
     }
@@ -79,7 +75,6 @@ class ImagePickerActivity : AppCompatActivity() {
      * Save all appropriate activity state.
      */
     public override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(STATE_CROP_STARTED, true)
         outState.putSerializable(STATE_IMAGE_FILE, mImageFile)
         mCameraProvider?.onSaveInstanceState(outState)
         mCropProvider.onSaveInstanceState(outState)
@@ -98,10 +93,9 @@ class ImagePickerActivity : AppCompatActivity() {
         mCompressionProvider = CompressionProvider(this)
 
         // If crop already started, don't start the Gallery/Camera activity again
-
-        var callingActivityName = callingActivity?.className
-        var referrer = ActivityCompat.getReferrer(this)
-        var test = referrer.toString()
+        if(CROP_STARTED) {
+            return
+        }
 
         // Retrieve Image Provider
         val provider: ImageProvider? =
@@ -222,6 +216,7 @@ class ImagePickerActivity : AppCompatActivity() {
      * @param file final image file
      */
     private fun setResult(file: File) {
+        CROP_STARTED = false
         val intent = Intent()
         intent.data = Uri.fromFile(file)
         intent.putExtra(ImagePicker.EXTRA_FILE_PATH, file.absolutePath)
@@ -233,6 +228,7 @@ class ImagePickerActivity : AppCompatActivity() {
      * User has cancelled the task
      */
     fun setResultCancel() {
+        CROP_STARTED = false
         setResult(Activity.RESULT_CANCELED, getCancelledIntent(this))
         finish()
     }
@@ -243,6 +239,7 @@ class ImagePickerActivity : AppCompatActivity() {
      * @param message Error Message
      */
     fun setError(message: String) {
+        CROP_STARTED = false
         val intent = Intent()
         intent.putExtra(ImagePicker.EXTRA_ERROR, message)
         setResult(ImagePicker.RESULT_ERROR, intent)

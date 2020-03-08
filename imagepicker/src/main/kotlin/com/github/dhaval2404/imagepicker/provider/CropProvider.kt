@@ -117,6 +117,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         }
 
         try {
+            ImagePickerActivity.CROP_STARTED = true
             uCrop.start(activity, UCrop.REQUEST_CROP)
         } catch (ex: ActivityNotFoundException) {
             setError(
@@ -140,6 +141,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == UCrop.REQUEST_CROP) {
+            ImagePickerActivity.CROP_STARTED = false
             if (resultCode == Activity.RESULT_OK) {
                 handleResult(mCropImageFile)
             } else {
