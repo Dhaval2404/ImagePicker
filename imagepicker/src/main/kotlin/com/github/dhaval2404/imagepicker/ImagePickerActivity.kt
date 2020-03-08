@@ -78,7 +78,7 @@ class ImagePickerActivity : AppCompatActivity() {
      * Save all appropriate activity state.
      */
     public override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(STATE_CROP_STARTED, mStartedCropActivity)
+        outState.putSerializable(STATE_CROP_STARTED, true)
         outState.putSerializable(STATE_IMAGE_FILE, mImageFile)
         mCameraProvider?.onSaveInstanceState(outState)
         mCropProvider.onSaveInstanceState(outState)
@@ -168,13 +168,6 @@ class ImagePickerActivity : AppCompatActivity() {
             mCompressionProvider.isCompressionRequired(file) -> mCompressionProvider.compress(file)
             else -> setResult(file)
         }
-    }
-
-    /**
-     * Called by CropProvider.cropImage to indicate that the Crop Activity started.
-     */
-    fun cropStarted() {
-        mStartedCropActivity = true
     }
 
     /**
