@@ -155,6 +155,7 @@ object FileUriUtils {
             val extension = getImageExtension(uri)
             inputStream = context.contentResolver.openInputStream(uri)
             file = FileUtil.getImageFile(context.cacheDir, extension)
+            if (file == null) return null
             outputStream = FileOutputStream(file)
             if (inputStream != null) {
                 inputStream.copyTo(outputStream, bufferSize = 4 * 1024)
