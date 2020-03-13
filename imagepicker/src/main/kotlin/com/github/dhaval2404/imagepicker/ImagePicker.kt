@@ -7,9 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.BOTH
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.CAMERA
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.GALLERY
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -217,8 +214,8 @@ open class ImagePicker {
             return this
         }
 
-        fun setImageProviderInterceptor(imageProviderInterceptor: (ImageProvider) -> Unit): Builder {
-            this.imageProviderInterceptor = imageProviderInterceptor
+        fun setImageProviderInterceptor(interceptor: (ImageProvider) -> Unit): Builder {
+            this.imageProviderInterceptor = interceptor
             return this
         }
 
