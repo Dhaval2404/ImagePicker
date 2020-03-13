@@ -204,16 +204,31 @@ open class ImagePicker {
             return this
         }
 
+        /**
+         * Provide Directory to store Captured/Modified images
+         *
+         * @param path Folder Directory
+         */
         fun saveDir(path: String): Builder {
             this.saveDir = path
             return this
         }
 
+        /**
+         * Provide Directory to store Captured/Modified images
+         *
+         * @param file Folder Directory
+         */
         fun saveDir(file: File): Builder {
             this.saveDir = file.absolutePath
             return this
         }
 
+        /**
+         * Intercept Selected ImageProvider,  Useful for Analytics
+         *
+         * @param interceptor ImageProvider Interceptor
+         */
         fun setImageProviderInterceptor(interceptor: (ImageProvider) -> Unit): Builder {
             this.imageProviderInterceptor = interceptor
             return this

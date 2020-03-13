@@ -206,6 +206,15 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 		.maxResultSize(620, 620)	//Final image resolution will be less than 620 x 620	   
 		.start()
     ```
+ *  Intercept ImageProvider, Can be used for analytics
+
+    ```kotlin
+    ImagePicker.with(this)
+        .setImageProviderInterceptor { imageProvider -> //Intercept ImageProvider
+            Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
+        }
+        .start()
+    ```
  *  You can also specify the request code with ImagePicker
  		
     ```kotlin
