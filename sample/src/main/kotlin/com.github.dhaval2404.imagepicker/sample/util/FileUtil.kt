@@ -3,7 +3,7 @@ package com.github.dhaval2404.imagepicker.sample.util
 import android.graphics.BitmapFactory
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 /**
  * File Utility
