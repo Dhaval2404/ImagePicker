@@ -39,6 +39,7 @@ open class ImagePicker {
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
+        internal const val EXTRA_GALLERY_MIME_TYPES = "extra.gallery.mime.types"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -96,6 +97,9 @@ open class ImagePicker {
         // Image Provider
         private var imageProvider = BOTH
 
+        //mime types restrictions for gallery. by default all mime types are valid
+        private var mimeTypes: Array<String> = emptyArray()
+
         /*
          * Crop Parameters
          */
@@ -146,6 +150,17 @@ open class ImagePicker {
         // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
             this.imageProvider = GALLERY
+            return this
+        }
+
+        /**
+         * restrict mime types during gallery fetching, for instance if you do not want GIF images,
+         * you can use arrayOf("image/png","image/jpeg","image/jpg")
+         * by default array is empty, which indicates no additional restrictions, just images
+         * @param mimeTypes
+         */
+        fun galleryMimeTypes(mimeTypes: Array<String>): Builder {
+            this.mimeTypes = mimeTypes
             return this
         }
 
@@ -270,19 +285,21 @@ open class ImagePicker {
          * Get Bundle for ImagePickerActivity
          */
         private fun getBundle(): Bundle {
-            val bundle = Bundle()
-            bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
+            return Bundle().apply {
+                putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
 
-            bundle.putBoolean(EXTRA_CROP, crop)
-            bundle.putFloat(EXTRA_CROP_X, cropX)
-            bundle.putFloat(EXTRA_CROP_Y, cropY)
+                putStringArray(EXTRA_GALLERY_MIME_TYPES, mimeTypes)
 
-            bundle.putInt(EXTRA_MAX_WIDTH, maxWidth)
-            bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
+                putBoolean(EXTRA_CROP, crop)
 
-            bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+                putFloat(EXTRA_CROP_X, cropX)
+                putFloat(EXTRA_CROP_Y, cropY)
 
-            return bundle
+                putInt(EXTRA_MAX_WIDTH, maxWidth)
+                putInt(EXTRA_MAX_HEIGHT, maxHeight)
+
+                putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+            }
         }
 
         /**

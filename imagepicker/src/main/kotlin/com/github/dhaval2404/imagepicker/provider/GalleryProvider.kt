@@ -18,7 +18,8 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
+class GalleryProvider(activity: ImagePickerActivity, private val mimeTypes: Array<String>) :
+    BaseProvider(activity) {
 
     companion object {
         /**
@@ -48,15 +49,15 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         if (!PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
         } else {
-            startGalleryIntent()
+            startGalleryIntent(mimeTypes)
         }
     }
 
     /**
      * Start Gallery Intent
      */
-    private fun startGalleryIntent() {
-        val galleryIntent = IntentUtils.getGalleryIntent(activity)
+    private fun startGalleryIntent(mimeTypes: Array<String>) {
+        val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes)
         activity.startActivityForResult(galleryIntent, GALLERY_INTENT_REQ_CODE)
     }
 
@@ -68,7 +69,7 @@ class GalleryProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             // Check again if permission is granted
             if (PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
                 // Permission is granted, Start Camera Intent
-                startGalleryIntent()
+                startGalleryIntent(mimeTypes)
             } else {
                 // Exit with error message
                 setError(getString(R.string.permission_gallery_denied))

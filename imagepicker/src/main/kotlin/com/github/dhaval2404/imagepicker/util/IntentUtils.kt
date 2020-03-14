@@ -22,45 +22,42 @@ object IntentUtils {
     /**
      * @return Intent Gallery Intent
      */
-    fun getGalleryIntent(context: Context): Intent {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            var intent = getGalleryDocumentIntent()
-            if (intent.resolveActivity(context.packageManager) == null) {
-                // No Activity found that can handle this intent.
-                intent = getGalleryPickIntent()
+    fun getGalleryIntent(context: Context, mimeTypes: Array<String>): Intent {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val intent = getGalleryDocumentIntent(mimeTypes)
+            if (intent.resolveActivity(context.packageManager) != null) {
+                return intent
             }
-            intent
-        } else {
-            getGalleryPickIntent()
         }
+        return getLegacyGalleryPickIntent(mimeTypes)
     }
 
     /**
      * @return Intent Gallery Document Intent
      */
-    private fun getGalleryDocumentIntent(): Intent {
+    private fun getGalleryDocumentIntent(mimeTypes: Array<String>): Intent {
         // Show Document Intent
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).applyImageTypes(mimeTypes)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
-
-        // Apply filter to show image only in intent
-        intent.type = "image/*"
-
         return intent
     }
 
     /**
      * @return Intent Gallery Pick Intent
      */
-    private fun getGalleryPickIntent(): Intent {
+    private fun getLegacyGalleryPickIntent(mimeTypes: Array<String>): Intent {
         // Show Gallery Intent, Will open google photos
-        val intent = Intent(Intent.ACTION_PICK)
-
-        // Apply filter to show image only in intent
-        intent.type = "image/*"
-
+        val intent = Intent(Intent.ACTION_PICK).applyImageTypes(mimeTypes)
         return intent
+    }
+
+    private fun Intent.applyImageTypes(mimeTypes: Array<String>): Intent {
+        // Apply filter to show image only in intent
+        type = "image/*"
+        if (mimeTypes.isNotEmpty()) {
+            putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        }
+        return this
     }
 
     /**
@@ -71,7 +68,8 @@ object IntentUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // authority = com.github.dhaval2404.imagepicker.provider
-            val authority = context.packageName + context.getString(R.string.image_picker_provider_authority_suffix)
+            val authority =
+                context.packageName + context.getString(R.string.image_picker_provider_authority_suffix)
             val photoURI = FileProvider.getUriForFile(context, authority, file)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
         } else {
