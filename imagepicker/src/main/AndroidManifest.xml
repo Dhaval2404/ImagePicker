@@ -16,8 +16,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:name="com.github.dhaval2404.imagepicker.ImagePickerFileProvider"
+            android:authorities="@string/image_picker_provider_authority"
             android:exported="false"
             android:grantUriPermissions="true">
 

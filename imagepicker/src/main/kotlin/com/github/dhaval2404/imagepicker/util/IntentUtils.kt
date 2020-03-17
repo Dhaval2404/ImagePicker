@@ -71,7 +71,7 @@ object IntentUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // authority = com.github.dhaval2404.imagepicker.provider
-            val authority = context.packageName + context.getString(R.string.image_picker_provider_authority_suffix)
+            val authority = context.getString(R.string.image_picker_provider_authority)
             val photoURI = FileProvider.getUriForFile(context, authority, file)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
         } else {
