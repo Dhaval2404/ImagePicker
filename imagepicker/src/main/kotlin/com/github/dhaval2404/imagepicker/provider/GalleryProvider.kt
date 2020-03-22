@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import androidx.core.app.ActivityCompat.requestPermissions
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
@@ -18,7 +19,7 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class GalleryProvider(activity: ImagePickerActivity, private val mimeTypes: Array<String>) :
+class GalleryProvider(activity: ImagePickerActivity) :
     BaseProvider(activity) {
 
     companion object {
@@ -31,6 +32,15 @@ class GalleryProvider(activity: ImagePickerActivity, private val mimeTypes: Arra
 
         private const val GALLERY_INTENT_REQ_CODE = 4261
         private const val PERMISSION_INTENT_REQ_CODE = 4262
+    }
+
+    //Mime types restrictions for gallery. By default all mime types are valid
+    private val mimeTypes: Array<String>
+
+    init {
+        val bundle = activity.intent.extras!!
+
+        mimeTypes = bundle.getStringArray(ImagePicker.EXTRA_MIME_TYPES) ?: emptyArray()
     }
 
     /**
@@ -49,14 +59,14 @@ class GalleryProvider(activity: ImagePickerActivity, private val mimeTypes: Arra
         if (!PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
             requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
         } else {
-            startGalleryIntent(mimeTypes)
+            startGalleryIntent()
         }
     }
 
     /**
      * Start Gallery Intent
      */
-    private fun startGalleryIntent(mimeTypes: Array<String>) {
+    private fun startGalleryIntent() {
         val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes)
         activity.startActivityForResult(galleryIntent, GALLERY_INTENT_REQ_CODE)
     }
@@ -69,7 +79,7 @@ class GalleryProvider(activity: ImagePickerActivity, private val mimeTypes: Arra
             // Check again if permission is granted
             if (PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
                 // Permission is granted, Start Camera Intent
-                startGalleryIntent(mimeTypes)
+                startGalleryIntent()
             } else {
                 // Exit with error message
                 setError(getString(R.string.permission_gallery_denied))

@@ -7,9 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.BOTH
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.CAMERA
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.GALLERY
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -40,7 +37,7 @@ open class ImagePicker {
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
-        internal const val EXTRA_GALLERY_MIME_TYPES = "extra.gallery.mime.types"
+        internal const val EXTRA_MIME_TYPES = "extra.mime_types"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -98,7 +95,7 @@ open class ImagePicker {
         // Image Provider
         private var imageProvider = ImageProvider.BOTH
 
-        //mime types restrictions for gallery. by default all mime types are valid
+        // Mime types restrictions for gallery. by default all mime types are valid
         private var mimeTypes: Array<String> = emptyArray()
 
         /*
@@ -164,7 +161,7 @@ open class ImagePicker {
         }
 
         /**
-         * restrict mime types during gallery fetching, for instance if you do not want GIF images,
+         * Restrict mime types during gallery fetching, for instance if you do not want GIF images,
          * you can use arrayOf("image/png","image/jpeg","image/jpg")
          * by default array is empty, which indicates no additional restrictions, just images
          * @param mimeTypes
@@ -322,21 +319,18 @@ open class ImagePicker {
         private fun getBundle(): Bundle {
             return Bundle().apply {
                 putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
-
-                putStringArray(EXTRA_GALLERY_MIME_TYPES, mimeTypes)
+                putStringArray(EXTRA_MIME_TYPES, mimeTypes)
 
                 putBoolean(EXTRA_CROP, crop)
-
                 putFloat(EXTRA_CROP_X, cropX)
                 putFloat(EXTRA_CROP_Y, cropY)
-
-                putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
-                putString(EXTRA_SAVE_DIRECTORY, saveDir)
 
                 putInt(EXTRA_MAX_WIDTH, maxWidth)
                 putInt(EXTRA_MAX_HEIGHT, maxHeight)
 
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+
+                putString(EXTRA_SAVE_DIRECTORY, saveDir)
             }
         }
 

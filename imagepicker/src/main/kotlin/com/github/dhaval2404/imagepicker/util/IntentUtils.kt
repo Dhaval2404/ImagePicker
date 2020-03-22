@@ -47,8 +47,7 @@ object IntentUtils {
      */
     private fun getLegacyGalleryPickIntent(mimeTypes: Array<String>): Intent {
         // Show Gallery Intent, Will open google photos
-        val intent = Intent(Intent.ACTION_PICK).applyImageTypes(mimeTypes)
-        return intent
+        return Intent(Intent.ACTION_PICK).applyImageTypes(mimeTypes)
     }
 
     private fun Intent.applyImageTypes(mimeTypes: Array<String>): Intent {
