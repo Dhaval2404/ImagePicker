@@ -44,7 +44,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "androidx.exifinterface:exifinterface:1.1.0"
 
@@ -52,9 +52,9 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.4'
 
     //More Info: https://github.com/florent37/InlineActivityResult
-    compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
+    compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.3'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:core:1.2.0'
 }
