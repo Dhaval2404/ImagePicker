@@ -3,8 +3,4 @@
     <external-path
         name="external_files"
         path="." />
-
-    <external-cache-path
-        name="external_files"
-        path="." />
 </paths>
