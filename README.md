@@ -215,12 +215,14 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
         .start()
     ```
 
- *  Intercept ImageProvider, Can be used for analytics
+ *  Specify Directory to store captured, cropped or compressed images
 
     ```kotlin
     ImagePicker.with(this)
         //Provide directory path to save images
         .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+        // .saveDir(Environment.getExternalStorageDirectory())
+        // .saveDir(getExternalFilesDir(null)!!)
         .start()
     ```
 
