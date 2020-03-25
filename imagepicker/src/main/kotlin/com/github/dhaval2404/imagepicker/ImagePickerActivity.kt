@@ -89,12 +89,11 @@ class ImagePickerActivity : AppCompatActivity() {
         // Retrieve Image Provider
         val provider: ImageProvider? =
             intent?.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider?
-        val mimeTypes: Array<String> = intent?.getStringArrayExtra(ImagePicker.EXTRA_GALLERY_MIME_TYPES) ?: emptyArray()
 
         // Create Gallery/Camera Provider
         when (provider) {
             ImageProvider.GALLERY -> {
-                mGalleryProvider = GalleryProvider(this, mimeTypes)
+                mGalleryProvider = GalleryProvider(this)
                 // Pick Gallery Image
                 savedInstanceState ?: mGalleryProvider?.startIntent()
             }

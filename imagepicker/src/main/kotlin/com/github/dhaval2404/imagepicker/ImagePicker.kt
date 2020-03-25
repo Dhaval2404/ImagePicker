@@ -7,9 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.BOTH
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.CAMERA
-import com.github.dhaval2404.imagepicker.constant.ImageProvider.GALLERY
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -36,10 +33,11 @@ open class ImagePicker {
         internal const val EXTRA_CROP_Y = "extra.crop_y"
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
+        internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
-        internal const val EXTRA_GALLERY_MIME_TYPES = "extra.gallery.mime.types"
+        internal const val EXTRA_MIME_TYPES = "extra.mime_types"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -95,9 +93,9 @@ open class ImagePicker {
         private var fragment: Fragment? = null
 
         // Image Provider
-        private var imageProvider = BOTH
+        private var imageProvider = ImageProvider.BOTH
 
-        //mime types restrictions for gallery. by default all mime types are valid
+        // Mime types restrictions for gallery. by default all mime types are valid
         private var mimeTypes: Array<String> = emptyArray()
 
         /*
@@ -121,6 +119,15 @@ open class ImagePicker {
         private var imageProviderInterceptor: ((ImageProvider) -> Unit)? = null
 
         /**
+         * File Directory
+         *
+         * Camera, Crop, Compress Image Will be store in this directory.
+         *
+         * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
+         */
+        private var saveDir: String? = null
+
+        /**
          * Call this while picking image for fragment.
          */
         constructor(fragment: Fragment) : this(fragment.activity!!) {
@@ -140,7 +147,7 @@ open class ImagePicker {
          */
         // @Deprecated("Please use provider(ImageProvider.CAMERA) instead")
         fun cameraOnly(): Builder {
-            this.imageProvider = CAMERA
+            this.imageProvider = ImageProvider.CAMERA
             return this
         }
 
@@ -149,12 +156,12 @@ open class ImagePicker {
          */
         // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
-            this.imageProvider = GALLERY
+            this.imageProvider = ImageProvider.GALLERY
             return this
         }
 
         /**
-         * restrict mime types during gallery fetching, for instance if you do not want GIF images,
+         * Restrict mime types during gallery fetching, for instance if you do not want GIF images,
          * you can use arrayOf("image/png","image/jpeg","image/jpg")
          * by default array is empty, which indicates no additional restrictions, just images
          * @param mimeTypes
@@ -212,8 +219,33 @@ open class ImagePicker {
             return this
         }
 
-        fun setImageProviderInterceptor(imageProviderInterceptor: (ImageProvider) -> Unit): Builder {
-            this.imageProviderInterceptor = imageProviderInterceptor
+        /**
+         * Provide Directory to store Captured/Modified images
+         *
+         * @param path Folder Directory
+         */
+        fun saveDir(path: String): Builder {
+            this.saveDir = path
+            return this
+        }
+
+        /**
+         * Provide Directory to store Captured/Modified images
+         *
+         * @param file Folder Directory
+         */
+        fun saveDir(file: File): Builder {
+            this.saveDir = file.absolutePath
+            return this
+        }
+
+        /**
+         * Intercept Selected ImageProvider,  Useful for Analytics
+         *
+         * @param interceptor ImageProvider Interceptor
+         */
+        fun setImageProviderInterceptor(interceptor: (ImageProvider) -> Unit): Builder {
+            this.imageProviderInterceptor = interceptor
             return this
         }
 
@@ -228,7 +260,7 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(reqCode: Int) {
-            if (imageProvider == BOTH) {
+            if (imageProvider == ImageProvider.BOTH) {
                 // Pick Image Provider if not specified
                 showImageProviderDialog(reqCode)
             } else {
@@ -240,7 +272,7 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            if (imageProvider == BOTH) {
+            if (imageProvider == ImageProvider.BOTH) {
                 // Pick Image Provider if not specified
                 showImageProviderDialog(completionHandler)
             } else {
@@ -287,11 +319,9 @@ open class ImagePicker {
         private fun getBundle(): Bundle {
             return Bundle().apply {
                 putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
-
-                putStringArray(EXTRA_GALLERY_MIME_TYPES, mimeTypes)
+                putStringArray(EXTRA_MIME_TYPES, mimeTypes)
 
                 putBoolean(EXTRA_CROP, crop)
-
                 putFloat(EXTRA_CROP_X, cropX)
                 putFloat(EXTRA_CROP_Y, cropY)
 
@@ -299,6 +329,8 @@ open class ImagePicker {
                 putInt(EXTRA_MAX_HEIGHT, maxHeight)
 
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+
+                putString(EXTRA_SAVE_DIRECTORY, saveDir)
             }
         }
 
@@ -326,12 +358,8 @@ open class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(
-                        if (fragment != null) fragment!!.context else activity,
-                        "InlineActivityResult library not installed falling back to default method, please install " +
-                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
+                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
                     startActivity(REQUEST_CODE)
                 }
             }
