@@ -104,7 +104,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 4. Handling results
 
     
-    **Default method**
+    **Default method(Preferred way)**<br>
     Override `onActivityResult` method and handle ImagePicker result.
 
     ```kotlin
@@ -128,10 +128,10 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     }
     ```
 
-    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity)**
+    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity) (Not to be used with crop. See [#32](https://github.com/Dhaval2404/ImagePicker/issues/32))**
+    
     ```kotlin
     ImagePicker.with(this)
-            .crop(1f, 1f)               //Crop Square image(Optional)
             .compress(1024)         //Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
             .start { resultCode, data ->
