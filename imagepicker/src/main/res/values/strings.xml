@@ -6,7 +6,7 @@
     <string name="title_gallery">Gallery</string>
     <string name="title_camera">Camera</string>
 
-    <string name="image_picker_provider_authority_suffix">.provider</string>
+    <string name="image_picker_provider_authority_suffix">.imagepicker.provider</string>
 
     <string name="message_gallery_permission_denied">Read External Storage permissions is needed to select Image. Please turn on requested permissions from Settings > Permissions.</string>
     <string name="message_camera_permission_denied">Camera and External Storage permissions are needed to capture image. Turning off any permission won\'t allow application run smoothly. Please turn on all requested permissions from Settings > Permissions.</string>

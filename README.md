@@ -54,7 +54,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.6'
+   implementation 'com.github.dhaval2404:imagepicker:1.7.1'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -104,7 +104,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 4. Handling results
 
     
-    **Default method**
+    **Default method(Preferred way)**<br>
     Override `onActivityResult` method and handle ImagePicker result.
 
     ```kotlin
@@ -128,10 +128,10 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     }
     ```
 
-    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity)**
+    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity) (Not to be used with crop. See [#32](https://github.com/Dhaval2404/ImagePicker/issues/32))**
+    
     ```kotlin
     ImagePicker.with(this)
-            .crop(1f, 1f)               //Crop Square image(Optional)
             .compress(1024)         //Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
             .start { resultCode, data ->
@@ -176,61 +176,103 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     ImagePicker.with(this)
 		.crop()	    //Crop image and let user choose aspect ratio.
 		.start()
-
+	```
  *  Crop image with fixed Aspect Ratio
- 		
+
     ```kotlin
     ImagePicker.with(this)
 		.crop(16f, 9f)	//Crop image with 16:9 aspect ratio
 		.start()
-		
-    ```            
+    ```
  *  Crop square image(e.g for profile)
- 
+
      ```kotlin
      ImagePicker.with(this)
-		    .cropSquare()	//Crop square image, its same as crop(1f, 1f)
-		    .start()
+         .cropSquare()	//Crop square image, its same as crop(1f, 1f)
+         .start()
     ```
  *  Compress image size(e.g image should be maximum 1 MB)
-		
+
 	```kotlin
     ImagePicker.with(this)
 		.compress(1024)	//Final image size will be less than 1 MB
 		.start()
     ```
  *  Set Resize image resolution
- 		
+
     ```kotlin
     ImagePicker.with(this)
-		.maxResultSize(620, 620)	//Final image resolution will be less than 620 x 620	   
+		.maxResultSize(620, 620)	//Final image resolution will be less than 620 x 620
 		.start()
     ```
- *  You can also specify the request code with ImagePicker
- 		
+ *  Intercept ImageProvider, Can be used for analytics
+
     ```kotlin
     ImagePicker.with(this)
-		.maxResultSize(620, 620)	   
+        .setImageProviderInterceptor { imageProvider -> //Intercept ImageProvider
+            Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
+        }
+        .start()
+    ```
+
+ *  Specify Directory to store captured, cropped or compressed images
+
+    ```kotlin
+    ImagePicker.with(this)
+        //Provide directory path to save images
+        .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+        // .saveDir(Environment.getExternalStorageDirectory())
+        // .saveDir(getExternalFilesDir(null)!!)
+        .start()
+    ```
+
+ *  Limit MIME types while choosing a gallery image
+
+    ```kotlin
+    ImagePicker.with(this)
+        .galleryMimeTypes(  //Exclude gif images
+            mimeTypes = arrayOf(
+              "image/png",
+              "image/jpg",
+              "image/jpeg"
+            )
+          )
+        .start()
+    ```
+
+ *  You can also specify the request code with ImagePicker
+
+    ```kotlin
+    ImagePicker.with(this)
+		.maxResultSize(620, 620)
 		.start(101)	//Here 101 is request code, you may use this in onActivityResult
-    ```    
- 
+    ```
+
  *  Add Following parameters in your **colors.xml** file, If you want to customize uCrop Activity.
-    
+
     ```xml
     <resources>
         <!-- Here you can add color of your choice  -->
         <color name="ucrop_color_toolbar">@color/teal_500</color>
         <color name="ucrop_color_statusbar">@color/teal_700</color>
         <color name="ucrop_color_widget_active">@color/teal_500</color>
-    </resources>    
+    </resources>
     ```
-    
+
 # 💥Compatibility
-  
+
   * Library - Android Kitkat 4.4+ (API 19)
   * Sample - Android Kitkat 4.4+ (API 19)
-  
+
 # ✔️Changelog
+
+### Version: 1.7
+
+  * Added option to limit MIME types while choosing a gallery image (Special Thanks to [Marchuck](https://github.com/Marchuck))
+  * Introduced ImageProviderInterceptor, Can be used for analytics (Special Thanks to [Marchuck](https://github.com/Marchuck))
+  * Fixed FileProvider of the library clashes with the FileProvider of the app [#51](https://github.com/Dhaval2404/ImagePicker/issues/51) (Special Thanks to [OyaCanli](https://github.com/OyaCanli))
+  * Added option to set Storage Directory [#52](https://github.com/Dhaval2404/ImagePicker/issues/52)
+  * Fixed NullPointerException in FileUriUtils.getPathFromRemoteUri()  [#61](https://github.com/Dhaval2404/ImagePicker/issues/61) (Special Thanks to [himphen](https://github.com/himphen))
 
 ### Version: 1.6
 
@@ -243,7 +285,6 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 
   * Fixed app crash issue, due to Camera Permission in manifest [#34](https://github.com/Dhaval2404/ImagePicker/issues/34)
   * Added Option for Dynamic Crop Ratio. Let User choose aspect ratio [#36](https://github.com/Dhaval2404/ImagePicker/issues/36) (Special Thanks to [Dor-Sloim](https://github.com/Dor-Sloim))
-
 
 ### Version: 1.4
 
