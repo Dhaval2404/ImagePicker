@@ -28,7 +28,7 @@
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:scaleType">centerInside</item>
-        <item name="android:tint">@color/grey_800</item>
+        <item name="tint">@color/grey_800</item>
     </style>
 
     <style name="TitleTextStyle">
