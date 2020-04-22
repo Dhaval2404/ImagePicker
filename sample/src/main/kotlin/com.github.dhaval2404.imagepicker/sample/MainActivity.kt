@@ -106,20 +106,21 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             Log.e("TAG", "Path:${ImagePicker.getFilePath(data)}")
-            // File object will not be null for RESULT_OK
+            // Uri & File object will not be null for RESULT_OK
+            val uri = data?.data!!
             val file = ImagePicker.getFile(data)!!
             when (requestCode) {
                 PROFILE_IMAGE_REQ_CODE -> {
                     mProfileFile = file
-                    imgProfile.setLocalImage(file, true)
+                    imgProfile.setLocalImage(uri, true)
                 }
                 GALLERY_IMAGE_REQ_CODE -> {
                     mGalleryFile = file
-                    imgGallery.setLocalImage(file)
+                    imgGallery.setLocalImage(uri)
                 }
                 CAMERA_IMAGE_REQ_CODE -> {
                     mCameraFile = file
-                    imgCamera.setLocalImage(file, false)
+                    imgCamera.setLocalImage(uri)
                 }
             }
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
