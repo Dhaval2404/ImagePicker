@@ -102,6 +102,11 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * Start Camera Capture Intent
      */
     fun startIntent() {
+        if (!IntentUtils.isCameraAppAvailable(this)) {
+            setError(R.string.error_camera_app_not_found)
+            return
+        }
+
         checkPermission()
     }
 
