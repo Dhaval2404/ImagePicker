@@ -33,9 +33,11 @@ open class ImagePicker {
         internal const val EXTRA_CROP_Y = "extra.crop_y"
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
+        internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
+        internal const val EXTRA_MIME_TYPES = "extra.mime_types"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -93,6 +95,9 @@ open class ImagePicker {
         // Image Provider
         private var imageProvider = ImageProvider.BOTH
 
+        // Mime types restrictions for gallery. by default all mime types are valid
+        private var mimeTypes: Array<String> = emptyArray()
+
         /*
          * Crop Parameters
          */
@@ -110,6 +115,17 @@ open class ImagePicker {
          * Max File Size
          */
         private var maxSize: Long = 0
+
+        private var imageProviderInterceptor: ((ImageProvider) -> Unit)? = null
+
+        /**
+         * File Directory
+         *
+         * Camera, Crop, Compress Image Will be store in this directory.
+         *
+         * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
+         */
+        private var saveDir: String? = null
 
         /**
          * Call this while picking image for fragment.
@@ -141,6 +157,17 @@ open class ImagePicker {
         // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
             this.imageProvider = ImageProvider.GALLERY
+            return this
+        }
+
+        /**
+         * Restrict mime types during gallery fetching, for instance if you do not want GIF images,
+         * you can use arrayOf("image/png","image/jpeg","image/jpg")
+         * by default array is empty, which indicates no additional restrictions, just images
+         * @param mimeTypes
+         */
+        fun galleryMimeTypes(mimeTypes: Array<String>): Builder {
+            this.mimeTypes = mimeTypes
             return this
         }
 
@@ -193,6 +220,36 @@ open class ImagePicker {
         }
 
         /**
+         * Provide Directory to store Captured/Modified images
+         *
+         * @param path Folder Directory
+         */
+        fun saveDir(path: String): Builder {
+            this.saveDir = path
+            return this
+        }
+
+        /**
+         * Provide Directory to store Captured/Modified images
+         *
+         * @param file Folder Directory
+         */
+        fun saveDir(file: File): Builder {
+            this.saveDir = file.absolutePath
+            return this
+        }
+
+        /**
+         * Intercept Selected ImageProvider,  Useful for Analytics
+         *
+         * @param interceptor ImageProvider Interceptor
+         */
+        fun setImageProviderInterceptor(interceptor: (ImageProvider) -> Unit): Builder {
+            this.imageProviderInterceptor = interceptor
+            return this
+        }
+
+        /**
          * Start Image Picker Activity
          */
         fun start() {
@@ -231,6 +288,7 @@ open class ImagePicker {
                 override fun onResult(t: ImageProvider?) {
                     t?.let {
                         imageProvider = it
+                        imageProviderInterceptor?.invoke(imageProvider)
                         startActivity(reqCode)
                     }
                 }
@@ -245,6 +303,7 @@ open class ImagePicker {
                 override fun onResult(t: ImageProvider?) {
                     if (t != null) {
                         imageProvider = t
+                        imageProviderInterceptor?.invoke(imageProvider)
                         startActivity(completionHandler)
                     } else {
                         val intent = ImagePickerActivity.getCancelledIntent(activity)
@@ -258,19 +317,21 @@ open class ImagePicker {
          * Get Bundle for ImagePickerActivity
          */
         private fun getBundle(): Bundle {
-            val bundle = Bundle()
-            bundle.putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
+            return Bundle().apply {
+                putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
+                putStringArray(EXTRA_MIME_TYPES, mimeTypes)
 
-            bundle.putBoolean(EXTRA_CROP, crop)
-            bundle.putFloat(EXTRA_CROP_X, cropX)
-            bundle.putFloat(EXTRA_CROP_Y, cropY)
+                putBoolean(EXTRA_CROP, crop)
+                putFloat(EXTRA_CROP_X, cropX)
+                putFloat(EXTRA_CROP_Y, cropY)
 
-            bundle.putInt(EXTRA_MAX_WIDTH, maxWidth)
-            bundle.putInt(EXTRA_MAX_HEIGHT, maxHeight)
+                putInt(EXTRA_MAX_WIDTH, maxWidth)
+                putInt(EXTRA_MAX_HEIGHT, maxHeight)
 
-            bundle.putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
+                putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
 
-            return bundle
+                putString(EXTRA_SAVE_DIRECTORY, saveDir)
+            }
         }
 
         /**

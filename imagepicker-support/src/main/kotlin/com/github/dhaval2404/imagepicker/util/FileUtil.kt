@@ -1,11 +1,12 @@
 package com.github.dhaval2404.imagepicker.util
+
 import android.os.Environment
 import android.os.StatFs
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.Date
+import java.util.Locale
 
 /**
  * File Utility Methods

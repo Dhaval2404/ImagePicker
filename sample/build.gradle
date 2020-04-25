@@ -16,9 +16,20 @@ android {
         versionName "1.5"
         vectorDrawables.useSupportLibrary = true
     }
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("ANDROID_APP_PRIVATE_KEY"))
+            keyAlias System.getenv("ANDROID_APP_ALIAS")
+            storePassword System.getenv("ANDROID_KEY_STORE_PW")
+            keyPassword System.getenv("ANDROID_ALIAS_STORE_PW")
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,6 +50,7 @@ dependencies {
     implementation "com.android.support:support-v4:28.0.0"
     implementation "com.android.support:design:28.0.0"
     implementation "com.android.support:cardview-v7:28.0.0"
+    implementation "com.android.support:customtabs:28.0.0"
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
 
     //Image Loading Lib

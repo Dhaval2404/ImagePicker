@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Image Picker Support</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Image Picker</string>
+    <string name="action_github">Github Repository</string>
     
     <string name="action_camera_only">Camera Only</string>
     <string name="action_gallery_only">Gallery Only</string>

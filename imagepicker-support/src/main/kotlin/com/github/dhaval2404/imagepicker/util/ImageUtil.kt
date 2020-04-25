@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.os.Build
 import android.support.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
@@ -105,9 +106,13 @@ object ImageUtil {
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight)
         options.inJustDecodeBounds = false
-        options.inDither = false
-        options.inPurgeable = true
-        options.inInputShareable = true
+
+        if (bmp != null && canUseForInBitmap(bmp, options)) {
+            // inBitmap only works with mutable bitmaps, so force the decoder to
+            // return mutable bitmaps.
+            options.inMutable = true
+            options.inBitmap = bmp
+        }
         options.inTempStorage = ByteArray(16 * 1024)
 
         try {
@@ -184,5 +189,37 @@ object ImageUtil {
         }
 
         return inSampleSize
+    }
+
+    /**
+     * Ref: https://developer.android.com/topic/performance/graphics/manage-memory#kotlin
+     */
+    private fun canUseForInBitmap(candidate: Bitmap, targetOptions: BitmapFactory.Options): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // From Android 4.4 (KitKat) onward we can re-use if the byte size of
+            // the new bitmap is smaller than the reusable bitmap candidate
+            // allocation byte count.
+            val width: Int = targetOptions.outWidth / targetOptions.inSampleSize
+            val height: Int = targetOptions.outHeight / targetOptions.inSampleSize
+            val byteCount: Int = width * height * getBytesPerPixel(candidate.config)
+            byteCount <= candidate.allocationByteCount
+        } else {
+            // On earlier versions, the dimensions must match exactly and the inSampleSize must be 1
+            candidate.width == targetOptions.outWidth &&
+                    candidate.height == targetOptions.outHeight &&
+                    targetOptions.inSampleSize == 1
+        }
+    }
+
+    /**
+     * A helper function to return the byte usage per pixel of a bitmap based on its configuration.
+     */
+    private fun getBytesPerPixel(config: Bitmap.Config): Int {
+        return when (config) {
+            Bitmap.Config.ARGB_8888 -> 4
+            Bitmap.Config.RGB_565, Bitmap.Config.ARGB_4444 -> 2
+            Bitmap.Config.ALPHA_8 -> 1
+            else -> 1
+        }
     }
 }

@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.app.ActivityCompat.requestPermissions
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -23,6 +25,10 @@ import java.io.File
 class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
     companion object {
+        /**
+         * Key to Save/Retrieve Camera File state
+         */
+        private const val STATE_CAMERA_FILE = "state.camera_file"
 
         /**
          * Permission Require for Image Capture using Camera
@@ -55,6 +61,44 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         .isPermissionInManifest(this, Manifest.permission.CAMERA)
 
     /**
+     * Camera image will be stored in below file directory
+     */
+    private var mFileDir: File? = null
+
+    init {
+        val bundle = activity.intent.extras!!
+
+        // Get File Directory
+        val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
+        fileDir?.let {
+            mFileDir = File(it)
+        }
+    }
+
+    /**
+     * Save CameraProvider state
+
+     * mCameraFile will lose its state when activity is recreated on
+     * Orientation change or for Low memory device.
+     *
+     * Here, We Will save its state for later use
+     *
+     * Note: To produce this scenario, enable "Don't keep activities" from developer options
+     **/
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Save Camera File
+        outState.putSerializable(STATE_CAMERA_FILE, mCameraFile)
+    }
+
+    /**
+     * Retrieve CameraProvider state
+     */
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        // Restore Camera File
+        mCameraFile = savedInstanceState?.getSerializable(STATE_CAMERA_FILE) as File?
+    }
+
+    /**
      * Start Camera Capture Intent
      */
     fun startIntent() {
@@ -83,11 +127,12 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        mCameraFile = FileUtil.getImageFile()
+        val file = FileUtil.getImageFile(dir = mFileDir)
+        mCameraFile = file
 
         // Check if file exists
-        if (mCameraFile != null && mCameraFile!!.exists()) {
-            val cameraIntent = IntentUtils.getCameraIntent(this, mCameraFile!!)
+        if (file != null && file.exists()) {
+            val cameraIntent = IntentUtils.getCameraIntent(this, file)
             activity.startActivityForResult(cameraIntent, CAMERA_INTENT_REQ_CODE)
         } else {
             setError(R.string.error_failed_to_create_camera_image_file)
