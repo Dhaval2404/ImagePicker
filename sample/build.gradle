@@ -16,20 +16,10 @@ android {
         versionName "1.5"
         vectorDrawables.useSupportLibrary = true
     }
-    signingConfigs {
-        release {
-            storeFile file(System.getenv("ANDROID_APP_PRIVATE_KEY"))
-            keyAlias System.getenv("ANDROID_APP_ALIAS")
-            storePassword System.getenv("ANDROID_KEY_STORE_PW")
-            keyPassword System.getenv("ANDROID_ALIAS_STORE_PW")
-        }
-    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
