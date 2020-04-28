@@ -2,7 +2,7 @@ package com.github.dhaval2404.imagepicker.provider
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.AsyncTask
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
@@ -27,8 +27,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private val mMaxHeight: Int
     private val mMaxFileSize: Long
 
-    private var mOriginalFile: File? = null
-    private var mFileDir: File? = null
+    private val mFileDir: File
 
     init {
         val bundle = activity.intent.extras!!
@@ -42,9 +41,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
         // Get File Directory
         val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
-        fileDir?.let {
-            mFileDir = File(it)
-        }
+        mFileDir = getFileDir(fileDir)
     }
 
     /**
@@ -52,7 +49,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      *
      * @return Boolean. True if Compression should be enabled else false.
      */
-    fun isCompressEnabled(): Boolean {
+    private fun isCompressEnabled(): Boolean {
         return mMaxFileSize > 0L
     }
 
@@ -60,12 +57,26 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * Check if compression is required
      * @param file File object to apply Compression
      */
-    fun isCompressionRequired(file: File): Boolean {
+    private fun isCompressionRequired(file: File): Boolean {
         val status = isCompressEnabled() && getSizeDiff(file) > 0L
         if (!status && mMaxWidth > 0 && mMaxHeight > 0) {
             // Check image resolution
-            val sizes = getImageSize(file)
-            return sizes[0] > mMaxWidth || sizes[1] > mMaxHeight
+            val resolution = FileUtil.getImageResolution(file)
+            return resolution.first > mMaxWidth || resolution.second > mMaxHeight
+        }
+        return status
+    }
+
+    /**
+     * Check if compression is required
+     * @param uri Uri object to apply Compression
+     */
+    fun isCompressionRequired(uri: Uri): Boolean {
+        val status = isCompressEnabled() && getSizeDiff(uri) > 0L
+        if (!status && mMaxWidth > 0 && mMaxHeight > 0) {
+            // Check image resolution
+            val resolution = FileUtil.getImageResolution(this, uri)
+            return resolution.first > mMaxWidth || resolution.second > mMaxHeight
         }
         return status
     }
@@ -74,25 +85,30 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
         return file.length() - mMaxFileSize
     }
 
+    private fun getSizeDiff(uri: Uri): Long {
+        val length = FileUtil.getImageSize(this, uri)
+        return length - mMaxFileSize
+    }
+
     /**
      * Compress given file if enabled.
      *
-     * @param file File to compress
+     * @param uri Uri to compress
      */
-    fun compress(file: File) {
-        startCompressionWorker(file)
+    fun compress(uri: Uri) {
+        startCompressionWorker(uri)
     }
 
     /**
      * Start Compression in Background
      */
     @SuppressLint("StaticFieldLeak")
-    private fun startCompressionWorker(file: File) {
-        mOriginalFile = file
-        object : AsyncTask<File, Void, File>() {
-            override fun doInBackground(vararg params: File): File? {
+    private fun startCompressionWorker(uri: Uri) {
+        object : AsyncTask<Uri, Void, File>() {
+            override fun doInBackground(vararg params: Uri): File? {
                 // Perform operation in background
-                return startCompression(params[0])
+                val file = FileUtil.getTempFile(this@CompressionProvider, params[0]) ?: return null
+                return startCompression(file)
             }
 
             override fun onPostExecute(file: File?) {
@@ -105,7 +121,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
                     setError(com.github.dhaval2404.imagepicker.R.string.error_failed_to_compress_image)
                 }
             }
-        }.execute(file)
+        }.execute(uri)
     }
 
     /**
@@ -175,7 +191,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             quality = 100
         }
 
-        val compressFile: File? = FileUtil.getImageFile(dir = mFileDir)
+        val compressFile: File? = FileUtil.getImageFile(fileDir = mFileDir)
         return if (compressFile != null) {
             ImageUtil.compressImage(
                 file, maxWidth.toFloat(), maxHeight.toFloat(),
@@ -214,18 +230,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * This method will be called when final result fot this provider is enabled.
      */
     private fun handleResult(file: File) {
-        activity.setCompressedImage(file)
+        activity.setCompressedImage(Uri.fromFile(file))
     }
 
-    /**
-     *
-     * @param file File to get Image Size
-     * @return Int Array, Index 0 has width and Index 1 has height
-     */
-    private fun getImageSize(file: File): IntArray {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.absolutePath, options)
-        return intArrayOf(options.outWidth, options.outHeight)
-    }
 }

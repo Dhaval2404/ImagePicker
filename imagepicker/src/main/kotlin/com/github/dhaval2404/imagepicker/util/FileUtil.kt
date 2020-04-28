@@ -1,8 +1,13 @@
 package com.github.dhaval2404.imagepicker.util
 
-import android.os.Environment
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.StatFs
+import androidx.documentfile.provider.DocumentFile
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -22,25 +27,23 @@ object FileUtil {
      *
      * Default it will take Camera folder as it's directory
      *
-     * @param dir File Folder in which file needs tobe created.
+     * @param fileDir File Folder in which file needs tobe created.
      * @param extension String Image file extension.
      * @return Return Empty file to store camera image.
      * @throws IOException if permission denied of failed to create new file.
      */
-    fun getImageFile(dir: File? = null, extension: String? = null): File? {
+    fun getImageFile(fileDir: File, extension: String? = null): File? {
         try {
             // Create an image file name
             val ext = extension ?: ".jpg"
-            val imageFileName = "IMG_${getTimestamp()}$ext"
-
-            // Create File Directory Object
-            val storageDir = dir ?: getCameraDirectory()
+            val fileName = getFileName()
+            val imageFileName = "$fileName$ext"
 
             // Create Directory If not exist
-            if (!storageDir.exists()) storageDir.mkdirs()
+            if (!fileDir.exists()) fileDir.mkdirs()
 
             // Create File Object
-            val file = File(storageDir, imageFileName)
+            val file = File(fileDir, imageFileName)
 
             // Create empty file
             file.createNewFile()
@@ -52,15 +55,8 @@ object FileUtil {
         }
     }
 
-    /**
-     * Get Camera Image Directory
-     *
-     * @return File Camera Image Directory
-     */
-    private fun getCameraDirectory(): File {
-        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        return File(dir, "Camera")
-    }
+    private fun getFileName() = "IMG_${getTimestamp()}"
+    //private fun getFileName() = "IMAGE_PICKER"
 
     /**
      * Get Current Time in yyyyMMdd HHmmssSSS format
@@ -83,4 +79,89 @@ object FileUtil {
         val blockSize = stat.blockSizeLong
         return availBlocks * blockSize
     }
+
+    /**
+     * Get Image Width & Height from Uri
+     *
+     * @param uri Uri to get Image Size
+     * @return Int Array, Index 0 has width and Index 1 has height
+     */
+    fun getImageResolution(context: Context, uri: Uri): Pair<Int, Int> {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        val stream = context.contentResolver.openInputStream(uri)
+        BitmapFactory.decodeStream(stream, null, options)
+        return Pair(options.outWidth, options.outHeight)
+    }
+
+    /**
+     * Get Image Width & Height from File
+     *
+     * @param file File to get Image Size
+     * @return Int Array, Index 0 has width and Index 1 has height
+     */
+    fun getImageResolution(file: File): Pair<Int, Int> {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.absolutePath, options)
+        return Pair(options.outWidth, options.outHeight)
+    }
+
+    /**
+     * Get Image File Size
+     *
+     * @param uri Uri to get Image Size
+     * @return Int Image File Size
+     */
+    fun getImageSize(context: Context, uri: Uri): Long {
+        return getDocumentFile(context, uri)?.length() ?: 0
+    }
+
+    /**
+     * Create copy of Uri into application specific local path
+     *
+     * @param context Application Context
+     * @param uri Source Uri
+     * @return File return copy of Uri object
+     */
+    fun getTempFile(context: Context, uri: Uri): File? {
+        try {
+            val destination = File(context.cacheDir, "image_picker.png")
+
+            val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r")
+            val fileDescriptor = parcelFileDescriptor?.fileDescriptor ?: return null
+
+            val src = FileInputStream(fileDescriptor).channel
+            val dst = FileOutputStream(destination).channel
+            dst.transferFrom(src, 0, src.size())
+            src.close()
+            dst.close()
+
+            return destination
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+        return null
+    }
+
+    /**
+     * Get DocumentFile from Uri
+     *
+     * @param context Application Context
+     * @param uri Source Uri
+     * @return DocumentFile return DocumentFile from Uri
+     */
+    fun getDocumentFile(context: Context, uri: Uri): DocumentFile? {
+        var file: DocumentFile? = null
+        if (FileUriUtils.isFileUri(uri)) {
+            val path = FileUriUtils.getRealPath(context, uri)
+            if (path != null) {
+                file = DocumentFile.fromFile(File(path))
+            }
+        } else {
+            file = DocumentFile.fromSingleUri(context, uri)
+        }
+        return file
+    }
+
 }

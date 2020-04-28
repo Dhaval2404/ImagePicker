@@ -7,10 +7,8 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
-import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.IntentUtils
 import com.github.dhaval2404.imagepicker.util.PermissionUtil
-import java.io.File
 
 /**
  * Select image from Storage
@@ -28,7 +26,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
          * to crop or compress image write permission is also required. as both permission is in
          * same group, we have used write permission here.
          */
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         private const val GALLERY_INTENT_REQ_CODE = 4261
         private const val PERMISSION_INTENT_REQ_CODE = 4262
@@ -47,7 +45,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
      * Start Gallery Capture Intent
      */
     fun startIntent() {
-        checkPermission()
+        startGalleryIntent()
     }
 
     /**
@@ -110,12 +108,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
     private fun handleResult(data: Intent?) {
         val uri = data?.data
         if (uri != null) {
-            val filePath: String? = FileUriUtils.getRealPath(activity, uri)
-            if (!filePath.isNullOrEmpty()) {
-                activity.setImage(File(filePath))
-            } else {
-                setError(R.string.error_failed_pick_gallery_image)
-            }
+            activity.setImage(uri)
         } else {
             setError(R.string.error_failed_pick_gallery_image)
         }

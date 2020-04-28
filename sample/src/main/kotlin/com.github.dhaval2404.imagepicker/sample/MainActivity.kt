@@ -2,8 +2,8 @@ package com.github.dhaval2404.imagepicker.sample
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -15,11 +15,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.sample.util.FileUtil
 import com.github.dhaval2404.imagepicker.sample.util.IntentUtil
+import com.github.dhaval2404.imagepicker.util.IntentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
 import kotlinx.android.synthetic.main.content_profile.*
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
         private const val CAMERA_IMAGE_REQ_CODE = 103
     }
 
-    private var mCameraFile: File? = null
-    private var mGalleryFile: File? = null
-    private var mProfileFile: File? = null
+    private var mCameraUri: Uri? = null
+    private var mGalleryUri: Uri? = null
+    private var mProfileUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -62,12 +62,13 @@ class MainActivity : AppCompatActivity() {
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
-            .cropSquare()
+           // .cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
-                Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
+                Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
             }
             // Image resolution will be less than 512 x 512
-            .maxResultSize(512, 512)
+            //.maxResultSize(512, 512)
+            //.saveDir(getExternalFilesDir(null)!!)
             .start(PROFILE_IMAGE_REQ_CODE)
     }
 
@@ -86,7 +87,8 @@ class MainActivity : AppCompatActivity() {
                 )
             )
             // Image resolution will be less than 1080 x 1920
-            .maxResultSize(1080, 1920)
+            //.maxResultSize(360, 420)
+            //.saveDir(getExternalFilesDir(null)!!)
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 
@@ -95,10 +97,8 @@ class MainActivity : AppCompatActivity() {
             // User can only capture image from Camera
             .cameraOnly()
             // Image size will be less than 1024 KB
-            .compress(1024)
-            .saveDir(Environment.getExternalStorageDirectory())
-            // .saveDir(Environment.getExternalStorageDirectory().absolutePath+File.separator+"ImagePicker")
-            // .saveDir(getExternalFilesDir(null)!!)
+            .compress(50)
+            .saveDir(getExternalFilesDir(null)!!)
             .start(CAMERA_IMAGE_REQ_CODE)
     }
 
@@ -106,20 +106,19 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             Log.e("TAG", "Path:${ImagePicker.getFilePath(data)}")
-            // Uri & File object will not be null for RESULT_OK
+            // Uri object will not be null for RESULT_OK
             val uri = data?.data!!
-            val file = ImagePicker.getFile(data)!!
             when (requestCode) {
                 PROFILE_IMAGE_REQ_CODE -> {
-                    mProfileFile = file
+                    mProfileUri = uri
                     imgProfile.setLocalImage(uri, true)
                 }
                 GALLERY_IMAGE_REQ_CODE -> {
-                    mGalleryFile = file
+                    mGalleryUri = uri
                     imgGallery.setLocalImage(uri)
                 }
                 CAMERA_IMAGE_REQ_CODE -> {
-                    mCameraFile = file
+                    mCameraUri = uri
                     imgCamera.setLocalImage(uri)
                 }
             }
@@ -141,29 +140,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showImage(view: View) {
-        val file = when (view) {
-            imgProfile -> mProfileFile
-            imgCamera -> mCameraFile
-            imgGallery -> mGalleryFile
+        val uri = when (view) {
+            imgProfile -> mProfileUri
+            imgCamera -> mCameraUri
+            imgGallery -> mGalleryUri
             else -> null
         }
 
-        file?.let {
-            IntentUtil.showImage(this, file)
+        uri?.let {
+            startActivity(IntentUtils.getUriViewIntent(this, uri))
         }
     }
 
     fun showImageInfo(view: View) {
-        val file = when (view) {
-            imgProfileInfo -> mProfileFile
-            imgCameraInfo -> mCameraFile
-            imgGalleryInfo -> mGalleryFile
+        val uri = when (view) {
+            imgProfileInfo -> mProfileUri
+            imgCameraInfo -> mCameraUri
+            imgGalleryInfo -> mGalleryUri
             else -> null
         }
 
         AlertDialog.Builder(this)
             .setTitle("Image Info")
-            .setMessage(FileUtil.getFileInfo(file))
+            .setMessage(FileUtil.getFileInfo(this, uri))
             .setPositiveButton("Ok", null)
             .show()
     }
