@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import androidx.documentfile.provider.DocumentFile
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -28,11 +27,6 @@ object FileUriUtils {
 
     fun isFileUri(uri: Uri): Boolean {
         return "file".equals(uri.scheme, ignoreCase = true)
-    }
-
-    fun isUriExposed(context: Context, uri: Uri): Boolean {
-        val file = DocumentFile.fromSingleUri(context, uri)
-        return file?.canRead() == true
     }
 
     fun getRealPath(context: Context, uri: Uri): String? {

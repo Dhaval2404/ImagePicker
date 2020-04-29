@@ -10,7 +10,6 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
 /**
  * File Utility
  *
@@ -107,5 +106,4 @@ object FileUtil {
             null
         }
     }
-
 }

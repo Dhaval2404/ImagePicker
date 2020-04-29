@@ -56,7 +56,7 @@ object FileUtil {
     }
 
     private fun getFileName() = "IMG_${getTimestamp()}"
-    //private fun getFileName() = "IMAGE_PICKER"
+    // private fun getFileName() = "IMAGE_PICKER"
 
     /**
      * Get Current Time in yyyyMMdd HHmmssSSS format
@@ -163,5 +163,4 @@ object FileUtil {
         }
         return file
     }
-
 }

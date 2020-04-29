@@ -232,5 +232,4 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private fun handleResult(file: File) {
         activity.setCompressedImage(Uri.fromFile(file))
     }
-
 }

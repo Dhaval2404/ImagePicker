@@ -93,7 +93,6 @@ object IntentUtils {
         return context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
     }
 
-
     /**
      * Get Intent to View Uri backed File
      *
@@ -119,5 +118,4 @@ object IntentUtils {
 
         return intent
     }
-
 }

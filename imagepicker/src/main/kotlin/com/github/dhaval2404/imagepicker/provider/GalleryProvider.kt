@@ -32,7 +32,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
         private const val PERMISSION_INTENT_REQ_CODE = 4262
     }
 
-    //Mime types restrictions for gallery. By default all mime types are valid
+    // Mime types restrictions for gallery. By default all mime types are valid
     private val mimeTypes: Array<String>
 
     init {

@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
-           // .cropSquare()
+            //.cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
                 Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
             }
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             // User can only select image from Gallery
             .galleryOnly()
 
-            .galleryMimeTypes(  //no gif images at all
+            .galleryMimeTypes( // no gif images at all
                 mimeTypes = arrayOf(
                     "image/png",
                     "image/jpg",
@@ -87,8 +87,8 @@ class MainActivity : AppCompatActivity() {
                 )
             )
             // Image resolution will be less than 1080 x 1920
-            //.maxResultSize(360, 420)
-            //.saveDir(getExternalFilesDir(null)!!)
+            // .maxResultSize(360, 420)
+            // .saveDir(getExternalFilesDir(null)!!)
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 
