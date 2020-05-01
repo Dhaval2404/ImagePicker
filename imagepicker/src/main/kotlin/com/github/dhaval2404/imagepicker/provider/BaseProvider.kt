@@ -2,6 +2,7 @@ package com.github.dhaval2404.imagepicker.provider
 
 import android.content.ContextWrapper
 import android.os.Bundle
+import android.os.Environment
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import java.io.File
 
@@ -17,7 +18,7 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) :
 
     fun getFileDir(path: String?): File {
         return if (path != null) File(path)
-        else File(getExternalFilesDir(null), "Images")
+        else getExternalFilesDir(Environment.DIRECTORY_DCIM)!!
     }
 
     /**
