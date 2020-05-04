@@ -35,14 +35,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
          * Permission Require for Image Capture using Camera
          */
         private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        /**
-         * Permission Require for Image Capture using Camera
-         */
-        private val REQUIRED_PERMISSIONS_EXTENDED = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
         )
 
@@ -108,7 +100,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             return
         }
 
-        startCameraIntent()
+        checkPermission()
     }
 
     /**
@@ -156,12 +148,8 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
                 startIntent()
             } else {
                 // Exit with error message
-                val errorRes = if (mAskCameraPermission) {
-                    R.string.permission_camera_extended_denied
-                } else {
-                    R.string.permission_camera_denied
-                }
-                setError(getString(errorRes))
+                val error = getString(R.string.permission_camera_denied)
+                setError(error)
             }
         }
     }
@@ -202,14 +190,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
      */
     private fun requestPermission() {
-        if (mAskCameraPermission) {
-            // If Camera permission defined in AndroidManifest then Need to request Camera Permission
-            // Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
-            requestPermissions(activity, REQUIRED_PERMISSIONS_EXTENDED, PERMISSION_INTENT_REQ_CODE)
-        } else {
-            // If Camera permission is not defined in AndroidManifest then no need to request Camera Permission
-            requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
-        }
+        requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
     }
 
     /**
@@ -221,14 +202,11 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun isPermissionGranted(context: Context): Boolean {
         // Check if Camera permission defined in manifest
-        if (mAskCameraPermission && isPermissionGranted(context, REQUIRED_PERMISSIONS_EXTENDED)) {
-            // Camera and Storage permission is granted
-            return true
-        } else if (!mAskCameraPermission && isPermissionGranted(context, REQUIRED_PERMISSIONS)) {
-            // Storage permission is granted
-            return true
+        if (mAskCameraPermission && !isPermissionGranted(context, REQUIRED_PERMISSIONS)) {
+            // Camera permission is granted
+            return false
         }
-        return false
+        return true
     }
 
     /**
