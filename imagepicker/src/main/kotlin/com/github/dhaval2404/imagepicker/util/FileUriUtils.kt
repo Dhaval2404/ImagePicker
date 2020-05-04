@@ -25,6 +25,10 @@ import java.io.OutputStream
 
 object FileUriUtils {
 
+    fun isFileUri(uri: Uri): Boolean {
+        return "file".equals(uri.scheme, ignoreCase = true)
+    }
+
     fun getRealPath(context: Context, uri: Uri): String? {
         var path = getPathFromLocalUri(context, uri)
         if (path == null) {
@@ -64,7 +68,8 @@ object FileUriUtils {
             } else if (isDownloadsDocument(uri)) {
                 val fileName = getFilePath(context, uri)
                 if (fileName != null) {
-                    return Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
+                    return Environment.getExternalStorageDirectory()
+                        .toString() + "/Download/" + fileName
                 }
 
                 val id = DocumentsContract.getDocumentId(uri)
@@ -95,7 +100,12 @@ object FileUriUtils {
         } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
 
             // Return the remote address
-            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
+            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                context,
+                uri,
+                null,
+                null
+            )
         } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
             return uri.path
         } // File
@@ -116,7 +126,8 @@ object FileUriUtils {
         val projection = arrayOf(column)
 
         try {
-            cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+            cursor =
+                context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
             if (cursor != null && cursor.moveToFirst()) {
                 val index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(index)

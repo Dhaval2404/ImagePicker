@@ -7,11 +7,11 @@ apply plugin: 'kotlin-android-extensions'
 apply from: "../ktlint.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.github.dhaval2404.imagepicker.sample"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 9
         versionName "1.7.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -41,6 +41,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.3'
+    implementation 'androidx.documentfile:documentfile:1.0.1'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -50,7 +51,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
     //Leakcanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     implementation project(':imagepicker')
 

@@ -12,6 +12,8 @@
 /.idea/gradle.xml
 /.idea/runConfigurations.xml
 /.idea/codeStyles
+/.idea/dictionaries
+/.idea/icon.png
 .DS_Store
 /build
 /captures

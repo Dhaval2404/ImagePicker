@@ -72,6 +72,10 @@ open class ImagePicker {
         /**
          * Get File Path from intent
          */
+        @Deprecated(
+            message = "Avoid using the File object, It will require storage permission",
+            replaceWith = ReplaceWith("Consider using Uri Object instead")
+        )
         fun getFilePath(data: Intent?): String? {
             return data?.getStringExtra(EXTRA_FILE_PATH)
         }
@@ -79,6 +83,10 @@ open class ImagePicker {
         /**
          * Get File from intent
          */
+        @Deprecated(
+            message = "Avoid using the File object, It will require storage permission",
+            replaceWith = ReplaceWith("Consider using Uri Object instead")
+        )
         fun getFile(data: Intent?): File? {
             val path = getFilePath(data)
             if (path != null) {
@@ -123,7 +131,7 @@ open class ImagePicker {
          *
          * Camera, Crop, Compress Image Will be store in this directory.
          *
-         * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
+         * If null, Image will be stored in "{fileDir}/Images"
          */
         private var saveDir: String? = null
 
@@ -358,8 +366,12 @@ open class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        if (fragment != null) fragment!!.context else activity,
+                        "InlineActivityResult library not installed falling back to default method, please install " +
+                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     startActivity(REQUEST_CODE)
                 }
             }

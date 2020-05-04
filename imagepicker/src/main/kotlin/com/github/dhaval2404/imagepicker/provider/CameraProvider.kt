@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -63,16 +64,14 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Camera image will be stored in below file directory
      */
-    private var mFileDir: File? = null
+    private val mFileDir: File
 
     init {
         val bundle = activity.intent.extras!!
 
         // Get File Directory
         val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
-        fileDir?.let {
-            mFileDir = File(it)
-        }
+        mFileDir = getFileDir(fileDir)
     }
 
     /**
@@ -99,10 +98,17 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     }
 
     /**
-     * Start Camera Capture Intent
+     * Start Camera Intent
+     *
+     * Create Temporary File object and Pass it to Camera Intent
      */
     fun startIntent() {
-        checkPermission()
+        if (!IntentUtils.isCameraAppAvailable(this)) {
+            setError(R.string.error_camera_app_not_found)
+            return
+        }
+
+        startCameraIntent()
     }
 
     /**
@@ -127,7 +133,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        val file = FileUtil.getImageFile(dir = mFileDir)
+        val file = FileUtil.getImageFile(fileDir = mFileDir)
         mCameraFile = file
 
         // Check if file exists
@@ -147,7 +153,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             // Check again if permission is granted
             if (isPermissionGranted(this)) {
                 // Permission is granted, Start Camera Intent
-                startCameraIntent()
+                startIntent()
             } else {
                 // Exit with error message
                 val errorRes = if (mAskCameraPermission) {
@@ -170,7 +176,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_INTENT_REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                handleResult(data)
+                handleResult()
             } else {
                 setResultCancel()
             }
@@ -180,15 +186,15 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * This method will be called when final result fot this provider is enabled.
      */
-    private fun handleResult(data: Intent?) {
-        activity.setImage(mCameraFile!!)
+    private fun handleResult() {
+        activity.setImage(Uri.fromFile(mCameraFile))
     }
 
     /**
      * Delete Camera file is exists
      */
     override fun onFailure() {
-        mCameraFile?.delete()
+        delete()
     }
 
     /**
@@ -223,5 +229,15 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             return true
         }
         return false
+    }
+
+    /**
+     * Delete Camera File, If not required
+     *
+     * After Camera Image Crop/Compress Original File will not required
+     */
+    fun delete() {
+        mCameraFile?.delete()
+        mCameraFile = null
     }
 }
