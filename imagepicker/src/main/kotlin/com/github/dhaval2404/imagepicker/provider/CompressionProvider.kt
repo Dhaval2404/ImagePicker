@@ -185,7 +185,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
         // Check file format
         var format = Bitmap.CompressFormat.JPEG
-        var quality = 90
+        var quality = 100
         if (file.absolutePath.endsWith(".png")) {
             format = Bitmap.CompressFormat.PNG
             quality = 100
