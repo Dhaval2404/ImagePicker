@@ -13,7 +13,6 @@ import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.IntentUtils
 import com.github.dhaval2404.imagepicker.util.PermissionUtil
-import com.github.dhaval2404.imagepicker.util.PermissionUtil.isPermissionGranted
 import java.io.File
 
 /**
@@ -35,7 +34,9 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
          * Permission Require for Image Capture using Camera
          */
         private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
         private const val CAMERA_INTENT_REQ_CODE = 4281
@@ -46,12 +47,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * Temp Camera File
      */
     private var mCameraFile: File? = null
-
-    /**
-     * True If Camera Permission Defined in AndroidManifest.xml
-     */
-    private val mAskCameraPermission = PermissionUtil
-        .isPermissionInManifest(this, Manifest.permission.CAMERA)
 
     /**
      * Camera image will be stored in below file directory
@@ -138,6 +133,39 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     }
 
     /**
+     * Request Runtime Permission required for Taking Pictures.
+     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
+     */
+    private fun requestPermission() {
+        requestPermissions(activity, getRequiredPermission(activity), PERMISSION_INTENT_REQ_CODE)
+    }
+
+    /**
+     * Check if require permission granted for Taking Picture.
+     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
+     *
+     * @param context Application Context
+     * @return boolean true if all required permission granted else false.
+     */
+    private fun isPermissionGranted(context: Context): Boolean {
+        return getRequiredPermission(context).none {
+            !PermissionUtil.isPermissionGranted(context, it)
+        }
+    }
+
+    /**
+     * Check if permission Exists in Manifest
+     *
+     * @param context Application Context
+     * @return Array<String> returns permission which are added in Manifest
+     */
+    private fun getRequiredPermission(context: Context): Array<String> {
+        return REQUIRED_PERMISSIONS.filter {
+            PermissionUtil.isPermissionInManifest(context, it)
+        }.toTypedArray()
+    }
+
+    /**
      * Handle Requested Permission Result
      */
     fun onRequestPermissionsResult(requestCode: Int) {
@@ -183,30 +211,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     override fun onFailure() {
         delete()
-    }
-
-    /**
-     * Request Runtime Permission required for Taking Pictures.
-     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
-     */
-    private fun requestPermission() {
-        requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
-    }
-
-    /**
-     * Check if Check Require permission granted for Taking Picture.
-     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
-     *
-     * @param context Application Context
-     * @return boolean true if all required permission granted else false.
-     */
-    private fun isPermissionGranted(context: Context): Boolean {
-        // Check if Camera permission defined in manifest
-        if (mAskCameraPermission && !isPermissionGranted(context, REQUIRED_PERMISSIONS)) {
-            // Camera permission is granted
-            return false
-        }
-        return true
     }
 
     /**
