@@ -50,7 +50,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
 
     //More Info: https://github.com/Yalantis/uCrop
-    implementation 'com.github.yalantis:ucrop:2.2.4'
+    implementation 'com.github.yalantis:ucrop:2.2.5'
 
     //More Info: https://github.com/florent37/InlineActivityResult
     compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.3'
