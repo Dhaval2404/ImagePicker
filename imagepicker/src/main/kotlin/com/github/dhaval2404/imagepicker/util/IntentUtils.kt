@@ -34,12 +34,17 @@ object IntentUtils {
     }
 
     /**
+     * Ref: https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+     *
      * @return Intent Gallery Document Intent
      */
     private fun getGalleryDocumentIntent(mimeTypes: Array<String>): Intent {
         // Show Document Intent
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).applyImageTypes(mimeTypes)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         return intent
     }
 
