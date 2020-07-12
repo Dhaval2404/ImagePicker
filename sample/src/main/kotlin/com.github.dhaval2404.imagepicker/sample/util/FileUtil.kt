@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import java.io.File
@@ -81,7 +82,7 @@ object FileUtil {
         }
     }
 
-    fun getFileName(contentResolver: ContentResolver, uri: Uri): String? {
+    private fun getFileName(contentResolver: ContentResolver, uri: Uri): String? {
         if (ContentResolver.SCHEME_FILE == uri.scheme) {
             return File(uri.path).getName()
         } else if (ContentResolver.SCHEME_CONTENT == uri.scheme) {
@@ -106,4 +107,33 @@ object FileUtil {
             null
         }
     }
+
+    fun printFileInfo(file: File?) {
+        if (file == null) {
+            Log.i("File Info", "File object is null")
+            return
+        }
+
+        // Get Resolution
+        val resolution = FileUtil.getImageResolution(file)
+
+        val info = StringBuilder()
+            .append("Resolution: ")
+            .append("${resolution.first}x${resolution.second}")
+            .append("\n")
+
+            .append("File Size: ")
+            .append(getFileSize(file.length()))
+            .append("\n")
+
+            .append("File Name: ")
+            .append(file.name)
+            .append("\n")
+
+            .append("File Path: ")
+            .append(file.absoluteFile)
+            .toString()
+        Log.i("File Info", info)
+    }
+
 }

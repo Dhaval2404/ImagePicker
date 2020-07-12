@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             Log.e("TAG", "Path:${ImagePicker.getFilePath(data)}")
+            FileUtil.printFileInfo(ImagePicker.getFile(data))
+
             // Uri object will not be null for RESULT_OK
             val uri = data?.data!!
             when (requestCode) {
