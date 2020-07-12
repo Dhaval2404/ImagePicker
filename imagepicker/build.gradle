@@ -52,7 +52,7 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.4'
 
     //More Info: https://github.com/florent37/InlineActivityResult
-    compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.3'
+    compileOnly 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
