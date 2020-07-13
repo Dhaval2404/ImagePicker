@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.2] - 2020-07-14
+### Changed
+  * Fixed .crop() opening gallery or camera twice [#32](https://github.com/Dhaval2404/ImagePicker/issues/32)
+  * Fixed UCropActivity Crash Android 4.4 (KiKat) [#82](https://github.com/Dhaval2404/ImagePicker/issues/82)
+
+## [1.7.1] - 2020-03-26
+### Changed
+  * Fixed The application could not be installed: INSTALL_FAILED_CONFLICTING_PROVIDER issue [#67](https://github.com/Dhaval2404/ImagePicker/issues/67)
+
 ## [1.7] - 2020-03-23
 ### Changed
   * Added option to limit MIME types while choosing a gallery image (Special Thanks to [Marchuck](https://github.com/Marchuck))
@@ -59,7 +68,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Handle Runtime Permission for Camera and Storage
   * Retrive Image Result as File, File Path as String or Uri object
 
-[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7...HEAD
+[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.0...HEAD
+[1.7.2]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.1...v1.7.2
+[1.7.1]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7...v1.7.1
 [1.7]: https://github.com/Dhaval2404/ImagePicker/compare/v1.6...v1.7
 [1.6]: https://github.com/Dhaval2404/ImagePicker/compare/v1.5...v1.6
 [1.5]: https://github.com/Dhaval2404/ImagePicker/compare/v1.4...v1.5
