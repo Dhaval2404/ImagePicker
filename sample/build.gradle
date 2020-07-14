@@ -12,8 +12,8 @@ android {
         applicationId "com.github.dhaval2404.imagepicker.sample"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 9
-        versionName "1.7.1"
+        versionCode 10
+        versionName "1.7.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -40,7 +40,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.3'
+    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
     implementation 'androidx.documentfile:documentfile:1.0.1'
 
     testImplementation 'junit:junit:4.13'

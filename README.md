@@ -56,7 +56,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.7.1'
+   implementation 'com.github.dhaval2404:imagepicker:1.7.2'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -66,7 +66,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 
     **If you want to get the activity result inline in a modern way (lambda) install [InlineActivityResult](https://github.com/florent37/InlineActivityResult) library:**
    ```groovy
-   implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
+   implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
     ```
     
 2.  <span style="color:red">**If you target Android 10 or higher(targetSdkVersion >= 29)**</span>, set the value of ``requestLegacyExternalStorage`` to true in your app's manifest file:
