@@ -1,5 +1,6 @@
 package com.github.dhaval2404.imagepicker.util
 
+import android.graphics.Bitmap
 import android.os.Environment
 import android.os.StatFs
 import java.io.File
@@ -83,4 +84,25 @@ object FileUtil {
         val blockSize = stat.blockSizeLong
         return availBlocks * blockSize
     }
+
+    /**
+     * Get Bitmap Compress Format
+     *
+     * @param extension Image File Extension
+     * @return Bitmap CompressFormat
+     */
+    fun getCompressFormat(extension: String): Bitmap.CompressFormat {
+        return when {
+            extension.contains("png", ignoreCase = true) -> {
+                Bitmap.CompressFormat.PNG
+            }
+            extension.contains("webp", ignoreCase = true) -> {
+                Bitmap.CompressFormat.WEBP
+            }
+            else -> {
+                Bitmap.CompressFormat.JPEG
+            }
+        }
+    }
+
 }
