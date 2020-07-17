@@ -9,6 +9,7 @@ import android.util.Log
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.yalantis.ucrop.UCrop
 import java.io.File
@@ -103,7 +104,9 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     @Throws(IOException::class)
     private fun cropImage(file: File) {
-        mCropImageFile = FileUtil.getImageFile(dir = mFileDir)
+        val uri = Uri.fromFile(file)
+        val extension = FileUriUtils.getImageExtension(uri)
+        mCropImageFile = FileUtil.getImageFile(dir = mFileDir, extension = extension)
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")
@@ -112,7 +115,8 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         }
 
         val options = UCrop.Options()
-        val uCrop = UCrop.of(Uri.fromFile(file), Uri.fromFile(mCropImageFile))
+        options.setCompressionFormat(FileUtil.getCompressFormat(extension))
+        val uCrop = UCrop.of(uri, Uri.fromFile(mCropImageFile))
             .withOptions(options)
 
         if (mCropAspectX > 0 && mCropAspectY > 0) {
