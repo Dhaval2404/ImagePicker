@@ -93,15 +93,9 @@ object FileUtil {
      */
     fun getCompressFormat(extension: String): Bitmap.CompressFormat {
         return when {
-            extension.contains("png", ignoreCase = true) -> {
-                Bitmap.CompressFormat.PNG
-            }
-            extension.contains("webp", ignoreCase = true) -> {
-                Bitmap.CompressFormat.WEBP
-            }
-            else -> {
-                Bitmap.CompressFormat.JPEG
-            }
+            extension.contains("png", ignoreCase = true) -> Bitmap.CompressFormat.PNG
+            extension.contains("webp", ignoreCase = true) -> Bitmap.CompressFormat.WEBP
+            else -> Bitmap.CompressFormat.JPEG
         }
     }
 
