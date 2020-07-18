@@ -182,7 +182,7 @@ object FileUriUtils {
 
     /** @return extension of image with dot, or default .jpg if it none.
      */
-    private fun getImageExtension(uriImage: Uri): String {
+    fun getImageExtension(uriImage: Uri): String {
         var extension: String? = null
 
         try {
