@@ -286,8 +286,11 @@ open class ImagePicker {
         private fun showImageProviderDialog(reqCode: Int) {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
                 override fun onResult(t: ImageProvider?) {
-                    t?.let {
-                        imageProvider = it
+                    if (t == null) {
+                        val intent = ImagePickerActivity.getCancelledIntent(activity)
+                        activity.startActivityForResult(intent, Activity.RESULT_CANCELED)
+                    } else {
+                        imageProvider = t
                         imageProviderInterceptor?.invoke(imageProvider)
                         startActivity(reqCode)
                     }
@@ -358,8 +361,12 @@ open class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        if (fragment != null) fragment!!.context else activity,
+                        "InlineActivityResult library not installed falling back to default method, please install " +
+                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     startActivity(REQUEST_CODE)
                 }
             }
