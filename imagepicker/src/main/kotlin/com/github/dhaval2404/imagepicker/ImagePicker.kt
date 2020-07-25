@@ -148,7 +148,7 @@ open class ImagePicker {
         /**
          * Specify Image Provider Dialog dismiss callback.
          */
-        fun provider(dismissCallback: (() -> Unit)?): Builder {
+        fun setDismissCallback(dismissCallback: (() -> Unit)?): Builder {
             this.dismissCallback = dismissCallback
             return this
         }
