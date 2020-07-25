@@ -95,6 +95,9 @@ open class ImagePicker {
         // Image Provider
         private var imageProvider = ImageProvider.BOTH
 
+        // image provider dialog picker dismiss callback
+        private var dismissCallback: (() -> Unit)? = null
+
         // Mime types restrictions for gallery. by default all mime types are valid
         private var mimeTypes: Array<String> = emptyArray()
 
@@ -139,6 +142,14 @@ open class ImagePicker {
          */
         fun provider(imageProvider: ImageProvider): Builder {
             this.imageProvider = imageProvider
+            return this
+        }
+
+        /**
+         * Specify Image Provider Dialog dismiss callback.
+         */
+        fun provider(dismissCallback: (() -> Unit)?): Builder {
+            this.dismissCallback = dismissCallback
             return this
         }
 
@@ -287,8 +298,7 @@ open class ImagePicker {
             DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
                 override fun onResult(t: ImageProvider?) {
                     if (t == null) {
-                        val intent = ImagePickerActivity.getCancelledIntent(activity)
-                        activity.startActivityForResult(intent, Activity.RESULT_CANCELED)
+                        dismissCallback?.invoke()
                     } else {
                         imageProvider = t
                         imageProviderInterceptor?.invoke(imageProvider)
