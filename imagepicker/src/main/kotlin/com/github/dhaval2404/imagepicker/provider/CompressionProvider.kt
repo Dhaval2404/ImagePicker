@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.ImageUtil
 import java.io.File
@@ -169,13 +170,14 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
         // Check file format
         var format = Bitmap.CompressFormat.JPEG
-        var quality = 90
+        var quality = 100
         if (file.absolutePath.endsWith(".png")) {
             format = Bitmap.CompressFormat.PNG
             quality = 100
         }
 
-        val compressFile: File? = FileUtil.getImageFile(dir = mFileDir)
+        val extension = FileUriUtils.getImageExtension(file)
+        val compressFile: File? = FileUtil.getImageFile(dir = mFileDir, extension = extension)
         return if (compressFile != null) {
             ImageUtil.compressImage(
                 file, maxWidth.toFloat(), maxHeight.toFloat(),

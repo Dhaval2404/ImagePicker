@@ -54,7 +54,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.7.3'
+   implementation 'com.github.dhaval2404:imagepicker:1.7.4'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -116,10 +116,10 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
              imgProfile.setImageURI(fileUri)
           
             //You can get File object from intent
-            val file:File = ImagePicker.getFile(data)
+            val file:File = ImagePicker.getFile(data)!!
            
             //You can also get File Path from intent
-            val filePath:String = ImagePicker.getFilePath(data)     
+            val filePath:String = ImagePicker.getFilePath(data)!!
          } else if (resultCode == ImagePicker.RESULT_ERROR) {
              Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
          } else {
@@ -276,6 +276,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
   * Fixed NullPointerException in FileUriUtils.getPathFromRemoteUri()  [#61](https://github.com/Dhaval2404/ImagePicker/issues/61) (Special Thanks to [himphen](https://github.com/himphen))
   * Fixed UCropActivity Crash Android 4.4 (KiKat) [#82](https://github.com/Dhaval2404/ImagePicker/issues/82)
   * Fixed PNG image saved as JPG after crop issue [#94](https://github.com/Dhaval2404/ImagePicker/issues/94)
+  * Fixed PNG image saved as JPG after compress issue [#105](https://github.com/Dhaval2404/ImagePicker/issues/105)
 
 ### Version: 1.6
 
