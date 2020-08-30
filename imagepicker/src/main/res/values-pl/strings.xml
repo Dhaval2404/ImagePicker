@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ImagePicker string resource start -->
+    <string name="title_choose_image_provider">Wybierz</string>
+    <string name="action_cancel">Anuluj</string>
+    <string name="title_gallery">Galeria</string>
+    <string name="title_camera">Aparat</string>
+
+    <string name="image_picker_provider_authority_suffix">.imagepicker.provider</string>
+
+    <string name="message_gallery_permission_denied">Dostęp do pamięci zewnętrznej jest wymagany, aby móc wybrać obraz. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia</string>
+    <string name="message_camera_permission_denied">Dostęp do aparatu oraz zewnętrznej pamięci jest wymagany, aby przechwycić obraz. Zabranie uprawnień aplikacji może powodować błędy w jej działaniu. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia</string>
+    <string name="permission_gallery_denied">
+        <![CDATA[Dostęp do pamięci urządzenia jest wymagany, aby wybrać obraz z galerii. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia.]]></string>
+    <string name="permission_camera_extended_denied">
+        <![CDATA[Dostęp do aparatu oraz pamięci jest wymagany aby przechwycić obraz. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia.]]></string>
+    <string name="permission_camera_denied">
+        <![CDATA[Dostęp do pamięci jest wymagany aby wykonać zdjęcie. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Podczas zapisywania zdjęcia wystąpił błąd</string>
+    <string name="error_failed_pick_gallery_image">Nie udało się uzyskać dostępu do zdjęcia w galerii</string>
+    <string name="error_failed_to_crop_image">Nie udało się zmienić rozmiarów obrazu</string>
+    <string name="error_failed_to_compress_image">Podczas kompresji obrazu wystąpił błąd</string>
+    <string name="error_task_cancelled">Zadanie przerwane</string>
+    <!-- ImagePicker string resource end -->
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Oryginał</string>
+    <string name="ucrop_label_edit_photo">Edytuj zdjęcie</string>
+
+    <string name="ucrop_menu_crop">Przytnij</string>
+    <string name="ucrop_error_input_data_is_absent" translatable="false">URI wejścia i wyjścia musi być ustalone</string>
+    <string name="ucrop_mutate_exception_hint" translatable="false">Możesz nadpisać kolor w color resources (ucrop_color_toolbar_widget) w swojej aplikacji aby wspierać urządzenia przed Androidem L</string>
+    <string name="ucrop_rotate">Obróć</string>
+    <string name="ucrop_scale">Skaluj</string>
+    <string name="ucrop_crop">Przytnij</string>
+    <!-- uCrop string resource end -->
+
+</resources>

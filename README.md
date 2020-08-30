@@ -54,7 +54,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.7.4'
+   implementation 'com.github.dhaval2404:imagepicker:1.7.5'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -277,6 +277,8 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
   * Fixed UCropActivity Crash Android 4.4 (KiKat) [#82](https://github.com/Dhaval2404/ImagePicker/issues/82)
   * Fixed PNG image saved as JPG after crop issue [#94](https://github.com/Dhaval2404/ImagePicker/issues/94)
   * Fixed PNG image saved as JPG after compress issue [#105](https://github.com/Dhaval2404/ImagePicker/issues/105)
+  * Added Polish text translation [#115](https://github.com/Dhaval2404/ImagePicker/issues/115) (Special Thanks to [MarcelKijanka](https://github.com/MarcelKijanka))
+  * Failed to find configured root exception [#116](https://github.com/Dhaval2404/ImagePicker/issues/116)
 
 ### Version: 1.6
 
