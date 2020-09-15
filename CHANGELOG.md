@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.7.5] - 2020-08-30
+### Changed
+  * Added Polish text translation [#115](https://github.com/Dhaval2404/ImagePicker/issues/115) (Special Thanks to [MarcelKijanka](https://github.com/MarcelKijanka))
+  * Failed to find configured root exception [#116](https://github.com/Dhaval2404/ImagePicker/issues/116)
+
+## [1.7.4] - 2020-08-02
+### Changed
+  * Fixed PNG image saved as JPG after compress issue [#105](https://github.com/Dhaval2404/ImagePicker/issues/105)
+
+## [1.7.3] - 2020-07-18
+### Changed
+  * Fixed PNG image saved as JPG after crop issue [#94](https://github.com/Dhaval2404/ImagePicker/issues/94)
 
 ## [1.7.2] - 2020-07-14
 ### Changed
@@ -66,9 +78,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Crop Image(Its based on [uCrop](https://github.com/Yalantis/uCrop))
   * Compress Image(Compress image based on resolution and size)
   * Handle Runtime Permission for Camera and Storage
-  * Retrive Image Result as File, File Path as String or Uri object
+  * Retrieve Image Result as File, File Path as String or Uri object
 
 [Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.0...HEAD
+[1.7.5]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.4...v1.7.5
+[1.7.4]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.3...v1.7.4
+[1.7.3]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7...v1.7.1
 [1.7]: https://github.com/Dhaval2404/ImagePicker/compare/v1.6...v1.7

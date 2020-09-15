@@ -191,9 +191,12 @@ object FileUriUtils {
         return if (success) file!!.path else null
     }
 
-    /** @return extension of image with dot, or default .jpg if it none.
+    /**
+     * Get Image Extension i.e. .png, .jpg
+     *
+     * @return extension of image with dot, or default .jpg if it none.
      */
-    private fun getImageExtension(uriImage: Uri): String {
+    fun getImageExtension(uriImage: Uri): String {
         var extension: String? = null
 
         try {
@@ -211,6 +214,15 @@ object FileUriUtils {
         }
 
         return ".$extension"
+    }
+
+    /**
+     * Get Image Extension i.e. .png, .jpg
+     *
+     * @return extension of image with dot, or default .jpg if it none.
+     */
+    fun getImageExtension(file: File): String {
+        return getImageExtension(Uri.fromFile(file))
     }
 
     /**
