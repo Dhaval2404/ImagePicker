@@ -103,7 +103,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     @Throws(IOException::class)
     private fun cropImage(uri: Uri) {
         val extension = FileUriUtils.getImageExtension(uri)
-        mCropImageFile = FileUtil.getImageFile(dir = mFileDir, extension = extension)
+        mCropImageFile = FileUtil.getImageFile(fileDir = mFileDir, extension = extension)
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")

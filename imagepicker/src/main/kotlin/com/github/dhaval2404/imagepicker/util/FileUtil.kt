@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.graphics.Bitmap
-import android.os.Environment
 import android.os.StatFs
 import androidx.documentfile.provider.DocumentFile
 import java.io.File
@@ -164,6 +163,20 @@ object FileUtil {
             file = DocumentFile.fromSingleUri(context, uri)
         }
         return file
+    }
+
+    /**
+     * Get Bitmap Compress Format
+     *
+     * @param extension Image File Extension
+     * @return Bitmap CompressFormat
+     */
+    fun getCompressFormat(extension: String): Bitmap.CompressFormat {
+        return when {
+            extension.contains("png", ignoreCase = true) -> Bitmap.CompressFormat.PNG
+            extension.contains("webp", ignoreCase = true) -> Bitmap.CompressFormat.WEBP
+            else -> Bitmap.CompressFormat.JPEG
+        }
     }
 
 }
