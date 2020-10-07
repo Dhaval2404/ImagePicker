@@ -9,7 +9,7 @@ apply from: "../ktlint.gradle"
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.github.dhaval2404.imagepicker.sample"
+        applicationId "com.github.arykoz.imagepicker.sample"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 13
