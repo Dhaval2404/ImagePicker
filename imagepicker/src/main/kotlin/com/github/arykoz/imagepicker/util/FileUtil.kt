@@ -98,5 +98,4 @@ object FileUtil {
             else -> Bitmap.CompressFormat.JPEG
         }
     }
-
 }

@@ -14,11 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.arykoz.imagepicker.ImagePicker
 import com.github.arykoz.imagepicker.sample.util.FileUtil
 import com.github.arykoz.imagepicker.sample.util.IntentUtil
+import java.io.File
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
 import kotlinx.android.synthetic.main.content_profile.*
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             // Crop Square image
             .cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
-                Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
+                Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
             }
             // Image resolution will be less than 512 x 512
             .maxResultSize(512, 512)
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             // User can only select image from Gallery
             .galleryOnly()
 
-            .galleryMimeTypes(  //no gif images at all
+            .galleryMimeTypes( // No gif images at all
                 mimeTypes = arrayOf(
                     "image/png",
                     "image/jpg",

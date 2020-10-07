@@ -79,9 +79,12 @@ object IntentUtils {
                 intent.putExtra(
                     CAMERA_FACING_EXTRA,
                     CameraCharacteristics.LENS_FACING_FRONT
-                )  // Tested on API 24 Android version 7.0(Samsung S6)
+                )
             }
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1 -> intent.putExtra(CAMERA_FACING_EXTRA, 1)  // Tested API 21 Android version 5.0.1(Samsung S4)
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1 -> intent.putExtra(
+                CAMERA_FACING_EXTRA,
+                1
+            )
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
