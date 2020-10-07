@@ -98,9 +98,15 @@ class ImagePickerActivity : AppCompatActivity() {
                 savedInstanceState ?: mGalleryProvider?.startIntent()
             }
             ImageProvider.CAMERA -> {
-                mCameraProvider = CameraProvider(this)
+                mCameraProvider = CameraProvider(this, false)
                 mCameraProvider?.onRestoreInstanceState(savedInstanceState)
                 // Pick Camera Image
+                savedInstanceState ?: mCameraProvider?.startIntent()
+            }
+            ImageProvider.FRONT_CAMERA -> {
+                mCameraProvider = CameraProvider(this, true)
+                mCameraProvider?.onRestoreInstanceState(savedInstanceState)
+                // Try Pick Front Camera Image
                 savedInstanceState ?: mCameraProvider?.startIntent()
             }
             else -> {

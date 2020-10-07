@@ -3,6 +3,7 @@ package com.github.dhaval2404.imagepicker.util
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraCharacteristics
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -18,6 +19,7 @@ import java.io.File
  * @since 04 January 2018
  */
 object IntentUtils {
+    private val CAMERA_FACING_EXTRA = "android.intent.extras.CAMERA_FACING"
 
     /**
      * @return Intent Gallery Intent
@@ -62,8 +64,25 @@ object IntentUtils {
     /**
      * @return Intent Camera Intent
      */
-    fun getCameraIntent(context: Context, file: File): Intent? {
+    fun getCameraIntent(context: Context, file: File, tryFrontCamera: Boolean): Intent? {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        if (tryFrontCamera) when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                intent.putExtra(
+                    CAMERA_FACING_EXTRA,
+                    CameraCharacteristics.LENS_FACING_FRONT
+                ) // Tested on API 27 Android version 8.0(Nexus 6P)
+                intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true)
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O -> {
+                intent.putExtra(
+                    CAMERA_FACING_EXTRA,
+                    CameraCharacteristics.LENS_FACING_FRONT
+                )  // Tested on API 24 Android version 7.0(Samsung S6)
+            }
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1 -> intent.putExtra(CAMERA_FACING_EXTRA, 1)  // Tested API 21 Android version 5.0.1(Samsung S4)
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // authority = com.github.dhaval2404.imagepicker.provider
