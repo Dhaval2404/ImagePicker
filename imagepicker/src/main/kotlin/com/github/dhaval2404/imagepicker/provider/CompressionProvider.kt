@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
+import com.github.dhaval2404.imagepicker.util.ExifDataCopier
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.ImageUtil
@@ -142,6 +143,9 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
                 attempt++
             }
         } while (isCompressionRequired(newFile!!))
+
+        // Copy Exif Data
+        ExifDataCopier.copyExif(file, newFile)
 
         return newFile
     }
