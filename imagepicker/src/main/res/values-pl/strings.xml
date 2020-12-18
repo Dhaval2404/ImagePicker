@@ -21,6 +21,7 @@
     <string name="error_failed_to_crop_image">Nie udało się zmienić rozmiarów obrazu</string>
     <string name="error_failed_to_compress_image">Podczas kompresji obrazu wystąpił błąd</string>
     <string name="error_task_cancelled">Zadanie przerwane</string>
+    <string name="error_camera_app_not_found">Nie znaleziono aplikacji aparatu</string>
     <!-- ImagePicker string resource end -->
 
     <!-- uCrop string resource start -->
