@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.os.Bundle
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.util.ExifDataCopier
@@ -33,7 +34,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private var mFileDir: File? = null
 
     init {
-        val bundle = activity.intent.extras!!
+        val bundle = activity.intent.extras ?: Bundle()
 
         // Get Max Width/Height parameter from Intent
         mMaxWidth = bundle.getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)

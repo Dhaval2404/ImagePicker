@@ -66,7 +66,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private var mFileDir: File? = null
 
     init {
-        val bundle = activity.intent.extras!!
+        val bundle = activity.intent.extras ?: Bundle()
 
         // Get File Directory
         val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)

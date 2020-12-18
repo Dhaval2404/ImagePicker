@@ -3,6 +3,7 @@ package com.github.dhaval2404.imagepicker.provider
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
@@ -38,7 +39,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
     private val mimeTypes: Array<String>
 
     init {
-        val bundle = activity.intent.extras!!
+        val bundle = activity.intent.extras ?: Bundle()
 
         mimeTypes = bundle.getStringArray(ImagePicker.EXTRA_MIME_TYPES) ?: emptyArray()
     }
