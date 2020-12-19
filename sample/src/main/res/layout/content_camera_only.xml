@@ -12,43 +12,44 @@
     tools:showIn="@layout/activity_main">
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgCameraCode"
-                style="@style/ImageButtonStyle"
-                android:layout_alignParentEnd="true"
-                android:onClick="showImageCode"
-                app:srcCompat="@drawable/outline_code_24" />
+            android:id="@+id/imgCameraCode"
+            style="@style/ImageButtonStyle"
+            android:layout_alignParentEnd="true"
+            android:onClick="showImageCode"
+            app:srcCompat="@drawable/outline_code_24" />
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgCameraInfo"
-                style="@style/ImageButtonStyle"
-                android:onClick="showImageInfo"
-                android:layout_toStartOf="@id/imgCameraCode"
-                app:srcCompat="@drawable/outline_info_24" />
+            android:id="@+id/imgCameraInfo"
+            style="@style/ImageButtonStyle"
+            android:layout_toStartOf="@id/imgCameraCode"
+            android:onClick="showImageInfo"
+            app:srcCompat="@drawable/outline_info_24" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtCamera"
-                style="@style/TitleTextStyle"
-                android:text="@string/action_camera_only" />
+            android:id="@+id/txtCamera"
+            style="@style/TitleTextStyle"
+            android:layout_toStartOf="@id/imgCameraInfo"
+            android:text="@string/action_camera_only" />
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgCamera"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/txtCamera"
-                android:onClick="showImage"
-                android:background="@color/grey_50"
-                android:scaleType="centerCrop" />
+            android:id="@+id/imgCamera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/txtCamera"
+            android:background="@color/grey_50"
+            android:onClick="showImage"
+            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_camera_photo"
-            android:onClick="pickCameraImage"
-            app:srcCompat="@drawable/baseline_photo_camera_24"
-            style="@style/FabStyle" />
+        android:id="@+id/fab_add_camera_photo"
+        style="@style/FabStyle"
+        android:onClick="pickCameraImage"
+        app:srcCompat="@drawable/baseline_photo_camera_24" />
 
 </androidx.cardview.widget.CardView>

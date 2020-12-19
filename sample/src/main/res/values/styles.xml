@@ -34,7 +34,6 @@
     <style name="TitleTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
-        <item name="android:layout_toStartOf">@id/imgGalleryInfo</item>
         <item name="android:gravity">center|start</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
