@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import com.github.dhaval2404.imagepicker.listener.DismissListener
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import kotlinx.android.synthetic.main.dialog_choose_app.view.*
 
@@ -21,7 +22,11 @@ internal object DialogHelper {
      * Show Image Provide Picker Dialog. This will streamline the code to pick/capture image
      *
      */
-    fun showChooseAppDialog(context: Context, listener: ResultListener<ImageProvider>) {
+    fun showChooseAppDialog(
+        context: Context,
+        listener: ResultListener<ImageProvider>,
+        dismissListener: DismissListener?
+    ) {
         val layoutInflater = LayoutInflater.from(context)
         val customView = layoutInflater.inflate(R.layout.dialog_choose_app, null)
 
@@ -33,6 +38,9 @@ internal object DialogHelper {
             }
             .setNegativeButton(R.string.action_cancel) { _, _ ->
                 listener.onResult(null)
+            }
+            .setOnDismissListener {
+                dismissListener?.onDismiss()
             }
             .show()
 

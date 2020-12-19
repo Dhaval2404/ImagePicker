@@ -214,6 +214,16 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
         }
         .start()
     ```
+ *  Intercept Dialog dismiss event
+
+	```kotlin
+    ImagePicker.with(this)
+    	.setDismissListener {
+    		// Handle dismiss event
+    		Log.d("ImagePicker", "onDismiss");
+    	}
+    	.start()
+    ```
 
  *  Specify Directory to store captured, cropped or compressed images
 
