@@ -64,7 +64,10 @@ class MainActivity : AppCompatActivity() {
             // Crop Square image
             .cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
-                Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
+                Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
+            }
+            .setDismissListener {
+                Log.d("ImagePicker", "Dialog Dismiss")
             }
             // Image resolution will be less than 512 x 512
             .maxResultSize(512, 512)
