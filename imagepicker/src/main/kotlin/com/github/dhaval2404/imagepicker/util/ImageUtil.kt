@@ -21,7 +21,6 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.os.Build
-import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -143,23 +142,12 @@ object ImageUtil {
             middleY - bmp.height / 2, Paint(Paint.FILTER_BITMAP_FLAG)
         )
         bmp.recycle()
-        val exif: ExifInterface
-        try {
-            exif = ExifInterface(imageFile.absolutePath)
-            val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0)
-            val matrix = Matrix()
-            when (orientation) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
-                ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
-                ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
-            }
-            scaledBitmap = Bitmap.createBitmap(
-                scaledBitmap, 0, 0, scaledBitmap.width,
-                scaledBitmap.height, matrix, true
-            )
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+
+        val matrix = Matrix()
+        scaledBitmap = Bitmap.createBitmap(
+            scaledBitmap, 0, 0, scaledBitmap.width,
+            scaledBitmap.height, matrix, true
+        )
 
         return scaledBitmap
     }
