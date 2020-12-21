@@ -64,10 +64,16 @@ object FileUriUtils {
             } else if (isDownloadsDocument(uri)) {
                 val fileName = getFilePath(context, uri)
                 if (fileName != null) {
-                    return Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
+                    val path = Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
+                    if (File(path).exists()) {
+                        return path
+                    }
                 }
 
-                val id = DocumentsContract.getDocumentId(uri)
+                var id = DocumentsContract.getDocumentId(uri)
+                if (id.contains(":")) {
+                    id = id.split(":")[1]
+                }
                 val contentUri = ContentUris.withAppendedId(
                     Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)
                 )
