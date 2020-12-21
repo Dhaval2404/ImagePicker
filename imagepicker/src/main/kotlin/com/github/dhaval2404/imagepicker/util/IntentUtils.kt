@@ -86,9 +86,8 @@ object IntentUtils {
      *
      * @return true if Camera app is Available else return false
      */
-    fun isCameraAppAvailable(context: Context) : Boolean {
+    fun isCameraAppAvailable(context: Context): Boolean {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         return intent.resolveActivity(context.packageManager) != null
     }
-
 }
