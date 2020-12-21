@@ -10,5 +10,6 @@
     <color name="ucrop_color_widget_rotate_mid_line">@color/ucrop_color_widget_active</color>
     <color name="ucrop_color_active_aspect_ratio">@color/ucrop_color_widget_active</color>
     <color name="ucrop_color_widget_text">@color/ucrop_color_widget_active</color>
+    <color name="ucrop_color_widget_background">#FFFFFF</color>
 
 </resources>
