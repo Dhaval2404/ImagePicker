@@ -29,7 +29,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 * Capture Camera Image
 * Crop Image(Crop image based on provided aspect ratio or let user choose one)
 * Compress Image(Compress image based on provided resolution and size)
-* Retrive Image Result as File, File Path as String or Uri object
+* Retrieve Image Result as File, File Path as String or Uri object
 * Handle Runtime Permission for Camera and Storage
 
 # 🎬Preview
@@ -337,7 +337,7 @@ We'll be really happy if you sent us links to your projects where you use our co
 
 ## License
 
-    Copyright 2019, The Android Open Source Project
+    Copyright 2019-2020, Dhaval Patel
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
