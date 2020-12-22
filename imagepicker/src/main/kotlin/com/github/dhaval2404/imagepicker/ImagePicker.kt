@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import com.github.dhaval2404.imagepicker.listener.DismissListener
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
 import com.github.florent37.inlineactivityresult.kotlin.startForResult
@@ -27,6 +28,8 @@ open class ImagePicker {
         const val RESULT_ERROR = 64
 
         internal const val EXTRA_IMAGE_PROVIDER = "extra.image_provider"
+        internal const val EXTRA_CAMERA_DEVICE = "extra.camera_device"
+
         internal const val EXTRA_IMAGE_MAX_SIZE = "extra.image_max_size"
         internal const val EXTRA_CROP = "extra.crop"
         internal const val EXTRA_CROP_X = "extra.crop_x"
@@ -117,6 +120,11 @@ open class ImagePicker {
         private var maxSize: Long = 0
 
         private var imageProviderInterceptor: ((ImageProvider) -> Unit)? = null
+
+        /**
+         * Dialog dismiss event listener
+         */
+        private var dismissListener: DismissListener? = null
 
         /**
          * File Directory
@@ -250,6 +258,26 @@ open class ImagePicker {
         }
 
         /**
+         * Sets the callback that will be called when the dialog is dismissed for any reason.
+         */
+        fun setDismissListener(listener: DismissListener): Builder {
+            this.dismissListener = listener
+            return this
+        }
+
+        /**
+         * Sets the callback that will be called when the dialog is dismissed for any reason.
+         */
+        fun setDismissListener(listener: (() -> Unit)): Builder {
+            this.dismissListener = object : DismissListener {
+                override fun onDismiss() {
+                    listener.invoke()
+                }
+            }
+            return this
+        }
+
+        /**
          * Start Image Picker Activity
          */
         fun start() {
@@ -292,7 +320,7 @@ open class ImagePicker {
                         startActivity(reqCode)
                     }
                 }
-            })
+            }, dismissListener)
         }
 
         /**
@@ -310,7 +338,7 @@ open class ImagePicker {
                         completionHandler?.invoke(Activity.RESULT_CANCELED, intent)
                     }
                 }
-            })
+            }, dismissListener)
         }
 
         /**

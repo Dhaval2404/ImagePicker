@@ -11,14 +11,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.sample.util.FileUtil
 import com.github.dhaval2404.imagepicker.sample.util.IntentUtil
+import java.io.File
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
 import kotlinx.android.synthetic.main.content_profile.*
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private var mProfileFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -62,7 +64,10 @@ class MainActivity : AppCompatActivity() {
             // Crop Square image
             .cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
-                Log.d("ImagePicker", "Selected ImageProvider: "+imageProvider.name)
+                Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
+            }
+            .setDismissListener {
+                Log.d("ImagePicker", "Dialog Dismiss")
             }
             // Image resolution will be less than 512 x 512
             .maxResultSize(512, 512)
@@ -94,9 +99,9 @@ class MainActivity : AppCompatActivity() {
             .cameraOnly()
             // Image size will be less than 1024 KB
             .compress(1024)
-            .saveDir(Environment.getExternalStorageDirectory())
-            // .saveDir(Environment.getExternalStorageDirectory().absolutePath+File.separator+"ImagePicker")
-            // .saveDir(getExternalFilesDir(null)!!)
+            .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+            // .saveDir(File(cacheDir, "ImagePicker"))
+            // .saveDir(getExternalFilesDir("ImagePicker")!!)
             .start(CAMERA_IMAGE_REQ_CODE)
     }
 

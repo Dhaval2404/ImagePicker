@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_marginTop="24dp"
-        app:cardCornerRadius="12dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true"
-        tools:context=".MainActivity"
-        tools:showIn="@layout/activity_main">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    android:layout_marginTop="24dp"
+    app:cardCornerRadius="12dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgGalleryCode"
-                style="@style/ImageButtonStyle"
-                android:layout_alignParentEnd="true"
-                android:onClick="showImageCode"
-                app:srcCompat="@drawable/outline_code_24"  />
+            android:id="@+id/imgGalleryCode"
+            style="@style/ImageButtonStyle"
+            android:layout_alignParentEnd="true"
+            android:onClick="showImageCode"
+            app:srcCompat="@drawable/outline_code_24" />
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgGalleryInfo"
-                style="@style/ImageButtonStyle"
-                android:layout_toStartOf="@id/imgGalleryCode"
-                android:onClick="showImageInfo"
-                app:srcCompat="@drawable/outline_info_24" />
+            android:id="@+id/imgGalleryInfo"
+            style="@style/ImageButtonStyle"
+            android:layout_toStartOf="@id/imgGalleryCode"
+            android:onClick="showImageInfo"
+            app:srcCompat="@drawable/outline_info_24" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtGallery"
-                style="@style/TitleTextStyle"
-                android:text="@string/action_gallery_only" />
+            android:id="@+id/txtGallery"
+            style="@style/TitleTextStyle"
+            android:layout_toStartOf="@id/imgGalleryInfo"
+            android:text="@string/action_gallery_only" />
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgGallery"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/txtGallery"
-                android:background="@color/grey_50"
-                android:onClick="showImage"
-                android:scaleType="centerCrop" />
+            android:id="@+id/imgGallery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/txtGallery"
+            android:background="@color/grey_50"
+            android:onClick="showImage"
+            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_gallery_photo"
-            android:onClick="pickGalleryImage"
-            app:srcCompat="@drawable/baseline_photo_24"
-            style="@style/FabStyle" />
+        android:id="@+id/fab_add_gallery_photo"
+        style="@style/FabStyle"
+        android:onClick="pickGalleryImage"
+        app:srcCompat="@drawable/baseline_photo_24" />
 
 </androidx.cardview.widget.CardView>

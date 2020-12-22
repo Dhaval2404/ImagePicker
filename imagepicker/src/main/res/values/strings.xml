@@ -1,15 +1,14 @@
 <resources>
-    <string name="app_name">Image Picker</string>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
 
     <string name="title_choose_image_provider">Choose</string>
     <string name="action_cancel">Cancel</string>
     <string name="title_gallery">Gallery</string>
     <string name="title_camera">Camera</string>
 
-    <string name="image_picker_provider_authority_suffix">.imagepicker.provider</string>
-
-    <string name="message_gallery_permission_denied">Read External Storage permissions is needed to select Image. Please turn on requested permissions from Settings > Permissions.</string>
-    <string name="message_camera_permission_denied">Camera and External Storage permissions are needed to capture image. Turning off any permission won\'t allow application run smoothly. Please turn on all requested permissions from Settings > Permissions.</string>
+    <string name="message_gallery_permission_denied">Read External Storage permission is needed to select Image. Please turn on the requested permission from Settings > Permissions.</string>
+    <string name="message_camera_permission_denied">Camera and External Storage permissions are needed to capture the image. Turning off any permission won\'t allow the application to run smoothly. Please turn on all requested permissions from Settings > Permissions.</string>
     <string name="permission_gallery_denied">
         <![CDATA[Storage permission is needed to pick gallery image. Please allow storage permission from Settings > Permissions.]]></string>
     <string name="permission_camera_extended_denied">
@@ -22,6 +21,6 @@
     <string name="error_failed_to_crop_image">Failed to crop image</string>
     <string name="error_failed_to_compress_image">Failed to compress image</string>
     <string name="error_task_cancelled">Task Cancelled</string>
-
+    <string name="error_camera_app_not_found">Camera app not found</string>
 
 </resources>
