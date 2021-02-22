@@ -6,9 +6,7 @@ Usage:
 ```kotlin
 private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
     if (it.resultCode == Activity.RESULT_OK) {
-        val file = ImagePicker.getFile(it.data)!!
-        mProfileFile = file
-        imgProfile.setLocalImage(file, true)
+        //you're business logic
     }
 }
 
