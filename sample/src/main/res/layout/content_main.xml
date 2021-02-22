@@ -21,6 +21,13 @@
 
             <include layout="@layout/content_profile" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add_new_api"
+                style="@style/FabStyle"
+                android:onClick="pickProfileImageNewApiBoth"
+                app:srcCompat="@drawable/baseline_photo_24"
+                tools:ignore="ContentDescription" />
+
             <include layout="@layout/content_gallery_only" />
 
             <include layout="@layout/content_camera_only" />

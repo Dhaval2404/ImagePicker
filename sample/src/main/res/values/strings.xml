@@ -4,4 +4,5 @@
     
     <string name="action_camera_only">Camera Only</string>
     <string name="action_gallery_only">Gallery Only</string>
+    <string name="action_all">All with new API</string>
 </resources>

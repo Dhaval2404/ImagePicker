@@ -9,17 +9,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.sample.util.FileUtil
 import com.github.dhaval2404.imagepicker.sample.util.IntentUtil
-import java.io.File
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
 import kotlinx.android.synthetic.main.content_profile.*
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +37,15 @@ class MainActivity : AppCompatActivity() {
     private var mGalleryFile: File? = null
     private var mProfileFile: File? = null
 
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val file = ImagePicker.getFile(it.data)!!
+                mProfileFile = file
+                imgProfile.setLocalImage(file, true)
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         super.onCreate(savedInstanceState)
@@ -49,14 +59,29 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_github -> {
                 IntentUtil.openURL(this, GITHUB_REPOSITORY)
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun pickProfileImageNewApiBoth(view: View) {
+        ImagePicker.with(this)
+            .maxResultSize(512, 512)
+            .createIntentFromDialog { launcher.launch(it) }
+    }
+
+    fun pickProfileImageNewApiOnlyCamera(view: View) {
+        launcher.launch(
+            ImagePicker.with(this)
+                .cameraOnly()
+                .maxResultSize(512, 512)
+                .createIntent()
+        )
     }
 
     fun pickProfileImage(view: View) {
@@ -80,7 +105,6 @@ class MainActivity : AppCompatActivity() {
             .crop()
             // User can only select image from Gallery
             .galleryOnly()
-
             .galleryMimeTypes(  //no gif images at all
                 mimeTypes = arrayOf(
                     "image/png",

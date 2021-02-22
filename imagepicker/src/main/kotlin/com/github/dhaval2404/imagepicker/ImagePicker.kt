@@ -308,6 +308,23 @@ open class ImagePicker {
             }
         }
 
+        fun createIntent(): Intent =
+            Intent(activity, ImagePickerActivity::class.java).apply { putExtras(getBundle()) }
+
+        fun createIntentFromDialog(onResult: (Intent) -> Unit) {
+            if (imageProvider == ImageProvider.BOTH) {
+                DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
+                    override fun onResult(t: ImageProvider?) {
+                        t?.let {
+                            imageProvider = it
+                            imageProviderInterceptor?.invoke(imageProvider)
+                            onResult(createIntent())
+                        }
+                    }
+                }, dismissListener)
+            }
+        }
+
         /**
          * Pick Image Provider if not specified
          */
@@ -386,8 +403,12 @@ open class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        if (fragment != null) fragment!!.context else activity,
+                        "InlineActivityResult library not installed falling back to default method, please install " +
+                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     startActivity(REQUEST_CODE)
                 }
             }
