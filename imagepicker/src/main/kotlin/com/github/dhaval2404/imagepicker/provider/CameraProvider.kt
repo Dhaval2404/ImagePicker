@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
@@ -22,7 +23,7 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
+class CameraProvider(activity: ImagePickerActivity,  private val launcher: (Intent) -> Unit) : BaseProvider(activity) {
 
     companion object {
         /**
@@ -44,8 +45,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
         )
-
-        private const val CAMERA_INTENT_REQ_CODE = 4281
         private const val PERMISSION_INTENT_REQ_CODE = 4282
     }
 
@@ -137,8 +136,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
         // Check if file exists
         if (file != null && file.exists()) {
-            val cameraIntent = IntentUtils.getCameraIntent(this, file)
-            activity.startActivityForResult(cameraIntent, CAMERA_INTENT_REQ_CODE)
+            launcher.invoke(IntentUtils.getCameraIntent(this, file))
         } else {
             setError(R.string.error_failed_to_create_camera_image_file)
         }
@@ -165,28 +163,12 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         }
     }
 
-    /**
-     * Handle Camera Intent Activity Result
-     *
-     * @param requestCode It must be {@link CameraProvider#CAMERA_INTENT_REQ_CODE}
-     * @param resultCode For success it should be {@link Activity#RESULT_OK}
-     * @param data Result Intent
-     */
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == CAMERA_INTENT_REQ_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                handleResult(data)
-            } else {
-                setResultCancel()
-            }
+    fun handleResult(result: ActivityResult) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            activity.setImage(mCameraFile!!)
+        } else {
+            setResultCancel()
         }
-    }
-
-    /**
-     * This method will be called when final result fot this provider is enabled.
-     */
-    private fun handleResult(data: Intent?) {
-        activity.setImage(mCameraFile!!)
     }
 
     /**

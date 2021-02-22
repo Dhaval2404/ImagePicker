@@ -1,11 +1,11 @@
 package com.github.dhaval2404.imagepicker.provider
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.ActivityResult
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
@@ -22,7 +22,8 @@ import java.io.IOException
  * @version 1.0
  * @since 04 January 2019
  */
-class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
+class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent) -> Unit) :
+    BaseProvider(activity) {
 
     companion object {
         private val TAG = CropProvider::class.java.simpleName
@@ -126,49 +127,22 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         if (mMaxWidth > 0 && mMaxHeight > 0) {
             uCrop.withMaxResultSize(mMaxWidth, mMaxHeight)
         }
-
-        try {
-            uCrop.start(activity, UCrop.REQUEST_CROP)
-        } catch (ex: ActivityNotFoundException) {
-            setError(
-                "uCrop not specified in manifest file." +
-                        "Add UCropActivity in Manifest" +
-                        "<activity\n" +
-                        "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
-                        "    android:screenOrientation=\"portrait\"\n" +
-                        "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
-            )
-            ex.printStackTrace()
-        }
-    }
-
-    /**
-     * Handle Crop Intent Activity Result
-     *
-     * @param requestCode It must be {@link UCrop#REQUEST_CROP}
-     * @param resultCode For success it should be {@link Activity#RESULT_OK}
-     * @param data Result Intent
-     */
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == UCrop.REQUEST_CROP) {
-            if (resultCode == Activity.RESULT_OK) {
-                handleResult(mCropImageFile)
-            } else {
-                setResultCancel()
-            }
-        }
+        launcher.invoke(uCrop.getIntent(activity))
     }
 
     /**
      * This method will be called when final result fot this provider is enabled.
-     *
-     * @param file cropped file
      */
-    private fun handleResult(file: File?) {
-        if (file != null) {
-            activity.setCropImage(file)
+    fun handleResult(result: ActivityResult) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            val file = mCropImageFile
+            if (file != null) {
+                activity.setCropImage(file)
+            } else {
+                setError(R.string.error_failed_to_crop_image)
+            }
         } else {
-            setError(R.string.error_failed_to_crop_image)
+            setResultCancel()
         }
     }
 

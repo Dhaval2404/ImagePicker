@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
@@ -44,6 +45,19 @@ class ImagePickerActivity : AppCompatActivity() {
     private lateinit var mCropProvider: CropProvider
     private lateinit var mCompressionProvider: CompressionProvider
 
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            mGalleryProvider?.handleResult(it)
+        }
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            mCameraProvider?.handleResult(it)
+        }
+    private val cropLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            mCropProvider.handleResult(it)
+        }
+
     /** File provided by GalleryProvider or CameraProvider */
     private var mImageFile: File? = null
 
@@ -80,7 +94,7 @@ class ImagePickerActivity : AppCompatActivity() {
      */
     private fun loadBundle(savedInstanceState: Bundle?) {
         // Create Crop Provider
-        mCropProvider = CropProvider(this)
+        mCropProvider = CropProvider(this) { cropLauncher.launch(it) }
         mCropProvider.onRestoreInstanceState(savedInstanceState)
 
         // Create Compression Provider
@@ -93,12 +107,12 @@ class ImagePickerActivity : AppCompatActivity() {
         // Create Gallery/Camera Provider
         when (provider) {
             ImageProvider.GALLERY -> {
-                mGalleryProvider = GalleryProvider(this)
+                mGalleryProvider = GalleryProvider(this) { galleryLauncher.launch(it) }
                 // Pick Gallery Image
                 savedInstanceState ?: mGalleryProvider?.startIntent()
             }
             ImageProvider.CAMERA -> {
-                mCameraProvider = CameraProvider(this)
+                mCameraProvider = CameraProvider(this) { cameraLauncher.launch(it) }
                 mCameraProvider?.onRestoreInstanceState(savedInstanceState)
                 // Pick Camera Image
                 savedInstanceState ?: mCameraProvider?.startIntent()
@@ -122,16 +136,6 @@ class ImagePickerActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         mCameraProvider?.onRequestPermissionsResult(requestCode)
         mGalleryProvider?.onRequestPermissionsResult(requestCode)
-    }
-
-    /**
-     * Dispatch incoming result to the correct provider.
-     */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        mCameraProvider?.onActivityResult(requestCode, resultCode, data)
-        mGalleryProvider?.onActivityResult(requestCode, resultCode, data)
-        mCropProvider.onActivityResult(requestCode, resultCode, data)
     }
 
     /**

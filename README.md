@@ -30,5 +30,11 @@ See the original repository README [here](https://github.com/Dhaval2404/ImagePic
 
 # Changelog
 
+## Fork 1.9.1
+- Removed all startForActivityResult from library since caller is responsible to provide an `ActivityResultLauncher<Intent>`
+- Removed https://github.com/florent37/InlineActivityResult dependency
+
+---
+
 ## Fork 1.9.0
 - Added [Android Activity Result APIs](https://developer.android.com/training/basics/intents/result)
