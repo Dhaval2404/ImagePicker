@@ -24,6 +24,17 @@ launcher.launch(
         .createIntent()
 )
 ```
+To use camera in Android 11 ([package visibility](https://developer.android.com/about/versions/11/privacy/package-visibility)) don't forget to add this:
+```xml
+<manifest package="com.example">
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+    ...
+</manifest>
+```
 
 See the original repository README [here](https://github.com/Dhaval2404/ImagePicker)!
 
