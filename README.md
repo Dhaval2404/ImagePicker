@@ -30,5 +30,5 @@ See the original repository README [here](https://github.com/Dhaval2404/ImagePic
 
 # Changelog
 
-## Fork 1.0.0
+## Fork 1.9.0
 - Added [Android Activity Result APIs](https://developer.android.com/training/basics/intents/result)
