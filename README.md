@@ -30,9 +30,6 @@ See the original repository README [here](https://github.com/Dhaval2404/ImagePic
 
 # Changelog
 
-## Fork 1.2.0
-- Removed https://github.com/florent37/InlineActivityResult dependency
-
 ---
 
 ## Fork 1.0.0
