@@ -1,7 +1,8 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package com.github.dhaval2404.imagepicker.sample
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,26 +27,46 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
 
     companion object {
-
         private const val GITHUB_REPOSITORY = "https://github.com/Dhaval2404/ImagePicker"
-
-        private const val PROFILE_IMAGE_REQ_CODE = 101
-        private const val GALLERY_IMAGE_REQ_CODE = 102
-        private const val CAMERA_IMAGE_REQ_CODE = 103
     }
 
     private var mCameraFile: File? = null
     private var mGalleryFile: File? = null
     private var mProfileFile: File? = null
 
-    private val launcher =
+    private val profileLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val file = ImagePicker.getFile(it.data)!!
                 mProfileFile = file
                 imgProfile.setLocalImage(file, true)
-            }
+            } else parseError(it)
         }
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val file = ImagePicker.getFile(it.data)!!
+                mGalleryFile = file
+                imgGallery.setLocalImage(file)
+            } else parseError(it)
+        }
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val file = ImagePicker.getFile(it.data)!!
+                mCameraFile = file
+                imgCamera.setLocalImage(file, false)
+            } else parseError(it)
+        }
+
+    private fun parseError(activityResult: ActivityResult) {
+        if (activityResult.resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, ImagePicker.getError(activityResult.data), Toast.LENGTH_SHORT)
+                .show()
+        } else {
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -69,21 +91,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun pickProfileImageNewApiBoth(view: View) {
-        ImagePicker.with(this)
-            .maxResultSize(512, 512)
-            .createIntentFromDialog { launcher.launch(it) }
-    }
-
-    fun pickProfileImageNewApiOnlyCamera(view: View) {
-        launcher.launch(
-            ImagePicker.with(this)
-                .cameraOnly()
-                .maxResultSize(512, 512)
-                .createIntent()
-        )
-    }
-
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
@@ -96,64 +103,41 @@ class MainActivity : AppCompatActivity() {
             }
             // Image resolution will be less than 512 x 512
             .maxResultSize(512, 512)
-            .start(PROFILE_IMAGE_REQ_CODE)
+            .createIntentFromDialog { profileLauncher.launch(it) }
     }
 
     fun pickGalleryImage(view: View) {
-        ImagePicker.with(this)
-            // Crop Image(User can choose Aspect Ratio)
-            .crop()
-            // User can only select image from Gallery
-            .galleryOnly()
-            .galleryMimeTypes(  //no gif images at all
-                mimeTypes = arrayOf(
-                    "image/png",
-                    "image/jpg",
-                    "image/jpeg"
+        galleryLauncher.launch(
+            ImagePicker.with(this)
+                // Crop Image(User can choose Aspect Ratio)
+                .crop()
+                // User can only select image from Gallery
+                .galleryOnly()
+                .galleryMimeTypes(  //no gif images at all
+                    mimeTypes = arrayOf(
+                        "image/png",
+                        "image/jpg",
+                        "image/jpeg"
+                    )
                 )
-            )
-            // Image resolution will be less than 1080 x 1920
-            .maxResultSize(1080, 1920)
-            .start(GALLERY_IMAGE_REQ_CODE)
+                // Image resolution will be less than 1080 x 1920
+                .maxResultSize(1080, 1920)
+                .createIntent()
+        )
     }
 
     fun pickCameraImage(view: View) {
-        ImagePicker.with(this)
-            // User can only capture image from Camera
-            .cameraOnly()
-            // Image size will be less than 1024 KB
-            .compress(1024)
-            .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
-            // .saveDir(File(cacheDir, "ImagePicker"))
-            // .saveDir(getExternalFilesDir("ImagePicker")!!)
-            .start(CAMERA_IMAGE_REQ_CODE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            Log.e("TAG", "Path:${ImagePicker.getFilePath(data)}")
-            // File object will not be null for RESULT_OK
-            val file = ImagePicker.getFile(data)!!
-            when (requestCode) {
-                PROFILE_IMAGE_REQ_CODE -> {
-                    mProfileFile = file
-                    imgProfile.setLocalImage(file, true)
-                }
-                GALLERY_IMAGE_REQ_CODE -> {
-                    mGalleryFile = file
-                    imgGallery.setLocalImage(file)
-                }
-                CAMERA_IMAGE_REQ_CODE -> {
-                    mCameraFile = file
-                    imgCamera.setLocalImage(file, false)
-                }
-            }
-        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
-        }
+        cameraLauncher.launch(
+            ImagePicker.with(this)
+                // User can only capture image from Camera
+                .cameraOnly()
+                // Image size will be less than 1024 KB
+                .compress(1024)
+                .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+                // .saveDir(File(cacheDir, "ImagePicker"))
+                // .saveDir(getExternalFilesDir("ImagePicker")!!)
+                .createIntent()
+        )
     }
 
     fun showImageCode(view: View) {
