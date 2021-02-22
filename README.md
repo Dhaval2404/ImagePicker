@@ -1,6 +1,7 @@
 # About this Fork
 
-I've forked this project to migrate to new [Android Activity Result APIs](https://developer.android.com/training/basics/intents/result).
+I've forked this project to migrate to new [Android Activity Result APIs](https://developer.android.com/training/basics/intents/result).  
+[![](https://jitpack.io/v/GuilhE/ImagePicker.svg)](https://jitpack.io/#GuilhE/ImagePicker)
 
 Usage:
 ```kotlin
