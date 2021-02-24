@@ -7,11 +7,11 @@ apply plugin: 'kotlin-android-extensions'
 apply from: "../ktlint.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.github.dhaval2404.imagepicker.sample"
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion 17
+        targetSdkVersion 30
         versionCode 14
         versionName "1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
