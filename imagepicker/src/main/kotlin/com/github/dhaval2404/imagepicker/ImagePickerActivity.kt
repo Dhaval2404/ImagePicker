@@ -154,7 +154,7 @@ class ImagePickerActivity : AppCompatActivity() {
         mImageFile = file
         when {
             mCropProvider.isCropEnabled() -> mCropProvider.startIntent(file)
-            mCompressionProvider.isCompressionRequired(file) -> mCompressionProvider.compress(file)
+            mCompressionProvider.isResizeRequired(file) -> mCompressionProvider.compress(file)
             else -> setResult(file)
         }
     }
@@ -176,7 +176,7 @@ class ImagePickerActivity : AppCompatActivity() {
             mImageFile = null
         }
 
-        if (mCompressionProvider.isCompressionRequired(file)) {
+        if (mCompressionProvider.isResizeRequired(file)) {
             mCompressionProvider.compress(file)
         } else {
             setResult(file)

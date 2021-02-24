@@ -27,38 +27,26 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
 
     companion object {
         private val TAG = CropProvider::class.java.simpleName
-
-        /**
-         * Key to Save/Retrieve Crop File state
-         */
         private const val STATE_CROP_FILE = "state.crop_file"
     }
 
-    private val mMaxWidth: Int
-    private val mMaxHeight: Int
+    private val maxWidth: Int
+    private val maxHeight: Int
 
-    private val mCrop: Boolean
-    private val mCropAspectX: Float
-    private val mCropAspectY: Float
-    private var mCropImageFile: File? = null
-    private var mFileDir: File? = null
+    private val crop: Boolean
+    private val cropAspectX: Float
+    private val cropAspectY: Float
+    private var cropImageFile: File? = null
+    private var fileDir: File? = null
 
     init {
-        val bundle = activity.intent.extras ?: Bundle()
-
-        // Get Max Width/Height parameter from Intent
-        mMaxWidth = bundle.getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)
-        mMaxHeight = bundle.getInt(ImagePicker.EXTRA_MAX_HEIGHT, 0)
-
-        // Get Crop Aspect Ratio parameter from Intent
-        mCrop = bundle.getBoolean(ImagePicker.EXTRA_CROP, false)
-        mCropAspectX = bundle.getFloat(ImagePicker.EXTRA_CROP_X, 0f)
-        mCropAspectY = bundle.getFloat(ImagePicker.EXTRA_CROP_Y, 0f)
-
-        // Get File Directory
-        val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
-        fileDir?.let {
-            mFileDir = File(it)
+        with(activity.intent.extras ?: Bundle()) {
+            maxWidth = getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)
+            maxHeight = getInt(ImagePicker.EXTRA_MAX_HEIGHT, 0)
+            crop = getBoolean(ImagePicker.EXTRA_CROP, false)
+            cropAspectX = getFloat(ImagePicker.EXTRA_CROP_X, 0f)
+            cropAspectY = getFloat(ImagePicker.EXTRA_CROP_Y, 0f)
+            getString(ImagePicker.EXTRA_SAVE_DIRECTORY)?.let { fileDir = File(it) }
         }
     }
 
@@ -73,16 +61,14 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
      * Note: To produce this scenario, enable "Don't keep activities" from developer options
      */
     override fun onSaveInstanceState(outState: Bundle) {
-        // Save crop file
-        outState.putSerializable(STATE_CROP_FILE, mCropImageFile)
+        outState.putSerializable(STATE_CROP_FILE, cropImageFile)
     }
 
     /**
      * Retrieve CropProvider state
      */
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        // Restore crop file
-        mCropImageFile = savedInstanceState?.getSerializable(STATE_CROP_FILE) as File?
+        cropImageFile = savedInstanceState?.getSerializable(STATE_CROP_FILE) as File?
     }
 
     /**
@@ -90,7 +76,7 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
      *
      * @return Boolean. True if Crop should be enabled else false.
      */
-    fun isCropEnabled() = mCrop
+    fun isCropEnabled() = crop
 
     /**
      * Start Crop Activity
@@ -107,9 +93,9 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
     private fun cropImage(file: File) {
         val uri = Uri.fromFile(file)
         val extension = FileUriUtils.getImageExtension(uri)
-        mCropImageFile = FileUtil.getImageFile(dir = mFileDir, extension = extension)
+        cropImageFile = FileUtil.getImageFile(dir = fileDir, extension = extension)
 
-        if (mCropImageFile == null || !mCropImageFile!!.exists()) {
+        if (cropImageFile == null || !cropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")
             setError(R.string.error_failed_to_crop_image)
             return
@@ -117,15 +103,14 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
 
         val options = UCrop.Options()
         options.setCompressionFormat(FileUtil.getCompressFormat(extension))
-        val uCrop = UCrop.of(uri, Uri.fromFile(mCropImageFile))
-            .withOptions(options)
+        val uCrop = UCrop.of(uri, Uri.fromFile(cropImageFile)).withOptions(options)
 
-        if (mCropAspectX > 0 && mCropAspectY > 0) {
-            uCrop.withAspectRatio(mCropAspectX, mCropAspectY)
+        if (cropAspectX > 0 && cropAspectY > 0) {
+            uCrop.withAspectRatio(cropAspectX, cropAspectY)
         }
 
-        if (mMaxWidth > 0 && mMaxHeight > 0) {
-            uCrop.withMaxResultSize(mMaxWidth, mMaxHeight)
+        if (maxWidth > 0 && maxHeight > 0) {
+            uCrop.withMaxResultSize(maxWidth, maxHeight)
         }
         launcher.invoke(uCrop.getIntent(activity))
     }
@@ -135,7 +120,7 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
      */
     fun handleResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
-            val file = mCropImageFile
+            val file = cropImageFile
             if (file != null) {
                 activity.setCropImage(file)
             } else {
@@ -150,6 +135,6 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
      * Delete Crop file is exists
      */
     override fun onFailure() {
-        mCropImageFile?.delete()
+        cropImageFile?.delete()
     }
 }

@@ -26,12 +26,12 @@ open class ImagePicker {
         internal const val EXTRA_IMAGE_PROVIDER = "extra.image_provider"
         internal const val EXTRA_CAMERA_DEVICE = "extra.camera_device"
 
-        internal const val EXTRA_IMAGE_MAX_SIZE = "extra.image_max_size"
         internal const val EXTRA_CROP = "extra.crop"
         internal const val EXTRA_CROP_X = "extra.crop_x"
         internal const val EXTRA_CROP_Y = "extra.crop_y"
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
+        internal const val EXTRA_KEEP_RATIO = "extra.keep_ratio"
         internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
 
         internal const val EXTRA_ERROR = "extra.error"
@@ -98,11 +98,7 @@ open class ImagePicker {
          */
         private var maxWidth: Int = 0
         private var maxHeight: Int = 0
-
-        /*
-         * Max File Size
-         */
-        private var maxSize: Long = 0
+        private var keepRatio = false
 
         private var imageProviderInterceptor: ((ImageProvider) -> Unit)? = null
 
@@ -189,19 +185,10 @@ open class ImagePicker {
         /**
          * Max Width and Height of final image
          */
-        fun maxResultSize(width: Int, height: Int): Builder {
+        fun maxResultSize(width: Int, height: Int, keepRatio: Boolean = false): Builder {
             this.maxWidth = width
             this.maxHeight = height
-            return this
-        }
-
-        /**
-         * Compress Image so that max image size can be below specified size
-         *
-         * @param maxSize Size in KB
-         */
-        fun compress(maxSize: Int): Builder {
-            this.maxSize = maxSize * 1024L
+            this.keepRatio = keepRatio
             return this
         }
 
@@ -279,16 +266,12 @@ open class ImagePicker {
             return Bundle().apply {
                 putSerializable(EXTRA_IMAGE_PROVIDER, imageProvider)
                 putStringArray(EXTRA_MIME_TYPES, mimeTypes)
-
                 putBoolean(EXTRA_CROP, crop)
                 putFloat(EXTRA_CROP_X, cropX)
                 putFloat(EXTRA_CROP_Y, cropY)
-
                 putInt(EXTRA_MAX_WIDTH, maxWidth)
                 putInt(EXTRA_MAX_HEIGHT, maxHeight)
-
-                putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
-
+                putBoolean(EXTRA_KEEP_RATIO, keepRatio)
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
             }
         }

@@ -62,15 +62,11 @@ class CameraProvider(activity: ImagePickerActivity,  private val launcher: (Inte
     /**
      * Camera image will be stored in below file directory
      */
-    private var mFileDir: File? = null
+    private var fileDir: File? = null
 
     init {
-        val bundle = activity.intent.extras ?: Bundle()
-
-        // Get File Directory
-        val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
-        fileDir?.let {
-            mFileDir = File(it)
+        with(activity.intent.extras ?: Bundle()){
+            getString(ImagePicker.EXTRA_SAVE_DIRECTORY)?.let { fileDir = File(it) }
         }
     }
 
@@ -131,7 +127,7 @@ class CameraProvider(activity: ImagePickerActivity,  private val launcher: (Inte
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        val file = FileUtil.getImageFile(dir = mFileDir)
+        val file = FileUtil.getImageFile(dir = fileDir)
         mCameraFile = file
 
         // Check if file exists

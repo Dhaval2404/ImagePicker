@@ -40,6 +40,13 @@ See the original repository README [here](https://github.com/Dhaval2404/ImagePic
 
 # Changelog
 
+## Fork 2.0.0
+- Removed compress operation since it was comparing the size of the file and not of the image (and the resize operation is enough);
+- Image maxResultSize (resize) algorithm refactor;
+- Replaced AsyncTask with coroutines
+
+---
+
 ## Fork 1.9.1
 - Removed all `sstartActivityForResult` from library since caller is responsible to provide an `ActivityResultLauncher<Intent>`
 - Removed https://github.com/florent37/InlineActivityResult dependency

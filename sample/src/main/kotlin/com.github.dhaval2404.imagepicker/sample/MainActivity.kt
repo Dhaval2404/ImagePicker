@@ -93,25 +93,14 @@ class MainActivity : AppCompatActivity() {
 
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
-            // Crop Square image
-            .cropSquare()
-            .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
-                Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
-            }
-            .setDismissListener {
-                Log.d("ImagePicker", "Dialog Dismiss")
-            }
-            // Image resolution will be less than 512 x 512
-            .maxResultSize(512, 512)
+            .maxResultSize(512, 512, true)
             .createIntentFromDialog { profileLauncher.launch(it) }
     }
 
     fun pickGalleryImage(view: View) {
         galleryLauncher.launch(
             ImagePicker.with(this)
-                // Crop Image(User can choose Aspect Ratio)
                 .crop()
-                // User can only select image from Gallery
                 .galleryOnly()
                 .galleryMimeTypes(  //no gif images at all
                     mimeTypes = arrayOf(
@@ -120,8 +109,6 @@ class MainActivity : AppCompatActivity() {
                         "image/jpeg"
                     )
                 )
-                // Image resolution will be less than 1080 x 1920
-                .maxResultSize(1080, 1920)
                 .createIntent()
         )
     }
@@ -129,13 +116,9 @@ class MainActivity : AppCompatActivity() {
     fun pickCameraImage(view: View) {
         cameraLauncher.launch(
             ImagePicker.with(this)
-                // User can only capture image from Camera
                 .cameraOnly()
-                // Image size will be less than 1024 KB
-                .compress(1024)
+                .maxResultSize(1080, 1920)
                 .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
-                // .saveDir(File(cacheDir, "ImagePicker"))
-                // .saveDir(getExternalFilesDir("ImagePicker")!!)
                 .createIntent()
         )
     }
