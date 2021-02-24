@@ -41,8 +41,9 @@ See the original repository README [here](https://github.com/Dhaval2404/ImagePic
 # Changelog
 
 ## Fork 2.0.0
-- Removed compress operation since it was comparing the size of the file and not of the image (and the resize operation is enough);
-- Image maxResultSize (resize) algorithm refactor;
+- `CompressionProvider.kt` logic refactor
+- Removed `fun compress(maxSize: Int): Builder` since it was comparing the size of the file and not the image (and the resize operation is enough);
+- Image maxResultSize (resize) algorithm refactor: `fun maxResultSize(width: Int, height: Int, keepRatio: Boolean = false): Builde`;
 - Replaced AsyncTask with coroutines
 
 ---
