@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             // User can only select image from Gallery
             .galleryOnly()
 
-            .galleryMimeTypes(  //no gif images at all
+            .galleryMimeTypes( // no gif images at all
                 mimeTypes = arrayOf(
                     "image/png",
                     "image/jpg",
