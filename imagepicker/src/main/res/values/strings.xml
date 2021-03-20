@@ -23,4 +23,13 @@
     <string name="error_task_cancelled">Task Cancelled</string>
     <string name="error_camera_app_not_found">Camera app not found</string>
 
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Original</string>
+    <string name="ucrop_label_edit_photo">Edit Photo</string>
+    <string name="ucrop_menu_crop">Crop</string>
+    <string name="ucrop_rotate">Rotate</string>
+    <string name="ucrop_scale">Scale</string>
+    <string name="ucrop_crop">Crop</string>
+    <!-- uCrop string resource end -->
+
 </resources>
