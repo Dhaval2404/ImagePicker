@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity() {
                     "image/jpeg"
                 )
             )
-            .allowMultiple(true)
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 

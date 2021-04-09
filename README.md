@@ -85,6 +85,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     
 	```kotlin
     ImagePicker.with(this)
+            .allowMultiple(true)    //to allow multiple select image, will disable crop and compress function
             .crop()	    			//Crop image(Optional), Check Customization for more option
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
@@ -120,6 +121,13 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
            
             //You can also get File Path from intent
             val filePath:String = ImagePicker.getFilePath(data)!!
+            
+            //get File objects from intent for multiple select mode
+            val files: List<File> = ImagePicker.getFiles(data)
+            
+            //get File Paths from intent for multiple select mode
+            val filePaths: List<String> = ImagePicker.getFilePaths(data)
+            
          } else if (resultCode == ImagePicker.RESULT_ERROR) {
              Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
          } else {
