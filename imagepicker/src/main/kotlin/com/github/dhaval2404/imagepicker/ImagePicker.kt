@@ -42,6 +42,9 @@ open class ImagePicker {
         internal const val EXTRA_FILE_PATH = "extra.file_path"
         internal const val EXTRA_MIME_TYPES = "extra.mime_types"
 
+        internal const val EXTRA_MULTIPLE_FILES = "extra.multiple_files"
+        internal const val EXTRA_FILE_PATHS = "extra.file_paths"
+
         /**
          * Use this to use ImagePicker in Activity Class
          *
@@ -89,6 +92,26 @@ open class ImagePicker {
             }
             return null
         }
+
+        /**
+         * Get File Paths from intent
+         */
+        fun getFilePaths(data: Intent?): List<String>? {
+            return data?.getStringArrayListExtra(EXTRA_FILE_PATHS)
+        }
+
+        /**
+         * Get File from intent
+         */
+        fun getFiles(data: Intent?): List<File> {
+            val paths = getFilePaths(data)
+            val files = arrayListOf<File>()
+            paths?.forEach {
+                val file = File(it)
+                files.add(file)
+            }
+            return files
+        }
     }
 
     class Builder(private val activity: Activity) {
@@ -118,6 +141,11 @@ open class ImagePicker {
          * Max File Size
          */
         private var maxSize: Long = 0
+
+        /*
+         * Multiple files allowed
+         */
+        private var multipleFiles: Boolean = false
 
         private var imageProviderInterceptor: ((ImageProvider) -> Unit)? = null
 
@@ -176,6 +204,14 @@ open class ImagePicker {
          */
         fun galleryMimeTypes(mimeTypes: Array<String>): Builder {
             this.mimeTypes = mimeTypes
+            return this
+        }
+
+        /**
+         * set multiple files mode for gallery only
+         */
+        fun allowMultiple(multipleFiles: Boolean): Builder {
+            this.multipleFiles = multipleFiles
             return this
         }
 
@@ -359,6 +395,8 @@ open class ImagePicker {
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
 
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
+
+                putBoolean(EXTRA_MULTIPLE_FILES, multipleFiles)
             }
         }
 

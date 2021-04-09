@@ -156,6 +156,16 @@ class ImagePickerActivity : AppCompatActivity() {
     }
 
     /**
+     * {@link CameraProvider} and {@link GalleryProvider} with allowed multiple file
+     * result will be available here.
+     *
+     * @param filePaths Capture/Gallery image file
+     */
+    fun setImage(filePaths: ArrayList<String>) {
+        setResult(filePaths)
+    }
+
+    /**
      * {@link CropProviders} Result will be available here.
      *
      * Check if compression is enable/required. If yes then start compression else return result.
@@ -208,6 +218,18 @@ class ImagePickerActivity : AppCompatActivity() {
         val intent = Intent()
         intent.data = Uri.fromFile(file)
         intent.putExtra(ImagePicker.EXTRA_FILE_PATH, file.absolutePath)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    /**
+     * Set multiple files result, Image is successfully capture/picked/cropped/compressed.
+     *
+     * @param filePaths final image file
+     */
+    private fun setResult(filePaths: ArrayList<String>) {
+        val intent = Intent()
+        intent.putExtra(ImagePicker.EXTRA_FILE_PATHS, filePaths)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

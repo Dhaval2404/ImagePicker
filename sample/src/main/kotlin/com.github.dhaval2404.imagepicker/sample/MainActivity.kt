@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_github -> {
                 IntentUtil.openURL(this, GITHUB_REPOSITORY)
                 return true
@@ -76,11 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     fun pickGalleryImage(view: View) {
         ImagePicker.with(this)
-            // Crop Image(User can choose Aspect Ratio)
-            .crop()
-            // User can only select image from Gallery
             .galleryOnly()
-
             .galleryMimeTypes( // no gif images at all
                 mimeTypes = arrayOf(
                     "image/png",
@@ -88,8 +84,7 @@ class MainActivity : AppCompatActivity() {
                     "image/jpeg"
                 )
             )
-            // Image resolution will be less than 1080 x 1920
-            .maxResultSize(1080, 1920)
+            .allowMultiple(true)
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 

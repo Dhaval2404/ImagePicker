@@ -37,11 +37,13 @@ class GalleryProvider(activity: ImagePickerActivity) :
 
     // Mime types restrictions for gallery. By default all mime types are valid
     private val mimeTypes: Array<String>
+    private val allowMultiple: Boolean
 
     init {
         val bundle = activity.intent.extras ?: Bundle()
 
         mimeTypes = bundle.getStringArray(ImagePicker.EXTRA_MIME_TYPES) ?: emptyArray()
+        allowMultiple = bundle.getBoolean(ImagePicker.EXTRA_MULTIPLE_FILES, false)
     }
 
     /**
@@ -69,6 +71,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
      */
     private fun startGalleryIntent() {
         val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes)
+        galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
         activity.startActivityForResult(galleryIntent, GALLERY_INTENT_REQ_CODE)
     }
 
@@ -118,7 +121,22 @@ class GalleryProvider(activity: ImagePickerActivity) :
                 setError(R.string.error_failed_pick_gallery_image)
             }
         } else {
-            setError(R.string.error_failed_pick_gallery_image)
+            if (data?.clipData != null) {
+                val clipDataCount = data.clipData?.itemCount ?: 0
+                val filePaths = arrayListOf<String>()
+                for (i in 0 until clipDataCount) {
+                    val clipDataUri = data.clipData?.getItemAt(i)?.uri
+                    clipDataUri?.let {
+                        val filePath = FileUriUtils.getRealPath(activity, clipDataUri)
+                        filePath?.let {
+                            filePaths.add(filePath)
+                        }
+                    }
+                }
+                activity.setImage(filePaths)
+            } else {
+                setError(R.string.error_failed_pick_gallery_image)
+            }
         }
     }
 }
