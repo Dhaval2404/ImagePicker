@@ -10,7 +10,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 14
-        versionName "2.0.0"
+        versionName "2.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,8 +40,8 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.activity:activity-ktx:1.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.3.0'
+    implementation 'androidx.activity:activity-ktx:1.2.2'
+    implementation 'androidx.fragment:fragment-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.exifinterface:exifinterface:1.3.2"
 
@@ -66,7 +66,7 @@ ext {
     siteUrl = 'https://github.com/Dhaval2404/ImagePicker/'
     gitUrl = 'https://github.com/Dhaval2404/ImagePicker.git'
 
-    libraryVersion = '2.0.0'
+    libraryVersion = '2.0.1'
     //If you are uploading new library try : gradlew install
     //If you are updating existing library then execute: gradlew bintrayUpload
     //In both the case don't forgot to put bintray credentials in local.properties file.

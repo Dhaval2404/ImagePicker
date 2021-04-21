@@ -39,6 +39,10 @@ To use camera in Android 11 ([package visibility](https://developer.android.com/
 See the original repository README [here](https://github.com/Dhaval2404/ImagePicker)!
 
 # Changelog
+## Fork 2.0.1
+- Removed `fun saveDir(path: String): Builder` and `fun saveDir(file: File): Builder`
+
+---
 
 ## Fork 2.0.0
 - `CompressionProvider.kt` logic refactor

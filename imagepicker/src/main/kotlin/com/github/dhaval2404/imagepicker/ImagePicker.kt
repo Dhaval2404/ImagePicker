@@ -32,7 +32,6 @@ open class ImagePicker {
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
         internal const val EXTRA_KEEP_RATIO = "extra.keep_ratio"
-        internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
@@ -106,15 +105,6 @@ open class ImagePicker {
          * Dialog dismiss event listener
          */
         private var dismissListener: DismissListener? = null
-
-        /**
-         * File Directory
-         *
-         * Camera, Crop, Compress Image Will be store in this directory.
-         *
-         * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
-         */
-        private var saveDir: String? = null
 
         /**
          * Specify Image Provider (Camera, Gallery or Both)
@@ -193,26 +183,6 @@ open class ImagePicker {
         }
 
         /**
-         * Provide Directory to store Captured/Modified images
-         *
-         * @param path Folder Directory
-         */
-        fun saveDir(path: String): Builder {
-            this.saveDir = path
-            return this
-        }
-
-        /**
-         * Provide Directory to store Captured/Modified images
-         *
-         * @param file Folder Directory
-         */
-        fun saveDir(file: File): Builder {
-            this.saveDir = file.absolutePath
-            return this
-        }
-
-        /**
          * Intercept Selected ImageProvider,  Useful for Analytics
          *
          * @param interceptor ImageProvider Interceptor
@@ -272,7 +242,6 @@ open class ImagePicker {
                 putInt(EXTRA_MAX_WIDTH, maxWidth)
                 putInt(EXTRA_MAX_HEIGHT, maxHeight)
                 putBoolean(EXTRA_KEEP_RATIO, keepRatio)
-                putString(EXTRA_SAVE_DIRECTORY, saveDir)
             }
         }
     }

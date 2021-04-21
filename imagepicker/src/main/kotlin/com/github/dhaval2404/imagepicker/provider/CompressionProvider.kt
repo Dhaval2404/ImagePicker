@@ -26,14 +26,12 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private val maxWidth: Int
     private val maxHeight: Int
     private val keepRatio: Boolean
-    private var fileDir: File? = null
 
     init {
         with(activity.intent.extras ?: Bundle()) {
             maxWidth = getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)
             maxHeight = getInt(ImagePicker.EXTRA_MAX_HEIGHT, 0)
             keepRatio = getBoolean(ImagePicker.EXTRA_KEEP_RATIO, false)
-            getString(ImagePicker.EXTRA_SAVE_DIRECTORY)?.let { fileDir = File(it) }
         }
     }
 

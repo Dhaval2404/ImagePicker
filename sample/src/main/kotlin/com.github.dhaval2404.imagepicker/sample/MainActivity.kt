@@ -118,7 +118,6 @@ class MainActivity : AppCompatActivity() {
             ImagePicker.with(this)
                 .cameraOnly()
                 .maxResultSize(1080, 1920)
-                .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
                 .createIntent()
         )
     }

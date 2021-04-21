@@ -60,17 +60,6 @@ class CameraProvider(activity: ImagePickerActivity,  private val launcher: (Inte
         .isPermissionInManifest(this, Manifest.permission.CAMERA)
 
     /**
-     * Camera image will be stored in below file directory
-     */
-    private var fileDir: File? = null
-
-    init {
-        with(activity.intent.extras ?: Bundle()){
-            getString(ImagePicker.EXTRA_SAVE_DIRECTORY)?.let { fileDir = File(it) }
-        }
-    }
-
-    /**
      * Save CameraProvider state
 
      * mCameraFile will lose its state when activity is recreated on
@@ -127,7 +116,7 @@ class CameraProvider(activity: ImagePickerActivity,  private val launcher: (Inte
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        val file = FileUtil.getImageFile(dir = fileDir)
+        val file = FileUtil.getImageFile()
         mCameraFile = file
 
         // Check if file exists

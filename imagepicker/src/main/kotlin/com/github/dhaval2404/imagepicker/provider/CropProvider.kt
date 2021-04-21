@@ -37,7 +37,6 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
     private val cropAspectX: Float
     private val cropAspectY: Float
     private var cropImageFile: File? = null
-    private var fileDir: File? = null
 
     init {
         with(activity.intent.extras ?: Bundle()) {
@@ -46,7 +45,6 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
             crop = getBoolean(ImagePicker.EXTRA_CROP, false)
             cropAspectX = getFloat(ImagePicker.EXTRA_CROP_X, 0f)
             cropAspectY = getFloat(ImagePicker.EXTRA_CROP_Y, 0f)
-            getString(ImagePicker.EXTRA_SAVE_DIRECTORY)?.let { fileDir = File(it) }
         }
     }
 
@@ -93,7 +91,7 @@ class CropProvider(activity: ImagePickerActivity, private val launcher: (Intent)
     private fun cropImage(file: File) {
         val uri = Uri.fromFile(file)
         val extension = FileUriUtils.getImageExtension(uri)
-        cropImageFile = FileUtil.getImageFile(dir = fileDir, extension = extension)
+        cropImageFile = FileUtil.getImageFile(extension = extension)
 
         if (cropImageFile == null || !cropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")
