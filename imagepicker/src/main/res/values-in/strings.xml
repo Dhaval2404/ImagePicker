@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
+
+    <string name="title_choose_image_provider">Pilih</string>
+    <string name="action_cancel">Batal</string>
+    <string name="title_gallery">Galeri</string>
+    <string name="title_camera">Kamera</string>
+
+    <string name="message_gallery_permission_denied">Untuk memilih gambar dibutuhkan akses perizinan penyimpanan. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.</string>
+    <string name="message_camera_permission_denied">Untuk mengambil gambar dibutuhkan akses perizinan kamera. Tanpa perizinan aplikasi tidak bisa berjalan dengan baik. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.</string>
+    <string name="permission_gallery_denied">
+        <![CDATA[Untuk memilih gambar dari galeri dibutuhkan akses perizinan penyimpanan. Mohon berikan tersebut perizinan melalui Pengaturan > Perizinan.]]></string>
+    <string name="permission_camera_extended_denied">
+        <![CDATA[Untuk mengambil gambar dibutuhkan akses perizinan penyimpanan dan kamera. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.]]></string>
+    <string name="permission_camera_denied">
+        <![CDATA[Untuk mengambil gambar dibutuhkan akses perizinan penyimpanan. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Membuat file gambar dari kamera gagal</string>
+    <string name="error_failed_pick_gallery_image">Pemilihan gambar dari galeri gagal</string>
+    <string name="error_failed_to_crop_image">Gambar gagal dipotong</string>
+    <string name="error_failed_to_compress_image">Gambar gagal dikompres</string>
+    <string name="error_task_cancelled">Task dibatalkan</string>
+    <string name="error_camera_app_not_found">Kamera tidak ditemukan</string>
+
+</resources>

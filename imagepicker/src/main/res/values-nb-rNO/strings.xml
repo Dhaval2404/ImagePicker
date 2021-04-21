@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- ImagePicker string resource start -->
+    <string name="title_choose_image_provider">Velg</string>
+    <string name="action_cancel">Avbryt</string>
+    <string name="title_gallery">Galleri</string>
+    <string name="title_camera">Kamera</string>
+
+    <string name="message_gallery_permission_denied">Les Ekstern Lagring-tillatelse trengs for å velge bilde. Du kan endre tillatelser i Innstillinger > Tillatelser.</string>
+    <string name="message_camera_permission_denied">Kamera- og Les Ekstern Lagring-tillatelser trengs for å ta bilde med kamera. Hvis du ikke aksepterer tillatelsene vil ikke appen fungere optimalt. Du kan endre tillatelser i Innstillinger > Tillatelser.</string>
+    <string name="permission_gallery_denied">
+        <![CDATA[Lagrings-tillatelse trengs for å velge bilde fra galleriet. Du kan endre tillatelser i Innstillinger > Tillatelser.]]></string>
+    <string name="permission_camera_extended_denied">
+        <![CDATA[Kamera- og Lagrings-tillatelser trengs for å ta bilde med kamera. Du kan endre tillatelser i Innstillinger > Tillatelser.]]></string>
+    <string name="permission_camera_denied">
+        <![CDATA[Lagrings-tillatelse trengs for å ta bilde. Du kan endre tillatelser i Innstillinger > Tillatelser.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Oppretting av bilde feilet</string>
+    <string name="error_failed_pick_gallery_image">Valg av bilde fra galleri feilet</string>
+    <string name="error_failed_to_crop_image">Bildebeskjæring feilet</string>
+    <string name="error_failed_to_compress_image">Bildekomprimering feilet</string>
+    <string name="error_task_cancelled">Oppgave kansellert</string>
+    <string name="error_camera_app_not_found">Kamera-app ikke funnet</string>
+    <!-- ImagePicker string resource end -->
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Original</string>
+    <string name="ucrop_label_edit_photo">Rediger bilde</string>
+    <string name="ucrop_menu_crop">Beskjær bilde</string>
+    <string name="ucrop_rotate">Roter</string>
+    <string name="ucrop_scale">Skaler</string>
+    <string name="ucrop_crop">Beskjær</string>
+    <!-- uCrop string resource end -->
+
+</resources>
