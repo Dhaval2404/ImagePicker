@@ -172,10 +172,11 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
+    @Suppress("UNUSED_PARAMETER")
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_INTENT_REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                handleResult(data)
+                handleResult()
             } else {
                 setResultCancel()
             }
@@ -185,7 +186,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * This method will be called when final result fot this provider is enabled.
      */
-    private fun handleResult(data: Intent?) {
+    private fun handleResult() {
         activity.setImage(mCameraFile!!)
     }
 

@@ -41,7 +41,6 @@ object ImageUtil {
         reqWidth: Float,
         reqHeight: Float,
         compressFormat: Bitmap.CompressFormat,
-        quality: Int,
         destinationPath: String
     ): File {
         var fileOutputStream: FileOutputStream? = null
@@ -54,7 +53,7 @@ object ImageUtil {
             // write the compressed bitmap at the destination specified by destinationPath.
             decodeSampledBitmapFromFile(imageFile, reqWidth, reqHeight)!!.compress(
                 compressFormat,
-                quality,
+                100,
                 fileOutputStream
             )
         } finally {

@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             .start(PROFILE_IMAGE_REQ_CODE)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickGalleryImage(view: View) {
         ImagePicker.with(this)
             // Crop Image(User can choose Aspect Ratio)
@@ -93,6 +95,7 @@ class MainActivity : AppCompatActivity() {
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickCameraImage(view: View) {
         ImagePicker.with(this)
             // User can only capture image from Camera

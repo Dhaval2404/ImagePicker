@@ -175,10 +175,8 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
         // Check file format
         var format = Bitmap.CompressFormat.JPEG
-        var quality = 100
         if (file.absolutePath.endsWith(".png")) {
             format = Bitmap.CompressFormat.PNG
-            quality = 100
         }
 
         val extension = FileUriUtils.getImageExtension(file)
@@ -186,7 +184,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
         return if (compressFile != null) {
             ImageUtil.compressImage(
                 file, maxWidth.toFloat(), maxHeight.toFloat(),
-                format, quality, compressFile.absolutePath
+                format, compressFile.absolutePath
             )
         } else {
             null

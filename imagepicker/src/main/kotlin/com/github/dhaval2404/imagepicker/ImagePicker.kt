@@ -386,8 +386,12 @@ open class ImagePicker {
                 }
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
+                    val message = "InlineActivityResult library not installed falling back to" +
+                            " default method, please install it from" +
+                            " https://github.com/florent37/InlineActivityResult" +
+                            " if you want to get inline activity results."
+                    val context = if (fragment != null) fragment!!.context else activity
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     startActivity(REQUEST_CODE)
                 }
             }
