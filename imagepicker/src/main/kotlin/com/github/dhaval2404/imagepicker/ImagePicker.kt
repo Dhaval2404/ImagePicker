@@ -295,6 +295,13 @@ open class ImagePicker {
                 startActivity(reqCode)
             }
         }
+        
+        fun prepareIntent(): Intent {
+            val intent = Intent(activity, ImagePickerActivity::class.java)
+            intent.putExtras(getBundle())
+           
+            return intent
+        }
 
         /**
          * Start Image Picker Activity
