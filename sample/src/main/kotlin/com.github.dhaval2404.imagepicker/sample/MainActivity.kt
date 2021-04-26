@@ -91,12 +91,14 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             .maxResultSize(512, 512, true)
             .createIntentFromDialog { profileLauncher.launch(it) }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickGalleryImage(view: View) {
         galleryLauncher.launch(
             ImagePicker.with(this)
@@ -113,6 +115,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickCameraImage(view: View) {
         cameraLauncher.launch(
             ImagePicker.with(this)

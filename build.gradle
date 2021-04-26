@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0"
 
         //jcenter plugins
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
@@ -18,10 +19,17 @@ buildscript {
 }
 
 allprojects {
+    apply plugin: "io.gitlab.arturbosch.detekt"
+
     repositories {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+    }
+
+    detekt {
+        config = files("${project.rootDir}/detekt.yml")
+        parallel = true
     }
 
     // Avoid Kotlin docs error

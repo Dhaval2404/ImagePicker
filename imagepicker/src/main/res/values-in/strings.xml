@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Image Picker</string>
-    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
 
     <string name="title_choose_image_provider">Pilih</string>
     <string name="action_cancel">Batal</string>
@@ -23,4 +22,12 @@
     <string name="error_task_cancelled">Task dibatalkan</string>
     <string name="error_camera_app_not_found">Kamera tidak ditemukan</string>
 
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Asli</string>
+    <string name="ucrop_label_edit_photo">Edit foto</string>
+    <string name="ucrop_menu_crop">Potong</string>
+    <string name="ucrop_rotate">Memutar</string>
+    <string name="ucrop_scale">Skala</string>
+    <string name="ucrop_crop">Potong</string>
+    <!-- uCrop string resource end -->
 </resources>
