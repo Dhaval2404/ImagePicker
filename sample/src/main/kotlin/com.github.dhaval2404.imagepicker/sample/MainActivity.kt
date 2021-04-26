@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         cameraLauncher.launch(
             ImagePicker.with(this)
                 .cameraOnly()
-                .maxResultSize(1080, 1920)
+                .maxResultSize(1080, 1920, true)
                 .createIntent()
         )
     }
