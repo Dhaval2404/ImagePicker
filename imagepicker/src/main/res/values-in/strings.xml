@@ -10,8 +10,6 @@
     <string name="message_camera_permission_denied">Untuk mengambil gambar dibutuhkan akses perizinan kamera. Tanpa perizinan aplikasi tidak bisa berjalan dengan baik. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.</string>
     <string name="permission_gallery_denied">
         <![CDATA[Untuk memilih gambar dari galeri dibutuhkan akses perizinan penyimpanan. Mohon berikan tersebut perizinan melalui Pengaturan > Perizinan.]]></string>
-    <string name="permission_camera_extended_denied">
-        <![CDATA[Untuk mengambil gambar dibutuhkan akses perizinan penyimpanan dan kamera. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.]]></string>
     <string name="permission_camera_denied">
         <![CDATA[Untuk mengambil gambar dibutuhkan akses perizinan penyimpanan. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.]]></string>
 
