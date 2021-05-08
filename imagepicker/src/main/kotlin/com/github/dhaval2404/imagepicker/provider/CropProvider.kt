@@ -130,11 +130,11 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         } catch (ex: ActivityNotFoundException) {
             setError(
                 "uCrop not specified in manifest file." +
-                        "Add UCropActivity in Manifest" +
-                        "<activity\n" +
-                        "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
-                        "    android:screenOrientation=\"portrait\"\n" +
-                        "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
+                    "Add UCropActivity in Manifest" +
+                    "<activity\n" +
+                    "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
+                    "    android:screenOrientation=\"portrait\"\n" +
+                    "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
             )
             ex.printStackTrace()
         }

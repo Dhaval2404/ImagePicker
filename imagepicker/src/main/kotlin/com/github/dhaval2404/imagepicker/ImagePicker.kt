@@ -327,33 +327,41 @@ open class ImagePicker {
          * Pick Image Provider if not specified
          */
         private fun showImageProviderDialog(reqCode: Int) {
-            DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider?) {
-                    t?.let {
-                        imageProvider = it
-                        imageProviderInterceptor?.invoke(imageProvider)
-                        startActivity(reqCode)
+            DialogHelper.showChooseAppDialog(
+                activity,
+                object : ResultListener<ImageProvider> {
+                    override fun onResult(t: ImageProvider?) {
+                        t?.let {
+                            imageProvider = it
+                            imageProviderInterceptor?.invoke(imageProvider)
+                            startActivity(reqCode)
+                        }
                     }
-                }
-            }, dismissListener)
+                },
+                dismissListener
+            )
         }
 
         /**
          * Pick Image Provider if not specified
          */
         private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider?) {
-                    if (t != null) {
-                        imageProvider = t
-                        imageProviderInterceptor?.invoke(imageProvider)
-                        startActivity(completionHandler)
-                    } else {
-                        val intent = ImagePickerActivity.getCancelledIntent(activity)
-                        completionHandler?.invoke(Activity.RESULT_CANCELED, intent)
+            DialogHelper.showChooseAppDialog(
+                activity,
+                object : ResultListener<ImageProvider> {
+                    override fun onResult(t: ImageProvider?) {
+                        if (t != null) {
+                            imageProvider = t
+                            imageProviderInterceptor?.invoke(imageProvider)
+                            startActivity(completionHandler)
+                        } else {
+                            val intent = ImagePickerActivity.getCancelledIntent(activity)
+                            completionHandler?.invoke(Activity.RESULT_CANCELED, intent)
+                        }
                     }
-                }
-            }, dismissListener)
+                },
+                dismissListener
+            )
         }
 
         /**
@@ -402,15 +410,15 @@ open class ImagePicker {
             } catch (e: Exception) {
                 if (e is ClassNotFoundException) {
                     val message = "InlineActivityResult library not installed falling back to" +
-                            " default method, please install it from" +
-                            " https://github.com/florent37/InlineActivityResult" +
-                            " if you want to get inline activity results."
+                        " default method, please install it from" +
+                        " https://github.com/florent37/InlineActivityResult" +
+                        " if you want to get inline activity results."
                     val context = if (fragment != null) fragment!!.context else activity
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                     Toast.makeText(
                         if (fragment != null) fragment!!.context else activity,
                         "InlineActivityResult library not installed falling back to default method, please install " +
-                                "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
+                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
                         Toast.LENGTH_LONG
                     ).show()
                     startActivity(REQUEST_CODE)

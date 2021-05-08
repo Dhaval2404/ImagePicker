@@ -135,5 +135,4 @@ object FileUtil {
             .toString()
         Log.i("File Info", info)
     }
-
 }

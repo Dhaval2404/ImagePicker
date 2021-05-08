@@ -18,7 +18,7 @@ class MainActivityEspressoTest {
 
     @get:Rule
     var activityRule: ActivityTestRule<MainActivity> =
-            ActivityTestRule(MainActivity::class.java)
+        ActivityTestRule(MainActivity::class.java)
 
     @Test
     fun ensureButtonDisableAfterOneClick() {

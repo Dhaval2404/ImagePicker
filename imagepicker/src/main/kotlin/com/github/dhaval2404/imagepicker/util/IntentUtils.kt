@@ -2,7 +2,6 @@ package com.github.dhaval2404.imagepicker.util
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -88,20 +87,6 @@ object IntentUtils {
      * Check if Camera App is available or not
      *
      * @return true if Camera App is Available else return false
-     */
-    fun isCameraAppAvailable(context: Context): Boolean {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        return intent.resolveActivity(context.packageManager) != null
-    }
-
-    fun isCameraHardwareAvailable(context: Context): Boolean {
-        return context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
-    }
-
-    /**
-     * Check if Camera app is available or not
-     *
-     * @return true if Camera app is Available else return false
      */
     fun isCameraAppAvailable(context: Context): Boolean {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

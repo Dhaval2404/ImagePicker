@@ -194,8 +194,8 @@ object ImageUtil {
         } else {
             // On earlier versions, the dimensions must match exactly and the inSampleSize must be 1
             candidate.width == targetOptions.outWidth &&
-                    candidate.height == targetOptions.outHeight &&
-                    targetOptions.inSampleSize == 1
+                candidate.height == targetOptions.outHeight &&
+                targetOptions.inSampleSize == 1
         }
     }
 
