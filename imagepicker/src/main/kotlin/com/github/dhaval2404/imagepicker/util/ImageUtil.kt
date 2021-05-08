@@ -21,7 +21,6 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.os.Build
-import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -42,7 +41,6 @@ object ImageUtil {
         reqWidth: Float,
         reqHeight: Float,
         compressFormat: Bitmap.CompressFormat,
-        quality: Int,
         destinationPath: String
     ): File {
         var fileOutputStream: FileOutputStream? = null
@@ -55,7 +53,7 @@ object ImageUtil {
             // write the compressed bitmap at the destination specified by destinationPath.
             decodeSampledBitmapFromFile(imageFile, reqWidth, reqHeight)!!.compress(
                 compressFormat,
-                quality,
+                100,
                 fileOutputStream
             )
         } finally {
@@ -143,25 +141,12 @@ object ImageUtil {
             middleY - bmp.height / 2, Paint(Paint.FILTER_BITMAP_FLAG)
         )
         bmp.recycle()
-        val exif: ExifInterface
-        try {
-            exif = ExifInterface(imageFile.absolutePath)
-            val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0)
-            val matrix = Matrix()
-            if (orientation == 6) {
-                matrix.postRotate(90f)
-            } else if (orientation == 3) {
-                matrix.postRotate(180f)
-            } else if (orientation == 8) {
-                matrix.postRotate(270f)
-            }
-            scaledBitmap = Bitmap.createBitmap(
-                scaledBitmap, 0, 0, scaledBitmap.width,
-                scaledBitmap.height, matrix, true
-            )
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+
+        val matrix = Matrix()
+        scaledBitmap = Bitmap.createBitmap(
+            scaledBitmap, 0, 0, scaledBitmap.width,
+            scaledBitmap.height, matrix, true
+        )
 
         return scaledBitmap
     }

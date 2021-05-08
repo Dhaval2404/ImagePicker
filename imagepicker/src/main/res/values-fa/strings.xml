@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ImagePicker string resource start -->
+    <string name="title_choose_image_provider">انتخاب</string>
+    <string name="action_cancel">بیخیال</string>
+    <string name="title_gallery">گالری</string>
+    <string name="title_camera">دوربین</string>
+
+    <string name="message_gallery_permission_denied">برای انتخاب عکس دسترسی خواندن فضای خارجی لازم است. لطفا دسترسی درخواست شده را از تنظیمات فعال کنید > دسترسی ها</string>
+    <string name="message_camera_permission_denied">برای گرفتن عکس دسترسی دوربین و فضای خارجی لازم است. غیرمجاز کردن این پرمیشن ها اجازه کارکرد صحیح برنامه را میگیرد. لطفا تمامی دسترسی های درخواست شده را از تنظیمات فعال کنید > دسترسی ها</string>
+    <string name="permission_gallery_denied">
+        <![CDATA[برای انتخاب عکس دسترسی خواندن فضای خارجی لازم است. لطفا دسترسی درخواست شده را از تنظیمات فعال کنید > دسترسی ها]]></string>
+    <string name="permission_camera_extended_denied">
+        <![CDATA[برای گرفتن عکس دسترسی دوربین و فضای خارجی لازم است. غیرمجاز کردن این پرمیشن ها اجازه کارکرد صحیح برنامه را میگیرد. لطفا تمامی دسترسی های درخواست شده را از تنظیمات فعال کنید، دسترسی ها]]></string>
+    <string name="permission_camera_denied">
+        <![CDATA[دسترسی فضای خارجی برای گرفتن عکس لازم است. لطفا دسترسی فضای خارجی را از تنظیمات فعال کنید < دسترسی ها]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">خطا در ایجاد فایل تصویر گرفته شده از دوربین</string>
+    <string name="error_failed_pick_gallery_image">خطا در انتخاب عکس از گالری</string>
+    <string name="error_failed_to_crop_image">خطا در برش عکس</string>
+    <string name="error_failed_to_compress_image">خطا در فشرده سازی عکس</string>
+    <string name="error_task_cancelled">عمل لغو شد</string>
+    <string name="error_camera_app_not_found">برنامه دوربین پیدا نشد</string>
+    <!-- ImagePicker string resource end -->
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">اصلی</string>
+    <string name="ucrop_label_edit_photo">ویرایش عکس</string>
+    <string name="ucrop_menu_crop">برش</string>
+    <string name="ucrop_rotate">چرخش</string>
+    <string name="ucrop_scale">مقیاس</string>
+    <string name="ucrop_crop">برش</string>
+    <!-- uCrop string resource end -->
+</resources>

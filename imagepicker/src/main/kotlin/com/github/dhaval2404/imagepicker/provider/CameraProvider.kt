@@ -54,7 +54,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private val mFileDir: File
 
     init {
-        val bundle = activity.intent.extras!!
+        val bundle = activity.intent.extras ?: Bundle()
 
         // Get File Directory
         val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
@@ -189,6 +189,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
+    @Suppress("UNUSED_PARAMETER")
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_INTENT_REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {

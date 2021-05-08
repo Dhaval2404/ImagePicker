@@ -31,7 +31,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 * Capture Camera Image
 * Crop Image(Crop image based on provided aspect ratio or let user choose one)
 * Compress Image(Compress image based on provided resolution and size)
-* Retrive Image Result as File, File Path as String or Uri object
+* Retrieve Image Result as File, File Path as String or Uri object
 * Handle Runtime Permission for Camera and Storage
 
 # 🎬Preview
@@ -56,7 +56,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.7.5'
+   implementation 'com.github.dhaval2404:imagepicker:1.8'
     ```
     
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -216,6 +216,16 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
         }
         .start()
     ```
+ *  Intercept Dialog dismiss event
+
+	```kotlin
+    ImagePicker.with(this)
+    	.setDismissListener {
+    		// Handle dismiss event
+    		Log.d("ImagePicker", "onDismiss");
+    	}
+    	.start()
+    ```
 
  *  Specify Directory to store captured, cropped or compressed images
 
@@ -267,6 +277,16 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
   * Sample - Android Kitkat 4.4+ (API 19)
 
 # ✔️Changelog
+
+### Version: 1.8
+
+  * Added dialog dismiss listener (Special Thanks to [kibotu](https://github.com/kibotu))
+  * Added text localization (Special Thanks to [yamin8000](https://github.com/yamin8000) and Jose Bravo)
+  * Fixed crash issue on missing camera app [#69](https://github.com/Dhaval2404/ImagePicker/issues/69)
+  * Fixed issue selecting images from download folder [#86](https://github.com/Dhaval2404/ImagePicker/issues/86)
+  * Fixed exif information lost issue [#121](https://github.com/Dhaval2404/ImagePicker/issues/121)
+  * Fixed crash issue on large image crop [#122](https://github.com/Dhaval2404/ImagePicker/issues/122)
+  * Fixed saving image in cache issue [#127](https://github.com/Dhaval2404/ImagePicker/issues/127)
 
 ### Version: 1.7
 

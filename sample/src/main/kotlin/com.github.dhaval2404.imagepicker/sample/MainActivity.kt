@@ -16,6 +16,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.sample.util.FileUtil
 import com.github.dhaval2404.imagepicker.sample.util.IntentUtil
 import com.github.dhaval2404.imagepicker.util.IntentUtils
+import java.io.File
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
@@ -66,12 +68,16 @@ class MainActivity : AppCompatActivity() {
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
                 Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
             }
+            .setDismissListener {
+                Log.d("ImagePicker", "Dialog Dismiss")
+            }
             // Image resolution will be less than 512 x 512
             //.maxResultSize(512, 512)
             //.saveDir(getExternalFilesDir(null)!!)
             .start(PROFILE_IMAGE_REQ_CODE)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickGalleryImage(view: View) {
         ImagePicker.with(this)
             // Crop Image(User can choose Aspect Ratio)
@@ -92,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickCameraImage(view: View) {
         ImagePicker.with(this)
             // User can only capture image from Camera
@@ -99,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             // Image size will be less than 1024 KB
             .compress(50)
             .saveDir(getExternalFilesDir(null)!!)
+            .compress(1024)
+            .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+            // .saveDir(File(cacheDir, "ImagePicker"))
+            // .saveDir(getExternalFilesDir("ImagePicker")!!)
             .start(CAMERA_IMAGE_REQ_CODE)
     }
 

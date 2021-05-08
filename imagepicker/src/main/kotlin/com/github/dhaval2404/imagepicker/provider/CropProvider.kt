@@ -43,7 +43,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private val mFileDir: File
 
     init {
-        val bundle = activity.intent.extras!!
+        val bundle = activity.intent.extras ?: Bundle()
 
         // Get Max Width/Height parameter from Intent
         mMaxWidth = bundle.getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)

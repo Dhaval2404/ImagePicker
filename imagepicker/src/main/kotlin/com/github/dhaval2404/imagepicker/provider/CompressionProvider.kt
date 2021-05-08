@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Bundle
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
+import com.github.dhaval2404.imagepicker.util.ExifDataCopier
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.ImageUtil
@@ -31,7 +33,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private val mFileDir: File
 
     init {
-        val bundle = activity.intent.extras!!
+        val bundle = activity.intent.extras ?: Bundle()
 
         // Get Max Width/Height parameter from Intent
         mMaxWidth = bundle.getInt(ImagePicker.EXTRA_MAX_WIDTH, 0)
@@ -159,6 +161,9 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             }
         } while (isCompressionRequired(newFile!!))
 
+        // Copy Exif Data
+        ExifDataCopier.copyExif(file, newFile)
+
         return newFile
     }
 
@@ -186,10 +191,8 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
 
         // Check file format
         var format = Bitmap.CompressFormat.JPEG
-        var quality = 100
         if (file.absolutePath.endsWith(".png")) {
             format = Bitmap.CompressFormat.PNG
-            quality = 100
         }
 
         val extension = FileUriUtils.getImageExtension(file)
@@ -197,7 +200,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
         return if (compressFile != null) {
             ImageUtil.compressImage(
                 file, maxWidth.toFloat(), maxHeight.toFloat(),
-                format, quality, compressFile.absolutePath
+                format, compressFile.absolutePath
             )
         } else {
             null
