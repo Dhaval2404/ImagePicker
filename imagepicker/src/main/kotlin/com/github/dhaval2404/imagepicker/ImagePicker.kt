@@ -151,7 +151,7 @@ open class ImagePicker {
         /**
          * Call this while picking image for fragment.
          */
-        constructor(fragment: Fragment) : this(fragment.activity!!) {
+        constructor(fragment: Fragment) : this(fragment.requireActivity()) {
             this.fragment = fragment
         }
 
