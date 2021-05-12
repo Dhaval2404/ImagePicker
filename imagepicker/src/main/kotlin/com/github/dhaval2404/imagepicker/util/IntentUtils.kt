@@ -22,6 +22,7 @@ object IntentUtils {
     /**
      * @return Intent Gallery Intent
      */
+    @JvmStatic
     fun getGalleryIntent(context: Context, mimeTypes: Array<String>): Intent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val intent = getGalleryDocumentIntent(mimeTypes)
@@ -67,6 +68,7 @@ object IntentUtils {
     /**
      * @return Intent Camera Intent
      */
+    @JvmStatic
     fun getCameraIntent(context: Context, file: File): Intent? {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -88,6 +90,7 @@ object IntentUtils {
      *
      * @return true if Camera App is Available else return false
      */
+    @JvmStatic
     fun isCameraAppAvailable(context: Context): Boolean {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         return intent.resolveActivity(context.packageManager) != null
@@ -100,6 +103,7 @@ object IntentUtils {
      * @param uri
      * @return Intent
      */
+    @JvmStatic
     fun getUriViewIntent(context: Context, uri: Uri): Intent {
         val intent = Intent(Intent.ACTION_VIEW)
         val authority =
