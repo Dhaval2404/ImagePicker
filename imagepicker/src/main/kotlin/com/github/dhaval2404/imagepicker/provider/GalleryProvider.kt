@@ -167,5 +167,4 @@ class GalleryProvider(activity: ImagePickerActivity) :
     private fun takePersistableUriPermission(uri: Uri) {
         contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
-
 }
