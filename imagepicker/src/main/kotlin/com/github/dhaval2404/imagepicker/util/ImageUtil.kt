@@ -202,6 +202,7 @@ object ImageUtil {
     /**
      * A helper function to return the byte usage per pixel of a bitmap based on its configuration.
      */
+    @Suppress("DEPRECATION")
     private fun getBytesPerPixel(config: Bitmap.Config): Int {
         return when (config) {
             Bitmap.Config.ARGB_8888 -> 4
