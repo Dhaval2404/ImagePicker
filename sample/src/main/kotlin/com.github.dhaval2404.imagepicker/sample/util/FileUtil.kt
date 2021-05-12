@@ -25,6 +25,7 @@ object FileUtil {
      * @param uri Uri
      * @return Image Info
      */
+    @JvmStatic
     fun getFileInfo(context: Context, uri: Uri?): String {
         if (uri == null) {
             return "Image not found"
