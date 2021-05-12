@@ -40,6 +40,7 @@ object IntentUtil {
      * @param url Valid http/https URL
      *
      */
+    @JvmStatic
     fun openURL(activity: Activity, url: String) {
         val link = Uri.parse(url)
         CustomTabsIntent.Builder()
