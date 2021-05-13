@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_camera_only.*
 import kotlinx.android.synthetic.main.content_gallery_only.*
 import kotlinx.android.synthetic.main.content_profile.*
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,10 +61,29 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /*private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK) {
+                // Image Uri will not be null for RESULT_OK
+                val fileUri = data?.data!!
+
+                mProfileUri = fileUri
+                imgProfile.setLocalImage(fileUri, true)
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+            }
+        }*/
+
     @Suppress("UNUSED_PARAMETER")
     fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
+            .galleryOnly()
             .cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
                 Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
@@ -71,8 +92,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("ImagePicker", "Dialog Dismiss")
             }
             // Image resolution will be less than 512 x 512
-            .maxResultSize(512, 512)
-            // .saveDir(getExternalFilesDir(null)!!)
+            .maxResultSize(200, 200)
             .start(PROFILE_IMAGE_REQ_CODE)
     }
 
@@ -97,28 +117,51 @@ class MainActivity : AppCompatActivity() {
             .start(GALLERY_IMAGE_REQ_CODE)
     }
 
+    /**
+     * Ref: https://gist.github.com/granoeste/5574148
+     */
     @Suppress("UNUSED_PARAMETER")
     fun pickCameraImage(view: View) {
         ImagePicker.with(this)
             // User can only capture image from Camera
             .cameraOnly()
             // Image size will be less than 1024 KB
-            .compress(1024)
+            // .compress(1024)
+            //  Path: /storage/sdcard0/Android/data/package/files
             .saveDir(getExternalFilesDir(null)!!)
-            // .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
-            // .saveDir(File(cacheDir, "ImagePicker"))
-            // .saveDir(getExternalFilesDir("ImagePicker")!!)
+            //  Path: /storage/sdcard0/Android/data/package/files/DCIM
+            .saveDir(getExternalFilesDir(Environment.DIRECTORY_DCIM)!!)
+            //  Path: /storage/sdcard0/Android/data/package/files/Download
+            .saveDir(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!)
+            //  Path: /storage/sdcard0/Android/data/package/files/Pictures
+            .saveDir(getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!)
+            //  Path: /storage/sdcard0/Android/data/package/files/Pictures/ImagePicker
+            .saveDir(File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!, "ImagePicker"))
+            //  Path: /storage/sdcard0/Android/data/package/files/ImagePicker
+            .saveDir(getExternalFilesDir("ImagePicker")!!)
+            //  Path: /storage/sdcard0/Android/data/package/cache/ImagePicker
+            .saveDir(File(getExternalCacheDir(), "ImagePicker"))
+            //  Path: /data/data/package/cache/ImagePicker
+            .saveDir(File(getCacheDir(), "ImagePicker"))
+            //  Path: /data/data/package/files/ImagePicker
+            .saveDir(File(getFilesDir(), "ImagePicker"))
+
+            // Below saveDir path will not work, So do not use it
+            //  Path: /storage/sdcard0/DCIM
+            //  .saveDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM))
+            //  Path: /storage/sdcard0/Pictures
+            //  .saveDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES))
+            //  Path: /storage/sdcard0/ImagePicker
+            //  .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+
             .start(CAMERA_IMAGE_REQ_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            Log.e("TAG", "Path:${ImagePicker.getFilePath(data)}")
-            FileUtil.printFileInfo(ImagePicker.getFile(data))
-
             // Uri object will not be null for RESULT_OK
-            val uri = data?.data!!
+            val uri: Uri = data?.data!!
             when (requestCode) {
                 PROFILE_IMAGE_REQ_CODE -> {
                     mProfileUri = uri
