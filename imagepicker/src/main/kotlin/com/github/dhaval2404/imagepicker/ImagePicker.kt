@@ -3,14 +3,11 @@ package com.github.dhaval2404.imagepicker
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.listener.DismissListener
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
-import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import java.io.File
 
 /**
@@ -309,22 +306,37 @@ open class ImagePicker {
             }
         }
 
-        fun prepareIntent(): Intent {
+        /**
+         * Prefer {@see createIntentFromDialog} over this method, as
+         *
+         *  Only used with ImageProvider.GALLERY or ImageProvider.CAMERA
+         */
+        private fun createIntent(): Intent {
             val intent = Intent(activity, ImagePickerActivity::class.java)
             intent.putExtras(getBundle())
-
             return intent
         }
 
         /**
-         * Start Image Picker Activity
+         * Get Intent
          */
-        fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+        fun createIntent(onResult: (Intent) -> Unit) {
             if (imageProvider == ImageProvider.BOTH) {
-                // Pick Image Provider if not specified
-                showImageProviderDialog(completionHandler)
+                DialogHelper.showChooseAppDialog(
+                    activity,
+                    object : ResultListener<ImageProvider> {
+                        override fun onResult(t: ImageProvider?) {
+                            t?.let {
+                                imageProvider = it
+                                imageProviderInterceptor?.invoke(imageProvider)
+                                onResult(createIntent())
+                            }
+                        }
+                    },
+                    dismissListener
+                )
             } else {
-                startActivity(completionHandler)
+                onResult(createIntent())
             }
         }
 
@@ -340,28 +352,6 @@ open class ImagePicker {
                             imageProvider = it
                             imageProviderInterceptor?.invoke(imageProvider)
                             startActivity(reqCode)
-                        }
-                    }
-                },
-                dismissListener
-            )
-        }
-
-        /**
-         * Pick Image Provider if not specified
-         */
-        private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            DialogHelper.showChooseAppDialog(
-                activity,
-                object : ResultListener<ImageProvider> {
-                    override fun onResult(t: ImageProvider?) {
-                        if (t != null) {
-                            imageProvider = t
-                            imageProviderInterceptor?.invoke(imageProvider)
-                            startActivity(completionHandler)
-                        } else {
-                            val intent = ImagePickerActivity.getCancelledIntent(activity)
-                            completionHandler?.invoke(Activity.RESULT_CANCELED, intent)
                         }
                     }
                 },
@@ -387,47 +377,6 @@ open class ImagePicker {
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
 
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
-            }
-        }
-
-        /**
-         * Start ImagePickerActivity with given Argument
-         */
-        private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-
-            try {
-                val intent = Intent(activity, ImagePickerActivity::class.java)
-                intent.putExtras(getBundle())
-                if (fragment != null) {
-
-                    fragment?.startForResult(intent) { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }?.onFailed { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }
-                } else {
-                    (activity as AppCompatActivity).startForResult(intent) { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }.onFailed { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }
-                }
-            } catch (e: Exception) {
-                if (e is ClassNotFoundException) {
-                    val message = "InlineActivityResult library not installed falling back to" +
-                        " default method, please install it from" +
-                        " https://github.com/florent37/InlineActivityResult" +
-                        " if you want to get inline activity results."
-                    val context = if (fragment != null) fragment!!.context else activity
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    Toast.makeText(
-                        if (fragment != null) fragment!!.context else activity,
-                        "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    startActivity(REQUEST_CODE)
-                }
             }
         }
 
