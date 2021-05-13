@@ -147,6 +147,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
+    @Suppress("UNUSED_PARAMETER")
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == UCrop.REQUEST_CROP) {
             if (resultCode == Activity.RESULT_OK) {

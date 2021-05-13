@@ -45,13 +45,13 @@ object ImageUtil {
     ): File {
         var fileOutputStream: FileOutputStream? = null
         val file = File(destinationPath).parentFile
-        if (!file.exists()) {
+        if (file?.exists() == false) {
             file.mkdirs()
         }
         try {
             fileOutputStream = FileOutputStream(destinationPath)
             // write the compressed bitmap at the destination specified by destinationPath.
-            decodeSampledBitmapFromFile(imageFile, reqWidth, reqHeight)!!.compress(
+            decodeSampledBitmapFromFile(imageFile, reqWidth, reqHeight)?.compress(
                 compressFormat,
                 100,
                 fileOutputStream

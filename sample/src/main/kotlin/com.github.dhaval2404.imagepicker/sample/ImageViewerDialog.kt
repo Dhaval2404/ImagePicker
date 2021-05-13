@@ -20,6 +20,7 @@ class ImageViewerDialog : DialogFragment() {
 
         private const val EXTRA_IMAGE_RESOURCE = "extra.image_resource"
 
+        @JvmStatic
         fun newInstance(resource: Int) = ImageViewerDialog().apply {
             arguments = Bundle().apply {
                 putInt(EXTRA_IMAGE_RESOURCE, resource)
