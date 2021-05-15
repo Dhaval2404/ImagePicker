@@ -71,7 +71,6 @@ open class ImagePicker {
                 return "Unknown Error!"
             }
         }
-
     }
 
     class Builder(private val activity: Activity) {

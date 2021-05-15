@@ -1,17 +1,13 @@
 package com.github.dhaval2404.imagepicker.provider
 
-import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.IntentUtils
-import com.github.dhaval2404.imagepicker.util.PermissionUtil
 
 /**
  * Select image from Storage
@@ -43,7 +39,6 @@ class GalleryProvider(activity: ImagePickerActivity) :
     fun startIntent() {
         startGalleryIntent()
     }
-
 
     /**
      * Start Gallery Intent
