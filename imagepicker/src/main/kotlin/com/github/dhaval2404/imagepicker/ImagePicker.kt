@@ -3,14 +3,11 @@ package com.github.dhaval2404.imagepicker
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.listener.DismissListener
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
-import com.github.florent37.inlineactivityresult.kotlin.startForResult
 import java.io.File
 
 /**
@@ -47,6 +44,7 @@ open class ImagePicker {
          *
          * @param activity Activity Instance
          */
+        @JvmStatic
         fun with(activity: Activity): Builder {
             return Builder(activity)
         }
@@ -56,6 +54,7 @@ open class ImagePicker {
          *
          * @param fragment Fragment Instance
          */
+        @JvmStatic
         fun with(fragment: Fragment): Builder {
             return Builder(fragment)
         }
@@ -63,6 +62,7 @@ open class ImagePicker {
         /**
          * Get error message from intent
          */
+        @JvmStatic
         fun getError(data: Intent?): String {
             val error = data?.getStringExtra(EXTRA_ERROR)
             if (error != null) {
@@ -70,24 +70,6 @@ open class ImagePicker {
             } else {
                 return "Unknown Error!"
             }
-        }
-
-        /**
-         * Get File Path from intent
-         */
-        fun getFilePath(data: Intent?): String? {
-            return data?.getStringExtra(EXTRA_FILE_PATH)
-        }
-
-        /**
-         * Get File from intent
-         */
-        fun getFile(data: Intent?): File? {
-            val path = getFilePath(data)
-            if (path != null) {
-                return File(path)
-            }
-            return null
         }
     }
 
@@ -131,14 +113,14 @@ open class ImagePicker {
          *
          * Camera, Crop, Compress Image Will be store in this directory.
          *
-         * If null, Image will be stored in {@see [Environment.DIRECTORY_DCIM]}
+         * If null, Image will be stored in "{fileDir}/Images"
          */
         private var saveDir: String? = null
 
         /**
          * Call this while picking image for fragment.
          */
-        constructor(fragment: Fragment) : this(fragment.activity!!) {
+        constructor(fragment: Fragment) : this(fragment.requireActivity()) {
             this.fragment = fragment
         }
 
@@ -295,23 +277,38 @@ open class ImagePicker {
                 startActivity(reqCode)
             }
         }
-        
-        fun prepareIntent(): Intent {
+
+        /**
+         * Prefer {@see createIntentFromDialog} over this method, as
+         *
+         *  Only used with ImageProvider.GALLERY or ImageProvider.CAMERA
+         */
+        private fun createIntent(): Intent {
             val intent = Intent(activity, ImagePickerActivity::class.java)
             intent.putExtras(getBundle())
-           
             return intent
         }
 
         /**
-         * Start Image Picker Activity
+         * Get Intent
          */
-        fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
+        fun createIntent(onResult: (Intent) -> Unit) {
             if (imageProvider == ImageProvider.BOTH) {
-                // Pick Image Provider if not specified
-                showImageProviderDialog(completionHandler)
+                DialogHelper.showChooseAppDialog(
+                    activity,
+                    object : ResultListener<ImageProvider> {
+                        override fun onResult(t: ImageProvider?) {
+                            t?.let {
+                                imageProvider = it
+                                imageProviderInterceptor?.invoke(imageProvider)
+                                onResult(createIntent())
+                            }
+                        }
+                    },
+                    dismissListener
+                )
             } else {
-                startActivity(completionHandler)
+                onResult(createIntent())
             }
         }
 
@@ -319,33 +316,19 @@ open class ImagePicker {
          * Pick Image Provider if not specified
          */
         private fun showImageProviderDialog(reqCode: Int) {
-            DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider?) {
-                    t?.let {
-                        imageProvider = it
-                        imageProviderInterceptor?.invoke(imageProvider)
-                        startActivity(reqCode)
+            DialogHelper.showChooseAppDialog(
+                activity,
+                object : ResultListener<ImageProvider> {
+                    override fun onResult(t: ImageProvider?) {
+                        t?.let {
+                            imageProvider = it
+                            imageProviderInterceptor?.invoke(imageProvider)
+                            startActivity(reqCode)
+                        }
                     }
-                }
-            }, dismissListener)
-        }
-
-        /**
-         * Pick Image Provider if not specified
-         */
-        private fun showImageProviderDialog(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            DialogHelper.showChooseAppDialog(activity, object : ResultListener<ImageProvider> {
-                override fun onResult(t: ImageProvider?) {
-                    if (t != null) {
-                        imageProvider = t
-                        imageProviderInterceptor?.invoke(imageProvider)
-                        startActivity(completionHandler)
-                    } else {
-                        val intent = ImagePickerActivity.getCancelledIntent(activity)
-                        completionHandler?.invoke(Activity.RESULT_CANCELED, intent)
-                    }
-                }
-            }, dismissListener)
+                },
+                dismissListener
+            )
         }
 
         /**
@@ -366,41 +349,6 @@ open class ImagePicker {
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
 
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
-            }
-        }
-
-        /**
-         * Start ImagePickerActivity with given Argument
-         */
-        private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-
-            try {
-                val intent = Intent(activity, ImagePickerActivity::class.java)
-                intent.putExtras(getBundle())
-                if (fragment != null) {
-
-                    fragment?.startForResult(intent) { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }?.onFailed { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }
-                } else {
-                    (activity as AppCompatActivity).startForResult(intent) { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }.onFailed { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }
-                }
-            } catch (e: Exception) {
-                if (e is ClassNotFoundException) {
-                    val message = "InlineActivityResult library not installed falling back to" +
-                            " default method, please install it from" +
-                            " https://github.com/florent37/InlineActivityResult" +
-                            " if you want to get inline activity results."
-                    val context = if (fragment != null) fragment!!.context else activity
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    startActivity(REQUEST_CODE)
-                }
             }
         }
 

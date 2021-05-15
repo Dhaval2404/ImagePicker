@@ -2,12 +2,12 @@ package com.github.dhaval2404.imagepicker.util
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.listener.DismissListener
 import com.github.dhaval2404.imagepicker.listener.ResultListener
-import kotlinx.android.synthetic.main.dialog_choose_app.view.*
 
 /**
  * Show Dialog
@@ -45,13 +45,13 @@ internal object DialogHelper {
             .show()
 
         // Handle Camera option click
-        customView.lytCameraPick.setOnClickListener {
+        customView.findViewById<View>(R.id.lytCameraPick).setOnClickListener {
             listener.onResult(ImageProvider.CAMERA)
             dialog.dismiss()
         }
 
         // Handle Gallery option click
-        customView.lytGalleryPick.setOnClickListener {
+        customView.findViewById<View>(R.id.lytGalleryPick).setOnClickListener {
             listener.onResult(ImageProvider.GALLERY)
             dialog.dismiss()
         }

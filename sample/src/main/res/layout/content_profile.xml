@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 
     <RelativeLayout
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_centerInParent="true">
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true">
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:background="@drawable/profile_bg"
-                android:onClick="showImage"
-                android:padding="3dp"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_person" />
+            android:id="@+id/imgProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:background="@drawable/profile_bg"
+            android:onClick="showImage"
+            android:padding="3dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_person" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_add_photo"
-                style="@style/FabStyle"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:onClick="pickProfileImage" />
+            android:id="@+id/fab_add_photo"
+            style="@style/FabStyle"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:onClick="pickProfileImage" />
 
     </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgProfileCode"
-            style="@style/ImageButtonStyle"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:onClick="showImageCode"
-            app:srcCompat="@drawable/outline_code_24" />
+        android:id="@+id/imgProfileCode"
+        style="@style/ImageButtonStyle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="showImageCode"
+        app:srcCompat="@drawable/outline_code_24" />
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgProfileInfo"
-            style="@style/ImageButtonStyle"
-            android:layout_below="@id/imgProfileCode"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:onClick="showImageInfo"
-            app:srcCompat="@drawable/outline_info_24" />
+        android:id="@+id/imgProfileInfo"
+        style="@style/ImageButtonStyle"
+        android:layout_below="@id/imgProfileCode"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="showImageInfo"
+        app:srcCompat="@drawable/outline_info_24" />
 
 </RelativeLayout>

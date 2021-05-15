@@ -9,7 +9,6 @@ import android.util.Log
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
-import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.yalantis.ucrop.UCrop
 import java.io.File
@@ -40,7 +39,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private val mCropAspectX: Float
     private val mCropAspectY: Float
     private var mCropImageFile: File? = null
-    private var mFileDir: File? = null
+    private val mFileDir: File
 
     init {
         val bundle = activity.intent.extras ?: Bundle()
@@ -56,9 +55,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
         // Get File Directory
         val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
-        fileDir?.let {
-            mFileDir = File(it)
-        }
+        mFileDir = getFileDir(fileDir)
     }
 
     /**
@@ -94,19 +91,18 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Start Crop Activity
      */
-    fun startIntent(file: File) {
-        cropImage(file)
+    fun startIntent(uri: Uri) {
+        cropImage(uri)
     }
 
     /**
-     * @param file Image File to be cropped
+     * @param uri Uri to be cropped
      * @throws IOException if failed to crop image
      */
     @Throws(IOException::class)
-    private fun cropImage(file: File) {
-        val uri = Uri.fromFile(file)
-        val extension = FileUriUtils.getImageExtension(uri)
-        mCropImageFile = FileUtil.getImageFile(dir = mFileDir, extension = extension)
+    private fun cropImage(uri: Uri) {
+        val extension = FileUtil.getImageExtension(uri)
+        mCropImageFile = FileUtil.getImageFile(fileDir = mFileDir, extension = extension)
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {
             Log.e(TAG, "Failed to create crop image file")
@@ -116,6 +112,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
 
         val options = UCrop.Options()
         options.setCompressionFormat(FileUtil.getCompressFormat(extension))
+
         val uCrop = UCrop.of(uri, Uri.fromFile(mCropImageFile))
             .withOptions(options)
 
@@ -132,11 +129,11 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         } catch (ex: ActivityNotFoundException) {
             setError(
                 "uCrop not specified in manifest file." +
-                        "Add UCropActivity in Manifest" +
-                        "<activity\n" +
-                        "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
-                        "    android:screenOrientation=\"portrait\"\n" +
-                        "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
+                    "Add UCropActivity in Manifest" +
+                    "<activity\n" +
+                    "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
+                    "    android:screenOrientation=\"portrait\"\n" +
+                    "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
             )
             ex.printStackTrace()
         }
@@ -149,6 +146,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
+    @Suppress("UNUSED_PARAMETER")
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == UCrop.REQUEST_CROP) {
             if (resultCode == Activity.RESULT_OK) {
@@ -166,16 +164,26 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun handleResult(file: File?) {
         if (file != null) {
-            activity.setCropImage(file)
+            activity.setCropImage(Uri.fromFile(file))
         } else {
             setError(R.string.error_failed_to_crop_image)
         }
     }
 
     /**
-     * Delete Crop file is exists
+     * Handle Crop Failed
      */
     override fun onFailure() {
+        delete()
+    }
+
+    /**
+     * Delete Crop File, If not required
+     *
+     * After Image Compression, Crop File will not required
+     */
+    fun delete() {
         mCropImageFile?.delete()
+        mCropImageFile = null
     }
 }

@@ -169,7 +169,7 @@ object FileUriUtils {
         var outputStream: OutputStream? = null
         var success = false
         try {
-            val extension = getImageExtension(uri)
+            val extension = FileUtil.getImageExtension(uri)
             inputStream = context.contentResolver.openInputStream(uri)
             file = FileUtil.getImageFile(context.cacheDir, extension)
             if (file == null) return null
@@ -195,40 +195,6 @@ object FileUriUtils {
             }
         }
         return if (success) file!!.path else null
-    }
-
-    /**
-     * Get Image Extension i.e. .png, .jpg
-     *
-     * @return extension of image with dot, or default .jpg if it none.
-     */
-    fun getImageExtension(uriImage: Uri): String {
-        var extension: String? = null
-
-        try {
-            val imagePath = uriImage.path
-            if (imagePath != null && imagePath.lastIndexOf(".") != -1) {
-                extension = imagePath.substring(imagePath.lastIndexOf(".") + 1)
-            }
-        } catch (e: Exception) {
-            extension = null
-        }
-
-        if (extension == null || extension.isEmpty()) {
-            // default extension for matches the previous behavior of the plugin
-            extension = "jpg"
-        }
-
-        return ".$extension"
-    }
-
-    /**
-     * Get Image Extension i.e. .png, .jpg
-     *
-     * @return extension of image with dot, or default .jpg if it none.
-     */
-    fun getImageExtension(file: File): String {
-        return getImageExtension(Uri.fromFile(file))
     }
 
     /**
