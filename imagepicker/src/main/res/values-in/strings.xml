@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Image Picker</string>
-
     <string name="title_choose_image_provider">Pilih</string>
     <string name="action_cancel">Batal</string>
     <string name="title_gallery">Galeri</string>
