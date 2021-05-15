@@ -1,9 +1,7 @@
 package com.github.dhaval2404.imagepicker.sample.util
 
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.util.Log
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -59,9 +57,9 @@ object FileUtil {
             .append(fileSize)
             .append("\n\n")
 
-            .append("File Name: ")
+            /*.append("File Name: ")
             .append(getFileName(context.contentResolver, uri))
-            .append("\n\n")
+            .append("\n\n")*/
 
             .append("File Path: ")
             .append(filePath)
@@ -83,7 +81,7 @@ object FileUtil {
         }
     }
 
-    private fun getFileName(contentResolver: ContentResolver, uri: Uri): String? {
+    /*private fun getFileName(contentResolver: ContentResolver, uri: Uri): String? {
         if (ContentResolver.SCHEME_FILE == uri.scheme) {
             return File(uri.path).getName()
         } else if (ContentResolver.SCHEME_CONTENT == uri.scheme) {
@@ -107,7 +105,7 @@ object FileUtil {
         } catch (ex: Exception) {
             null
         }
-    }
+    }*/
 
     fun printFileInfo(file: File?) {
         if (file == null) {
