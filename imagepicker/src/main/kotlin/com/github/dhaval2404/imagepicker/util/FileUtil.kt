@@ -155,7 +155,7 @@ object FileUtil {
      */
     fun getDocumentFile(context: Context, uri: Uri): DocumentFile? {
         var file: DocumentFile? = null
-        if (FileUriUtils.isFileUri(uri)) {
+        if (isFileUri(uri)) {
             val path = FileUriUtils.getRealPath(context, uri)
             if (path != null) {
                 file = DocumentFile.fromFile(File(path))
@@ -185,5 +185,48 @@ object FileUtil {
             }
             else -> Bitmap.CompressFormat.JPEG
         }
+    }
+
+    /**
+     * Get Image Extension i.e. .png, .jpg
+     *
+     * @return extension of image with dot, or default .jpg if it none.
+     */
+    fun getImageExtension(file: File): String {
+        return getImageExtension(Uri.fromFile(file))
+    }
+
+    /**
+     * Get Image Extension i.e. .png, .jpg
+     *
+     * @return extension of image with dot, or default .jpg if it none.
+     */
+    fun getImageExtension(uriImage: Uri): String {
+        var extension: String? = null
+
+        try {
+            val imagePath = uriImage.path
+            if (imagePath != null && imagePath.lastIndexOf(".") != -1) {
+                extension = imagePath.substring(imagePath.lastIndexOf(".") + 1)
+            }
+        } catch (e: Exception) {
+            extension = null
+        }
+
+        if (extension == null || extension.isEmpty()) {
+            // default extension for matches the previous behavior of the plugin
+            extension = "jpg"
+        }
+
+        return ".$extension"
+    }
+
+    /**
+     * Check if provided URI is backed by File
+     *
+     * @return Boolean, True if Uri is local file object else return false
+     */
+    private fun isFileUri(uri: Uri): Boolean {
+        return "file".equals(uri.scheme, ignoreCase = true)
     }
 }

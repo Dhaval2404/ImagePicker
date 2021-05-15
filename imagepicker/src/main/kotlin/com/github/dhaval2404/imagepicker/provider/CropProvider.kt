@@ -9,7 +9,6 @@ import android.util.Log
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
-import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.yalantis.ucrop.UCrop
 import java.io.File
@@ -102,7 +101,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     @Throws(IOException::class)
     private fun cropImage(uri: Uri) {
-        val extension = FileUriUtils.getImageExtension(uri)
+        val extension = FileUtil.getImageExtension(uri)
         mCropImageFile = FileUtil.getImageFile(fileDir = mFileDir, extension = extension)
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {

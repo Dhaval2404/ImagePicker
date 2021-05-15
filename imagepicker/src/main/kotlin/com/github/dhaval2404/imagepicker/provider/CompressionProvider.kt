@@ -8,7 +8,6 @@ import android.os.Bundle
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.util.ExifDataCopier
-import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.ImageUtil
 import java.io.File
@@ -195,7 +194,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             format = Bitmap.CompressFormat.PNG
         }
 
-        val extension = FileUriUtils.getImageExtension(file)
+        val extension = FileUtil.getImageExtension(file)
         val compressFile: File? = FileUtil.getImageFile(fileDir = mFileDir, extension = extension)
         return if (compressFile != null) {
             ImageUtil.compressImage(
