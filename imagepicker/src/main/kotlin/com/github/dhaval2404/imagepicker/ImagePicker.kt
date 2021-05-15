@@ -72,33 +72,6 @@ open class ImagePicker {
             }
         }
 
-        /**
-         * Get File Path from intent
-         */
-        @Deprecated(
-            message = "Avoid using the File object, It will require storage permission",
-            replaceWith = ReplaceWith("Consider using Uri Object instead")
-        )
-        @JvmStatic
-        fun getFilePath(data: Intent?): String? {
-            return data?.getStringExtra(EXTRA_FILE_PATH)
-        }
-
-        /**
-         * Get File from intent
-         */
-        @Deprecated(
-            message = "Avoid using the File object, It will require storage permission",
-            replaceWith = ReplaceWith("Consider using Uri Object instead")
-        )
-        @JvmStatic
-        fun getFile(data: Intent?): File? {
-            val path = getFilePath(data)
-            if (path != null) {
-                return File(path)
-            }
-            return null
-        }
     }
 
     class Builder(private val activity: Activity) {
