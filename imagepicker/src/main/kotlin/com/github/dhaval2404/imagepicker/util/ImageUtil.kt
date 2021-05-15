@@ -162,9 +162,8 @@ object ImageUtil {
         var inSampleSize = 1
 
         if (height > reqHeight || width > reqWidth) {
-            inSampleSize *= 2
-            val halfHeight = height / 2
-            val halfWidth = width / 2
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
