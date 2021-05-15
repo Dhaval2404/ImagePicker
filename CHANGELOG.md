@@ -14,7 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Added method to return Intent for manual launching ImagePicker [#182](https://github.com/Dhaval2404/ImagePicker/pull/182) (Special Thanks to [tobiasKaminsky](https://github.com/tobiasKaminsky))
   * Added support for android 11 [#199](https://github.com/Dhaval2404/ImagePicker/issues/199)
 ### Changed
+  * Fixed Playstore requestLegacyExternalStorage flag issue [#199](https://github.com/Dhaval2404/ImagePicker/issues/199)
   * Fixed android scope storage issue [#29](https://github.com/Dhaval2404/ImagePicker/issues/29)
+  * Removed storage permissions [#29](https://github.com/Dhaval2404/ImagePicker/issues/29)
+  * Fixed calculateInSampleSize leads to overly degraded quality [#152](https://github.com/Dhaval2404/ImagePicker/issues/152) (Special Thanks to [FlorianDenis](https://github.com/FlorianDenis))
   * Fixed camera app not found issue [#162](https://github.com/Dhaval2404/ImagePicker/issues/162)
 
 ## [1.8] - 2020-12-22
