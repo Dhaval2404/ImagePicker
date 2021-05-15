@@ -34,9 +34,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
          * Permission Require for Image Capture using Camera
          */
         private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA
         )
 
         private const val CAMERA_INTENT_REQ_CODE = 4281
