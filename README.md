@@ -3,7 +3,7 @@
 [![Download](https://jitpack.io/v/Dhaval2404/ImagePicker.svg)](https://jitpack.io/#Dhaval2404/ImagePicker)
 [![Releases](https://img.shields.io/github/release/dhaval2404/imagePicker/all.svg?style=flat-square)](https://github.com/Dhaval2404/ImagePicker/releases)
 [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
-![Build Status](https://github.com/Dhaval2404/ImagePicker/workflows/build%20debug/badge.svg)
+![Build Status](https://github.com/Dhaval2404/ImagePicker/workflows/Build/badge.svg)
 ![Language](https://img.shields.io/badge/language-Kotlin-orange.svg)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ImagePicker-green.svg?style=flat )]( https://android-arsenal.com/details/1/7510 )
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
