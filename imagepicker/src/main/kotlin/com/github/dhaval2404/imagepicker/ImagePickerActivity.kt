@@ -99,7 +99,6 @@ class ImagePickerActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         mCameraProvider?.onRequestPermissionsResult(requestCode)
-        mGalleryProvider?.onRequestPermissionsResult(requestCode)
     }
 
     /**
