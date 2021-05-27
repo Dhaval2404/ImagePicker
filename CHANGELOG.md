@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1] - 2021-05-27
+### Added
+  * Added uzbekistan translation (Special Thanks to Khudoyshukur Juraev)
+### Changed
+  * Removed requestLegacyExternalStorage flag
+  * Removed unused string resources
+
 ## [2.0] - 2021-05-15
 ### Added
   * Added arabic translation [#157](https://github.com/Dhaval2404/ImagePicker/pull/157)  (Special Thanks to [zhangzhu95](https://github.com/zhangzhu95))
@@ -106,7 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Handle Runtime Permission for Camera and Storage
   * Retrieve Image Result as File, File Path as String or Uri object
 
-[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.1...HEAD
+[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.2...HEAD
+[2.1]: https://github.com/Dhaval2404/ImagePicker/compare/v2.0...v2.1
 [2.0]: https://github.com/Dhaval2404/ImagePicker/compare/v1.8...v2.0
 [1.8]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.5...v1.8
 [1.7.5]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.4...v1.7.5
