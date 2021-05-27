@@ -30,8 +30,8 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 * Pick Gallery Image
 * Pick Image from Google Drive
 * Capture Camera Image
-* Crop Image(Crop image based on provided aspect ratio or let user choose one)
-* Compress Image(Compress image based on provided resolution and size)
+* Crop Image (Crop image based on provided aspect ratio or let user choose one)
+* Compress Image (Compress image based on provided resolution and size)
 * Retrieve Image Result as Uri object (Retrieve as File object feature is removed in v2.0 to support scope storage)
 * Handle runtime permission for camera
 * Does not require storage permission to pick gallery image or capture new image.
@@ -51,13 +51,13 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```groovy
 	allprojects {
 	   repositories {
-           	maven { url "https://jitpack.io" }  //Make sure to add this in your project for uCrop
+           	maven { url "https://jitpack.io" }
 	   }
 	}
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:2.0'
+   implementation 'com.github.dhaval2404:imagepicker:2.1'
     ```
 
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
@@ -300,6 +300,10 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 
 # ✔️Changelog
 
+### Version: 2.1
+  * Added uzbekistan translation (Special Thanks to Khudoyshukur Juraev)
+  * Removed requestLegacyExternalStorage flag
+  * Removed unused string resources
 
 ### Version: 2.0
 
