@@ -6,10 +6,6 @@
     <string name="title_gallery">گالری</string>
     <string name="title_camera">دوربین</string>
 
-    <string name="message_gallery_permission_denied">برای انتخاب عکس دسترسی خواندن فضای خارجی لازم است. لطفا دسترسی درخواست شده را از تنظیمات فعال کنید > دسترسی ها</string>
-    <string name="message_camera_permission_denied">برای گرفتن عکس دسترسی دوربین و فضای خارجی لازم است. غیرمجاز کردن این پرمیشن ها اجازه کارکرد صحیح برنامه را میگیرد. لطفا تمامی دسترسی های درخواست شده را از تنظیمات فعال کنید > دسترسی ها</string>
-    <string name="permission_gallery_denied">
-        <![CDATA[برای انتخاب عکس دسترسی خواندن فضای خارجی لازم است. لطفا دسترسی درخواست شده را از تنظیمات فعال کنید > دسترسی ها]]></string>
     <string name="permission_camera_denied">
         <![CDATA[دسترسی فضای خارجی برای گرفتن عکس لازم است. لطفا دسترسی فضای خارجی را از تنظیمات فعال کنید < دسترسی ها]]></string>
 
