@@ -8,8 +8,8 @@
         <![CDATA[Die Berechtigung zum Zugriff auf den externen Speicher ist notwendig um ein Foto aufzunehmen. Bitte erlaube den Zugriff unter Einstellungen > Berechtigungen.]]></string>
 
     <string name="error_failed_to_create_camera_image_file">Es konnte kein Foto aufgenommen werden</string>
-    <string name="error_failed_pick_gallery_image">Es konnte kein Foto aus der Galerie ausgwählt werden</string>
-    <string name="error_failed_to_crop_image">Foto konnte nicht zugschnitten werden</string>
+    <string name="error_failed_pick_gallery_image">Es konnte kein Foto aus der Galerie ausgewählt werden</string>
+    <string name="error_failed_to_crop_image">Foto konnte nicht zugeschnitten werden</string>
     <string name="error_failed_to_compress_image">Foto konnte nicht komprimiert werden</string>
     <string name="error_task_cancelled">Vorgang abgebrochen</string>
     <string name="error_camera_app_not_found">Es wurde keine Kamera-App gefunden</string>
