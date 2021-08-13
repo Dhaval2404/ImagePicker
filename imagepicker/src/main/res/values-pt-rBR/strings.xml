@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ImagePicker string resource start -->
+    <string name="title_choose_image_provider">Escolher</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="title_gallery">Galeria</string>
+    <string name="title_camera">Câmera</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[É necessário permissão para uso da câmera. Por favor aceite as permisoes em Configurações > Permissões.]]></string>
+
+    <string name="error_camera_app_not_found">App de câmera não encontrado</string>
+    <string name="error_failed_pick_gallery_image">Erro ao escolher imagem da galeria</string>
+    <string name="error_failed_to_compress_image">Erro ao compactar imagem</string>
+    <string name="error_failed_to_create_camera_image_file">Erro ao criar o arquivo da imagem da câmera</string>
+    <string name="error_failed_to_crop_image">Erro ao cortar imagem</string>
+    <string name="error_task_cancelled">Tarefa cancelada</string>
+    <!-- ImagePicker string resource end -->
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_crop">Cortar</string>
+    <string name="ucrop_label_edit_photo">Editar Foto</string>
+    <string name="ucrop_label_original">Original</string>
+    <string name="ucrop_menu_crop">Cortar</string>
+    <string name="ucrop_rotate">Girar</string>
+    <string name="ucrop_scale">Tamanho</string>
+    <!-- uCrop string resource end -->
+
+</resources>
