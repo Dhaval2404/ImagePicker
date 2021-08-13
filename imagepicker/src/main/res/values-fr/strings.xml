@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">Image Picker</string>
-    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
 
+    <!-- ImagePicker string resource start -->
     <string name="title_choose_image_provider">Choisir</string>
     <string name="action_cancel">Annuler</string>
     <string name="title_gallery">Galerie</string>
@@ -16,6 +15,7 @@
     <string name="error_failed_to_compress_image">Échec à la compression de l\'image</string>
     <string name="error_task_cancelled">Tâche annulée</string>
     <string name="error_camera_app_not_found">L\'application de caméra n\'a pas été trouvée</string>
+    <!-- ImagePicker string resource end -->
 
     <!-- uCrop string resource start -->
     <string name="ucrop_label_original">Original</string>
