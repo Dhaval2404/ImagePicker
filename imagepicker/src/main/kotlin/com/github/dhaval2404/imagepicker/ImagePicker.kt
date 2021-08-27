@@ -41,6 +41,7 @@ open class ImagePicker {
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
         internal const val EXTRA_MIME_TYPES = "extra.mime_types"
+        internal const val EXTRA_FILE = "extra.file"
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -96,7 +97,7 @@ open class ImagePicker {
         private var fragment: Fragment? = null
 
         // Image Provider
-        private var imageProvider = ImageProvider.BOTH
+        private var imageProvider = ImageProvider.GALLERY_OR_CAMERA
 
         // Mime types restrictions for gallery. by default all mime types are valid
         private var mimeTypes: Array<String> = emptyArray()
@@ -165,6 +166,11 @@ open class ImagePicker {
         // @Deprecated("Please use provider(ImageProvider.GALLERY) instead")
         fun galleryOnly(): Builder {
             this.imageProvider = ImageProvider.GALLERY
+            return this
+        }
+        
+        fun fileOnly() : Builder {
+            this.imageProvider = ImageProvider.FILE
             return this
         }
 
@@ -288,7 +294,7 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(reqCode: Int) {
-            if (imageProvider == ImageProvider.BOTH) {
+            if (imageProvider == ImageProvider.GALLERY_OR_CAMERA) {
                 // Pick Image Provider if not specified
                 showImageProviderDialog(reqCode)
             } else {
@@ -307,7 +313,7 @@ open class ImagePicker {
          * Start Image Picker Activity
          */
         fun start(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-            if (imageProvider == ImageProvider.BOTH) {
+            if (imageProvider == ImageProvider.GALLERY_OR_CAMERA) {
                 // Pick Image Provider if not specified
                 showImageProviderDialog(completionHandler)
             } else {
