@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
+
+    <string name="title_choose_image_provider">Seç</string>
+    <string name="action_cancel">Vazgeç</string>
+    <string name="title_gallery">Galeri</string>
+    <string name="title_camera">Kamera</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[Fotoğraf çekmek için kamera izni gerekiyor. Lütfen Ayarlar > İzinler\'den izin verin.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Kameradan fotoğraf çekilemedi</string>
+    <string name="error_failed_pick_gallery_image">Galeriden fotoğraf seçilemedi</string>
+    <string name="error_failed_to_crop_image">Fotoğraf kırpılamadı</string>
+    <string name="error_failed_to_compress_image">Fotoğraf sıkıştırılamadı</string>
+    <string name="error_task_cancelled">Seçim iptal edildi</string>
+    <string name="error_camera_app_not_found">Kamera uygulaması bulunamadı</string>
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Orijinal</string>
+    <string name="ucrop_label_edit_photo">Fotoğrafı Düzenle</string>
+    <string name="ucrop_menu_crop">Kırp</string>
+    <string name="ucrop_rotate">Döndür</string>
+    <string name="ucrop_scale">Ölçekle</string>
+    <string name="ucrop_crop">Kırp</string>
+    <!-- uCrop string resource end -->
+
+</resources>
