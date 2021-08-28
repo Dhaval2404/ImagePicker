@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
+
+    <string name="title_choose_image_provider">Выбирать</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="title_gallery">Галерея</string>
+    <string name="title_camera">Камера</string>
+
+    <string name="permission_camera_denied">![CDATA[Camera требуется разрешение для фотографирования. Разрешите, пожалуйста, Настройки > Разрешения.]]</string>
+
+    <string name="error_failed_to_create_camera_image_file">Не удалось создать файл изображения камеры</string>
+    <string name="error_failed_pick_gallery_image">Не удалось выбрать изображение галереи</string>
+    <string name="error_failed_to_crop_image">Не удалось обрезать изображение</string>
+    <string name="error_failed_to_compress_image">Не удалось сжать изображение</string>
+    <string name="error_task_cancelled">Задача отменена</string>
+    <string name="error_camera_app_not_found">Приложение камеры не найдено</string>
+
+
+    <string name="ucrop_label_original">Оригинал</string>
+    <string name="ucrop_label_edit_photo">Редактировать фотографию</string>
+    <string name="ucrop_menu_crop">Обрезать</string>
+    <string name="ucrop_rotate">Повернуть</string>
+    <string name="ucrop_scale">Шкала</string>
+    <string name="ucrop_crop">Обрезать</string>
+
+</resources>
