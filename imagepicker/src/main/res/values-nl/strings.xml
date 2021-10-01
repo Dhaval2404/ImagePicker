@@ -1,0 +1,26 @@
+<resources>
+    <string name="title_choose_image_provider">Maak een keuze</string>
+    <string name="action_cancel">Annuleren</string>
+    <string name="title_gallery">Galerij</string>
+    <string name="title_camera">Camera</string>
+
+     <string name="permission_camera_denied">
+        <![CDATA[Cameratoestemming is nodig om een foto te maken. Geef toestemming via instellingen > rechten.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Kan camera afbeelding niet maken</string>
+    <string name="error_failed_pick_gallery_image">Kan galerijafbeelding niet kiezen</string>
+    <string name="error_failed_to_crop_image">Kan afbeelding niet bijsnijden</string>
+    <string name="error_failed_to_compress_image">Kan afbeelding niet comprimeren</string>
+    <string name="error_task_cancelled">Taak geannuleerd</string>
+    <string name="error_camera_app_not_found">Camera-app niet gevonden</string>
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Origineel</string>
+    <string name="ucrop_label_edit_photo">Foto bewerken</string>
+    <string name="ucrop_menu_crop">Bijsnijden</string>
+    <string name="ucrop_rotate">Roteren</string>
+    <string name="ucrop_scale">Schaal</string>
+    <string name="ucrop_crop">Bijsnijden</string>
+    <!-- uCrop string resource end -->
+
+</resources>
