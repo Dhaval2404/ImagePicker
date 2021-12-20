@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.DocumentsContract
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
@@ -71,8 +72,12 @@ class GalleryProvider(activity: ImagePickerActivity) :
     private fun handleResult(data: Intent?) {
         val uri = data?.data
         if (uri != null) {
-            takePersistableUriPermission(uri)
-            activity.setImage(uri)
+            try {
+                takePersistableUriPermission(uri)
+                activity.setImage(uri)
+            } catch (e: Exception) {
+                activity.setErrorResult(data, e.message ?: "Unsupported file")
+            }
         } else {
             setError(R.string.error_failed_pick_gallery_image)
         }
