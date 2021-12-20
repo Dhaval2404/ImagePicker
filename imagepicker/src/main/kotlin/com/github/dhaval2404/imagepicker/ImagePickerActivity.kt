@@ -65,11 +65,9 @@ class ImagePickerActivity : AppCompatActivity() {
         mCompressionProvider = CompressionProvider(this)
 
         // Retrieve Image Provider
-        val provider: ImageProvider? =
-            intent?.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PROVIDER) as ImageProvider?
 
         // Create Gallery/Camera Provider
-        when (provider) {
+        when (intent?.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PROVIDER)) {
             ImageProvider.GALLERY -> {
                 mGalleryProvider = GalleryProvider(this)
                 // Pick Gallery Image
@@ -196,6 +194,18 @@ class ImagePickerActivity : AppCompatActivity() {
      */
     fun setError(message: String) {
         val intent = Intent()
+        intent.putExtra(ImagePicker.EXTRA_ERROR, message)
+        setResult(ImagePicker.RESULT_ERROR, intent)
+        finish()
+    }
+
+    /**
+     * @param data Intent that store data
+     * @param message Error message
+     */
+    fun setErrorResult(data: Intent?, message: String) {
+        val intent = Intent()
+        intent.data = data?.data
         intent.putExtra(ImagePicker.EXTRA_ERROR, message)
         setResult(ImagePicker.RESULT_ERROR, intent)
         finish()
