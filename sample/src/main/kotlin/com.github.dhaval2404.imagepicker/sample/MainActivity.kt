@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun pickGalleryImage(view: View) {
         ImagePicker.with(this)
+            .multiplePicker(false)
             // Crop Image(User can choose Aspect Ratio)
             .crop()
             // User can only select image from Gallery
@@ -161,7 +162,13 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             // Uri object will not be null for RESULT_OK
-            val uri: Uri = data?.data!!
+
+            val uri = if (data?.data != null) {
+                data.data!!
+            } else {
+                val images :List<Uri> = data?.extras?.getParcelableArray(ImagePicker.RESULT_MULTIPLE_FILES)?.map { it as Uri }?.toList()!!
+                images[0]
+            }
             when (requestCode) {
                 PROFILE_IMAGE_REQ_CODE -> {
                     mProfileUri = uri

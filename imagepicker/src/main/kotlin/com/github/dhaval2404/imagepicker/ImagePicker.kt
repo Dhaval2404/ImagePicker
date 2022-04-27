@@ -23,6 +23,7 @@ open class ImagePicker {
         // Default Request Code to Pick Image
         const val REQUEST_CODE = 2404
         const val RESULT_ERROR = 64
+        const val RESULT_MULTIPLE_FILES = "extra.file_path.multiples"
 
         internal const val EXTRA_IMAGE_PROVIDER = "extra.image_provider"
         internal const val EXTRA_CAMERA_DEVICE = "extra.camera_device"
@@ -33,6 +34,7 @@ open class ImagePicker {
         internal const val EXTRA_CROP_Y = "extra.crop_y"
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
+        internal const val EXTRA_MULTIPLE_PICKER = "extra.multiple_picker"
         internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
 
         internal const val EXTRA_ERROR = "extra.error"
@@ -116,6 +118,15 @@ open class ImagePicker {
          * If null, Image will be stored in "{fileDir}/Images"
          */
         private var saveDir: String? = null
+
+        /**
+         * Multiple Picker
+         *
+         * Convert picker to multiple picker crop compress etc will be disabled in this case.
+         *
+         * If null, Image will be stored in "{fileDir}/Images"
+         */
+        private var multiplePicker: Boolean = false
 
         /**
          * Call this while picking image for fragment.
@@ -259,6 +270,12 @@ open class ImagePicker {
             return this
         }
 
+        fun multiplePicker(multiplePicker: Boolean) :Builder {
+            this.multiplePicker = multiplePicker
+            return this
+        }
+
+
         /**
          * Start Image Picker Activity
          */
@@ -349,6 +366,8 @@ open class ImagePicker {
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
 
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
+
+                putBoolean(EXTRA_MULTIPLE_PICKER, multiplePicker)
             }
         }
 
