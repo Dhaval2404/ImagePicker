@@ -129,11 +129,11 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         } catch (ex: ActivityNotFoundException) {
             setError(
                 "uCrop not specified in manifest file." +
-                    "Add UCropActivity in Manifest" +
-                    "<activity\n" +
-                    "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
-                    "    android:screenOrientation=\"portrait\"\n" +
-                    "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
+                        "Add UCropActivity in Manifest" +
+                        "<activity\n" +
+                        "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
+                        "    android:screenOrientation=\"portrait\"\n" +
+                        "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
             )
             ex.printStackTrace()
         }
@@ -150,7 +150,8 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == UCrop.REQUEST_CROP) {
             if (resultCode == Activity.RESULT_OK) {
-                handleResult(mCropImageFile)
+                val resultUri = UCrop.getOutput(data!!);
+                handleResult(resultUri)
             } else {
                 setResultCancel()
             }
@@ -162,9 +163,9 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * @param file cropped file
      */
-    private fun handleResult(file: File?) {
-        if (file != null) {
-            activity.setCropImage(Uri.fromFile(file))
+    private fun handleResult(uri: Uri?) {
+        if (uri != null) {
+            activity.setCropImage(uri)
         } else {
             setError(R.string.error_failed_to_crop_image)
         }

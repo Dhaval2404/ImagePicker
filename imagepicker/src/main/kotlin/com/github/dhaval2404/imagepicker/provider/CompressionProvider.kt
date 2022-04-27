@@ -1,15 +1,17 @@
 package com.github.dhaval2404.imagepicker.provider
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
+import androidx.annotation.WorkerThread
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
+import com.github.dhaval2404.imagepicker.R
+import com.github.dhaval2404.imagepicker.exception.FailedToCompressException
 import com.github.dhaval2404.imagepicker.util.ExifDataCopier
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.ImageUtil
+import kotlinx.coroutines.*
 import java.io.File
 
 /**
@@ -30,6 +32,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     private val mMaxFileSize: Long
 
     private val mFileDir: File
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     init {
         val bundle = activity.intent.extras ?: Bundle()
@@ -73,7 +76,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
      * Check if compression is required
      * @param uri Uri object to apply Compression
      */
-    fun isCompressionRequired(uri: Uri): Boolean {
+    private fun isCompressionRequired(uri: Uri): Boolean {
         val status = isCompressEnabled() && getSizeDiff(uri) > 0L
         if (!status && mMaxWidth > 0 && mMaxHeight > 0) {
             // Check image resolution
@@ -93,42 +96,49 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     }
 
     /**
-     * Compress given file if enabled.
+     * Compress given file if enabled one or more.
      *
      * @param uri Uri to compress
      */
-    fun compress(uri: Uri) {
-        startCompressionWorker(uri)
+    fun compressIfRequired(uris: List<Uri>) {
+        coroutineScope.launch {
+            startCompressionWorker(uris)
+            this.cancel()
+        }
+    }
+
+    fun compressIfRequired(uri: Uri) {
+        compressIfRequired(listOf(uri))
     }
 
     /**
-     * Start Compression in Background
+     * Start Compression multiple or one files in Background
      */
-    @SuppressLint("StaticFieldLeak")
-    private fun startCompressionWorker(uri: Uri) {
-        object : AsyncTask<Uri, Void, File>() {
-            override fun doInBackground(vararg params: Uri): File? {
-                // Perform operation in background
-                val file = FileUtil.getTempFile(this@CompressionProvider, params[0]) ?: return null
-                return startCompression(file)
+    @WorkerThread
+    private fun startCompressionWorker(uris: List<Uri>) {
+        try {
+            val urisCompressed = uris.map { uriToCompress ->
+                if (isCompressionRequired(uriToCompress)) {
+                    FileUtil.getTempFile(this@CompressionProvider, uriToCompress)?.let {
+                        startCompression(it)?.let { file ->
+                            Uri.fromFile(file)
+                        } ?: throw FailedToCompressException()
+                    } ?: throw FailedToCompressException()
+                } else uriToCompress
             }
 
-            override fun onPostExecute(file: File?) {
-                super.onPostExecute(file)
-                if (file != null) {
-                    // Post Result
-                    handleResult(file)
-                } else {
-                    // Post Error
-                    setError(com.github.dhaval2404.imagepicker.R.string.error_failed_to_compress_image)
-                }
-            }
-        }.execute(uri)
+            handleResult(urisCompressed)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            setError(R.string.error_failed_to_compress_image)
+        }
     }
 
     /**
      * Check if compression required, And Apply compression until file size reach below Max Size.
+     * To be sure this function is only called from worker thread, added annotation worker thread.
      */
+    @WorkerThread
     private fun startCompression(file: File): File? {
         var newFile: File? = null
         var attempt = 0
@@ -233,7 +243,13 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
     /**
      * This method will be called when final result fot this provider is enabled.
      */
-    private fun handleResult(file: File) {
-        activity.setCompressedImage(Uri.fromFile(file))
+    private fun handleResult(uri: List<Uri>) {
+        activity.setCompressedImage(uri)
     }
+
+    fun release(){
+        coroutineScope.cancel()
+    }
+
+
 }

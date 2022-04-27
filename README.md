@@ -72,6 +72,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 
 	```kotlin
     ImagePicker.with(this)
+             .multiplePicker(true) // True or false if you want to pick multiple files, if multiplepicker / crop is disabled, please remember that legacy picker can't be use as multiple picker
             .crop()	    			//Crop image(Optional), Check Customization for more option
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
@@ -96,8 +97,11 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
          super.onActivityResult(requestCode, resultCode, data)
          if (resultCode == Activity.RESULT_OK) {
+   
              //Image Uri will not be null for RESULT_OK
              val uri: Uri = data?.data!!
+             // If multiple selector, uri will be null for RESULT_OK you have to access
+             // data?.extras?.getParcelableArray(ImagePicker.RESULT_MULTIPLE_FILES)?.map { it as Uri }?.toList()!! this return a multiple files selected
 
              // Use Uri object instead of File to avoid storage permissions
              imgProfile.setImageURI(fileUri)

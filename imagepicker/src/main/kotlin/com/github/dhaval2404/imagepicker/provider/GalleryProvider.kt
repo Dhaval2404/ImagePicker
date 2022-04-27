@@ -8,6 +8,8 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.IntentUtils
+import com.github.dhaval2404.imagepicker.util.forEach
+import com.github.dhaval2404.imagepicker.util.getUris
 
 /**
  * Select image from Storage
@@ -25,12 +27,14 @@ class GalleryProvider(activity: ImagePickerActivity) :
 
     // Mime types restrictions for gallery. By default all mime types are valid
     private val mimeTypes: Array<String>
+    private val multiplePicker: Boolean
 
     init {
         val bundle = activity.intent.extras ?: Bundle()
 
         // Get MIME types
         mimeTypes = bundle.getStringArray(ImagePicker.EXTRA_MIME_TYPES) ?: emptyArray()
+        multiplePicker = bundle.getBoolean(ImagePicker.EXTRA_MULTIPLE_PICKER, false)
     }
 
     /**
@@ -44,7 +48,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
      * Start Gallery Intent
      */
     private fun startGalleryIntent() {
-        val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes)
+        val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes, multiplePicker)
         activity.startActivityForResult(galleryIntent, GALLERY_INTENT_REQ_CODE)
     }
 
@@ -70,11 +74,22 @@ class GalleryProvider(activity: ImagePickerActivity) :
      */
     private fun handleResult(data: Intent?) {
         val uri = data?.data
-        if (uri != null) {
-            takePersistableUriPermission(uri)
-            activity.setImage(uri)
-        } else {
-            setError(R.string.error_failed_pick_gallery_image)
+        val clipData = data?.clipData
+        when {
+            uri != null -> {
+                takePersistableUriPermission(uri)
+                activity.setImage(uri)
+            }
+            clipData != null -> {
+                val uris = clipData.getUris().map {
+                    takePersistableUriPermission(it)
+                    it
+                }
+                activity.setMultipleImages(uris)
+            }
+            else -> {
+                setError(R.string.error_failed_pick_gallery_image)
+            }
         }
     }
 

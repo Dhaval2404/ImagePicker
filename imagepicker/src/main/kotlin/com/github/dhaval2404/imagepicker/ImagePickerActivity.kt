@@ -111,6 +111,11 @@ class ImagePickerActivity : AppCompatActivity() {
         mCropProvider.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mCompressionProvider.release()
+    }
+
     /**
      * Handle Activity Back Press
      */
@@ -126,10 +131,19 @@ class ImagePickerActivity : AppCompatActivity() {
     fun setImage(uri: Uri) {
         when {
             mCropProvider.isCropEnabled() -> mCropProvider.startIntent(uri)
-            mCompressionProvider.isCompressionRequired(uri) -> mCompressionProvider.compress(uri)
-            else -> setResult(uri)
+            else -> mCompressionProvider.compressIfRequired(uri)
         }
     }
+
+    /**
+     * Multiples images captured, when multiples images are captured we will go to the result and, without cropping.
+     *
+     * @param uri Capture/Gallery image Uri
+     */
+    fun setMultipleImages(uri: List<Uri>) {
+        mCompressionProvider.compressIfRequired(uri)
+    }
+
 
     /**
      * {@link CropProviders} Result will be available here.
@@ -143,11 +157,7 @@ class ImagePickerActivity : AppCompatActivity() {
         // In case of Gallery Provider, we will get original image path, so we will not delete that.
         mCameraProvider?.delete()
 
-        if (mCompressionProvider.isCompressionRequired(uri)) {
-            mCompressionProvider.compress(uri)
-        } else {
-            setResult(uri)
-        }
+        mCompressionProvider.compressIfRequired(uri)
     }
 
     /**
@@ -155,17 +165,19 @@ class ImagePickerActivity : AppCompatActivity() {
      *
      * @param uri Compressed image Uri
      */
-    fun setCompressedImage(uri: Uri) {
+    fun setCompressedImage(uris: List<Uri>) {
         // This is the case when Crop is not enabled
 
         // Delete Camera file after crop. Else there will be two image for the same action.
         // In case of Gallery Provider, we will get original image path, so we will not delete that.
         mCameraProvider?.delete()
-
         // If crop file is not null, Delete it after crop
-        mCropProvider.delete()
-
-        setResult(uri)
+        // Image is deleting without cause, I think this have a reason but in the new code formatter I can't found it.
+       // mCropProvider.delete()
+        if(uris.size == 1)
+            setResult(uris.first())
+        else
+            setResult(uris)
     }
 
     /**
@@ -177,6 +189,17 @@ class ImagePickerActivity : AppCompatActivity() {
         val intent = Intent()
         intent.data = uri
         intent.putExtra(ImagePicker.EXTRA_FILE_PATH, FileUriUtils.getRealPath(this, uri))
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    /**
+     * Set Result, Multiple images picking is successfully picked/compressed.
+     * @param uris all uris image picked and compressed if compression are enabled.
+     */
+    private fun setResult(uris: List<Uri>) {
+        val intent = Intent()
+        intent.putExtra(ImagePicker.RESULT_MULTIPLE_FILES, uris.toTypedArray())
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -200,4 +223,5 @@ class ImagePickerActivity : AppCompatActivity() {
         setResult(ImagePicker.RESULT_ERROR, intent)
         finish()
     }
+
 }
