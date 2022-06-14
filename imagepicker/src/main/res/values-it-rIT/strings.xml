@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
+
+    <string name="title_choose_image_provider">Scegli</string>
+    <string name="action_cancel">Annulla</string>
+    <string name="title_gallery">Galleria</string>
+    <string name="title_camera">Fotocamera</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[Per scattare una foto è necessaria l\'autorizzazione della fotocamera. Si prega di concedere il permesso da Impostazioni > Autorizzazioni.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Errore durante la creazione del file immagine della Fotocamera</string>
+    <string name="error_failed_pick_gallery_image">Errore nella scelta dell\'immagine dalla Galleria</string>
+    <string name="error_failed_to_crop_image">Errore durante il ritaglio dell\'immagine</string>
+    <string name="error_failed_to_compress_image">Errore durante la compressione dell\'immagine</string>
+    <string name="error_task_cancelled">Task annullato</string>
+    <string name="error_camera_app_not_found">App fotocamera non trovata</string>
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Originale</string>
+    <string name="ucrop_label_edit_photo">Modifica foto</string>
+    <string name="ucrop_menu_crop">Ritaglia</string>
+    <string name="ucrop_rotate">Ruota</string>
+    <string name="ucrop_scale">Scala</string>
+    <string name="ucrop_crop">Ritaglia</string>
+    <!-- uCrop string resource end -->
+
+</resources>
