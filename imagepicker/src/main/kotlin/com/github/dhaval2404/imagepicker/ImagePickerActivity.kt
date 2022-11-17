@@ -12,7 +12,7 @@ import com.github.dhaval2404.imagepicker.provider.CameraProvider
 import com.github.dhaval2404.imagepicker.provider.CompressionProvider
 import com.github.dhaval2404.imagepicker.provider.CropProvider
 import com.github.dhaval2404.imagepicker.provider.GalleryProvider
-import java.io.File
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 
 /**
  * Pick Image
@@ -25,11 +25,6 @@ class ImagePickerActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "image_picker"
-
-        /**
-         * Key to Save/Retrieve Image File state
-         */
-        private const val STATE_IMAGE_FILE = "state.image_file"
 
         internal fun getCancelledIntent(context: Context): Intent {
             val intent = Intent()
@@ -44,32 +39,15 @@ class ImagePickerActivity : AppCompatActivity() {
     private lateinit var mCropProvider: CropProvider
     private lateinit var mCompressionProvider: CompressionProvider
 
-    /** File provided by GalleryProvider or CameraProvider */
-    private var mImageFile: File? = null
-
-    /** File provided by CropProvider */
-    private var mCropFile: File? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        restoreInstanceState(savedInstanceState)
         loadBundle(savedInstanceState)
-    }
-
-    /**
-     * Restore saved state
-     */
-    private fun restoreInstanceState(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            mImageFile = savedInstanceState.getSerializable(STATE_IMAGE_FILE) as File?
-        }
     }
 
     /**
      * Save all appropriate activity state.
      */
     public override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(STATE_IMAGE_FILE, mImageFile)
         mCameraProvider?.onSaveInstanceState(outState)
         mCropProvider.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
@@ -126,7 +104,6 @@ class ImagePickerActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         mCameraProvider?.onRequestPermissionsResult(requestCode)
-        mGalleryProvider?.onRequestPermissionsResult(requestCode)
     }
 
     /**
@@ -149,14 +126,13 @@ class ImagePickerActivity : AppCompatActivity() {
     /**
      * {@link CameraProvider} and {@link GalleryProvider} Result will be available here.
      *
-     * @param file Capture/Gallery image file
+     * @param uri Capture/Gallery image Uri
      */
-    fun setImage(file: File) {
-        mImageFile = file
+    fun setImage(uri: Uri) {
         when {
-            mCropProvider.isCropEnabled() -> mCropProvider.startIntent(file)
-            mCompressionProvider.isCompressionRequired(file) -> mCompressionProvider.compress(file)
-            else -> setResult(file)
+            mCropProvider.isCropEnabled() -> mCropProvider.startIntent(uri)
+            mCompressionProvider.isCompressionRequired(uri) -> mCompressionProvider.compress(uri)
+            else -> setResult(uri)
         }
     }
 
@@ -165,54 +141,47 @@ class ImagePickerActivity : AppCompatActivity() {
      *
      * Check if compression is enable/required. If yes then start compression else return result.
      *
-     * @param file Crop image file
+     * @param uri Crop image uri
      */
-    fun setCropImage(file: File) {
-        mCropFile = file
+    fun setCropImage(uri: Uri) {
+        // Delete Camera file after crop. Else there will be two image for the same action.
+        // In case of Gallery Provider, we will get original image path, so we will not delete that.
+        mCameraProvider?.delete()
 
-        mCameraProvider?.let {
-            // Delete Camera file after crop. Else there will be two image for the same action.
-            // In case of Gallery Provider, we will get original image path, so we will not delete that.
-            mImageFile?.delete()
-            mImageFile = null
-        }
-
-        if (mCompressionProvider.isCompressionRequired(file)) {
-            mCompressionProvider.compress(file)
+        if (mCompressionProvider.isCompressionRequired(uri)) {
+            mCompressionProvider.compress(uri)
         } else {
-            setResult(file)
+            setResult(uri)
         }
     }
 
     /**
      * {@link CompressionProvider} Result will be available here.
      *
-     * @param file Compressed image file
+     * @param uri Compressed image Uri
      */
-    fun setCompressedImage(file: File) {
+    fun setCompressedImage(uri: Uri) {
         // This is the case when Crop is not enabled
-        mCameraProvider?.let {
-            // Delete Camera file after Compress. Else there will be two image for the same action.
-            // In case of Gallery Provider, we will get original image path, so we will not delete that.
-            mImageFile?.delete()
-        }
+
+        // Delete Camera file after crop. Else there will be two image for the same action.
+        // In case of Gallery Provider, we will get original image path, so we will not delete that.
+        mCameraProvider?.delete()
 
         // If crop file is not null, Delete it after crop
-        mCropFile?.delete()
-        mCropFile = null
+        mCropProvider.delete()
 
-        setResult(file)
+        setResult(uri)
     }
 
     /**
      * Set Result, Image is successfully capture/picked/cropped/compressed.
      *
-     * @param file final image file
+     * @param uri final image Uri
      */
-    private fun setResult(file: File) {
+    private fun setResult(uri: Uri) {
         val intent = Intent()
-        intent.data = Uri.fromFile(file)
-        intent.putExtra(ImagePicker.EXTRA_FILE_PATH, file.absolutePath)
+        intent.data = uri
+        intent.putExtra(ImagePicker.EXTRA_FILE_PATH, FileUriUtils.getRealPath(this, uri))
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

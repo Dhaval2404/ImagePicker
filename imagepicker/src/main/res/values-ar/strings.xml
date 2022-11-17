@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ImagePicker string resource start -->
+    <string name="title_choose_image_provider">إختيار</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="title_gallery">معرض الصور</string>
+    <string name="title_camera">كاميرا</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[البرنامج بحاجة إلى صلاحية الولوج إلى وحدة تخزين الجهاز لالتقاط الصورة. يرجى تفعيل صلاحية التخزين إنطلاقاً من الإعدادات > الترخيص.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">تعذر إنشاء ملف الصورة الملتقطة بالكاميرا</string>
+    <string name="error_failed_pick_gallery_image">تعذر اختيار صورة من معرض الصور</string>
+    <string name="error_failed_to_crop_image">تعذر اقتصاص الصورة</string>
+    <string name="error_failed_to_compress_image">تعذر ضغط الصورة</string>
+    <string name="error_task_cancelled">تم إلغاء المهمة</string>
+    <string name="error_camera_app_not_found">لم يتم العثور على تطبيق الكاميرا</string>
+    <!-- ImagePicker string resource end -->
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">أصلي</string>
+    <string name="ucrop_label_edit_photo">تعديل الصورة</string>
+    <string name="ucrop_menu_crop">اقتصاص</string>
+    <string name="ucrop_rotate">تدوير</string>
+    <string name="ucrop_scale">تغيير الحجم</string>
+    <string name="ucrop_crop">اقتصاص</string>
+    <!-- uCrop string resource end -->
+
+</resources>

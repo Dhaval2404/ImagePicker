@@ -1,0 +1,28 @@
+<resources>
+    <!-- ImagePicker string resource start -->
+    <string name="title_choose_image_provider">Tanlang</string>
+    <string name="action_cancel">Bekor qilish</string>
+    <string name="title_gallery">Galereya</string>
+    <string name="title_camera">Kamera</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[Rasmga olish uchun kameradan foydalanishga ruhsat berilishi kerak. Iltimos sozlamalardan ushbu ruhsatni amalga oshiring Sozlamalar > Ruhsatlar.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">Kamera rasm fayli yaratishda xatolik yuz berdi</string>
+    <string name="error_failed_pick_gallery_image">Galereyadan rasm tanlashda xatolik yuz berdi</string>
+    <string name="error_failed_to_crop_image">Rasmni kesishda xatolik yuz berdi</string>
+    <string name="error_failed_to_compress_image">Rasmni zichlashda xatolik yuz berdi</string>
+    <string name="error_task_cancelled">Vazifa bekor qilindi</string>
+    <string name="error_camera_app_not_found">Kamera uchun dastur topilmadi</string>
+    <!-- ImagePicker string resource end -->
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Original</string>
+    <string name="ucrop_label_edit_photo">Rasmni o\'zgartirish</string>
+    <string name="ucrop_menu_crop">Kesish</string>
+    <string name="ucrop_rotate">Aylantirish</string>
+    <string name="ucrop_scale">O\'lcham</string>
+    <string name="ucrop_crop">Kesish</string>
+    <!-- uCrop string resource end -->
+
+</resources>

@@ -2,8 +2,9 @@ package com.github.dhaval2404.imagepicker.provider
 
 import android.content.ContextWrapper
 import android.os.Bundle
-import android.widget.Toast
+import android.os.Environment
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
+import java.io.File
 
 /**
  * Abstract Provider class
@@ -12,7 +13,13 @@ import com.github.dhaval2404.imagepicker.ImagePickerActivity
  * @version 1.0
  * @since 04 January 2019
  */
-abstract class BaseProvider(protected val activity: ImagePickerActivity) : ContextWrapper(activity) {
+abstract class BaseProvider(protected val activity: ImagePickerActivity) :
+    ContextWrapper(activity) {
+
+    fun getFileDir(path: String?): File {
+        return if (path != null) File(path)
+        else getExternalFilesDir(Environment.DIRECTORY_DCIM) ?: activity.filesDir
+    }
 
     /**
      * Cancel operation and Set Error Message
@@ -31,15 +38,6 @@ abstract class BaseProvider(protected val activity: ImagePickerActivity) : Conte
      */
     protected fun setError(errorRes: Int) {
         setError(getString(errorRes))
-    }
-
-    /**
-     * Show Short Toast Message
-     *
-     * @param messageRes String message resource
-     */
-    protected fun showToast(messageRes: Int) {
-        Toast.makeText(this, messageRes, Toast.LENGTH_SHORT).show()
     }
 
     /**

@@ -1,18 +1,9 @@
 <resources>
-    <string name="app_name" translatable="false">Image Picker</string>
-    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
-
     <string name="title_choose_image_provider">Pilih</string>
     <string name="action_cancel">Batal</string>
     <string name="title_gallery">Galeri</string>
     <string name="title_camera">Kamera</string>
 
-    <string name="message_gallery_permission_denied">Untuk memilih gambar dibutuhkan akses perizinan penyimpanan. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.</string>
-    <string name="message_camera_permission_denied">Untuk mengambil gambar dibutuhkan akses perizinan kamera. Tanpa perizinan aplikasi tidak bisa berjalan dengan baik. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.</string>
-    <string name="permission_gallery_denied">
-        <![CDATA[Untuk memilih gambar dari galeri dibutuhkan akses perizinan penyimpanan. Mohon berikan tersebut perizinan melalui Pengaturan > Perizinan.]]></string>
-    <string name="permission_camera_extended_denied">
-        <![CDATA[Untuk mengambil gambar dibutuhkan akses perizinan penyimpanan dan kamera. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.]]></string>
     <string name="permission_camera_denied">
         <![CDATA[Untuk mengambil gambar dibutuhkan akses perizinan penyimpanan. Mohon berikan perizinan tersebut melalui Pengaturan > Perizinan.]]></string>
 
@@ -23,4 +14,12 @@
     <string name="error_task_cancelled">Task dibatalkan</string>
     <string name="error_camera_app_not_found">Kamera tidak ditemukan</string>
 
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">Asli</string>
+    <string name="ucrop_label_edit_photo">Edit foto</string>
+    <string name="ucrop_menu_crop">Potong</string>
+    <string name="ucrop_rotate">Memutar</string>
+    <string name="ucrop_scale">Skala</string>
+    <string name="ucrop_crop">Potong</string>
+    <!-- uCrop string resource end -->
 </resources>

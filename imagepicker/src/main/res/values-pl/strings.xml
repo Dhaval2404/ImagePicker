@@ -7,12 +7,6 @@
     <string name="title_gallery">Galeria</string>
     <string name="title_camera">Aparat</string>
 
-    <string name="message_gallery_permission_denied">Dostęp do pamięci zewnętrznej jest wymagany, aby móc wybrać obraz. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia</string>
-    <string name="message_camera_permission_denied">Dostęp do aparatu oraz zewnętrznej pamięci jest wymagany, aby przechwycić obraz. Zabranie uprawnień aplikacji może powodować błędy w jej działaniu. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia</string>
-    <string name="permission_gallery_denied">
-        <![CDATA[Dostęp do pamięci urządzenia jest wymagany, aby wybrać obraz z galerii. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia.]]></string>
-    <string name="permission_camera_extended_denied">
-        <![CDATA[Dostęp do aparatu oraz pamięci jest wymagany aby przechwycić obraz. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia.]]></string>
     <string name="permission_camera_denied">
         <![CDATA[Dostęp do pamięci jest wymagany aby wykonać zdjęcie. Zmienić dostęp do pamięci można z poziomu Ustawień > Uprawnienia.]]></string>
 

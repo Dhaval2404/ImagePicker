@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1] - 2021-05-27
+### Added
+  * Added uzbekistan translation (Special Thanks to Khudoyshukur Juraev)
+### Changed
+  * Removed requestLegacyExternalStorage flag
+  * Removed unused string resources
+
+## [2.0] - 2021-05-15
+### Added
+  * Added arabic translation [#157](https://github.com/Dhaval2404/ImagePicker/pull/157)  (Special Thanks to [zhangzhu95](https://github.com/zhangzhu95))
+  * Added norwegian translation [#163](https://github.com/Dhaval2404/ImagePicker/pull/163) (Special Thanks to [TorkelV](https://github.com/TorkelV))
+  * Added german translation [#192](https://github.com/Dhaval2404/ImagePicker/pull/192) (Special Thanks to [MDXDave](https://github.com/MDXDave))
+  * Added method to return Intent for manual launching ImagePicker [#182](https://github.com/Dhaval2404/ImagePicker/pull/182) (Special Thanks to [tobiasKaminsky](https://github.com/tobiasKaminsky))
+  * Added support for android 11 [#199](https://github.com/Dhaval2404/ImagePicker/issues/199)
+### Changed
+  * Fixed Playstore requestLegacyExternalStorage flag issue [#199](https://github.com/Dhaval2404/ImagePicker/issues/199)
+  * Fixed android scope storage issue [#29](https://github.com/Dhaval2404/ImagePicker/issues/29)
+  * Removed storage permissions [#29](https://github.com/Dhaval2404/ImagePicker/issues/29)
+  * Fixed calculateInSampleSize leads to overly degraded quality [#152](https://github.com/Dhaval2404/ImagePicker/issues/152) (Special Thanks to [FlorianDenis](https://github.com/FlorianDenis))
+  * Fixed camera app not found issue [#162](https://github.com/Dhaval2404/ImagePicker/issues/162)
+
 ## [1.8] - 2020-12-22
 ### Added
   * Added dialog dismiss listener (Special Thanks to [kibotu](https://github.com/kibotu))
@@ -92,7 +113,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Handle Runtime Permission for Camera and Storage
   * Retrieve Image Result as File, File Path as String or Uri object
 
-[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.0...HEAD
+[Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.2...HEAD
+[2.1]: https://github.com/Dhaval2404/ImagePicker/compare/v2.0...v2.1
+[2.0]: https://github.com/Dhaval2404/ImagePicker/compare/v1.8...v2.0
 [1.8]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.5...v1.8
 [1.7.5]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.4...v1.7.5
 [1.7.4]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.3...v1.7.4

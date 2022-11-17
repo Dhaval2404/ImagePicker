@@ -14,11 +14,11 @@ import androidx.core.content.ContextCompat
 object PermissionUtil {
 
     /**
-     * Check if Camera Permission is granted
+     * Check if Permission is granted
      *
      * @return true if specified permission is granted
      */
-    private fun hasPermission(context: Context, permission: String): Boolean {
+    fun isPermissionGranted(context: Context, permission: String): Boolean {
         val selfPermission = ContextCompat.checkSelfPermission(context, permission)
         return selfPermission == PackageManager.PERMISSION_GRANTED
     }
@@ -34,7 +34,7 @@ object PermissionUtil {
      */
     fun isPermissionGranted(context: Context, permissions: Array<String>): Boolean {
         return permissions.filter {
-            hasPermission(context, it)
+            isPermissionGranted(context, it)
         }.size == permissions.size
     }
 
@@ -48,7 +48,10 @@ object PermissionUtil {
      * @return true if permission defined in AndroidManifest.xml file, else return false.
      */
     fun isPermissionInManifest(context: Context, permission: String): Boolean {
-        val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
+        val packageInfo = context.packageManager.getPackageInfo(
+            context.packageName,
+            PackageManager.GET_PERMISSIONS
+        )
         val permissions = packageInfo.requestedPermissions
 
         if (permissions.isNullOrEmpty())

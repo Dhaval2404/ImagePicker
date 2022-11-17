@@ -1,14 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.dhaval2404.imagepicker">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <application>
 
-        <activity android:name=".ImagePickerActivity"
-                  android:theme="@style/Theme.Transparent.ImagePicker"
-                  android:screenOrientation="unspecified"/>
+        <activity
+            android:name=".ImagePickerActivity"
+            android:screenOrientation="unspecified"
+            android:theme="@style/Theme.Transparent.ImagePicker" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -28,5 +26,16 @@
         </provider>
 
     </application>
+
+    <queries>
+        <!-- Query Camera Packages -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <!-- Query Open Document -->
+        <intent>
+            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+        </intent>
+    </queries>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -12,7 +13,6 @@ import com.github.dhaval2404.imagepicker.R
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.github.dhaval2404.imagepicker.util.IntentUtils
 import com.github.dhaval2404.imagepicker.util.PermissionUtil
-import com.github.dhaval2404.imagepicker.util.PermissionUtil.isPermissionGranted
 import java.io.File
 
 /**
@@ -34,14 +34,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
          * Permission Require for Image Capture using Camera
          */
         private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        /**
-         * Permission Require for Image Capture using Camera
-         */
-        private val REQUIRED_PERMISSIONS_EXTENDED = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
         )
 
@@ -55,24 +47,16 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     private var mCameraFile: File? = null
 
     /**
-     * True If Camera Permission Defined in AndroidManifest.xml
-     */
-    private val mAskCameraPermission = PermissionUtil
-        .isPermissionInManifest(this, Manifest.permission.CAMERA)
-
-    /**
      * Camera image will be stored in below file directory
      */
-    private var mFileDir: File? = null
+    private val mFileDir: File
 
     init {
         val bundle = activity.intent.extras ?: Bundle()
 
         // Get File Directory
         val fileDir = bundle.getString(ImagePicker.EXTRA_SAVE_DIRECTORY)
-        fileDir?.let {
-            mFileDir = File(it)
-        }
+        mFileDir = getFileDir(fileDir)
     }
 
     /**
@@ -99,7 +83,9 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     }
 
     /**
-     * Start Camera Capture Intent
+     * Start Camera Intent
+     *
+     * Create Temporary File object and Pass it to Camera Intent
      */
     fun startIntent() {
         if (!IntentUtils.isCameraAppAvailable(this)) {
@@ -132,7 +118,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     private fun startCameraIntent() {
         // Create and get empty file to store capture image content
-        val file = FileUtil.getImageFile(dir = mFileDir)
+        val file = FileUtil.getImageFile(fileDir = mFileDir)
         mCameraFile = file
 
         // Check if file exists
@@ -145,6 +131,39 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     }
 
     /**
+     * Request Runtime Permission required for Taking Pictures.
+     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
+     */
+    private fun requestPermission() {
+        requestPermissions(activity, getRequiredPermission(activity), PERMISSION_INTENT_REQ_CODE)
+    }
+
+    /**
+     * Check if require permission granted for Taking Picture.
+     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
+     *
+     * @param context Application Context
+     * @return boolean true if all required permission granted else false.
+     */
+    private fun isPermissionGranted(context: Context): Boolean {
+        return getRequiredPermission(context).none {
+            !PermissionUtil.isPermissionGranted(context, it)
+        }
+    }
+
+    /**
+     * Check if permission Exists in Manifest
+     *
+     * @param context Application Context
+     * @return Array<String> returns permission which are added in Manifest
+     */
+    private fun getRequiredPermission(context: Context): Array<String> {
+        return REQUIRED_PERMISSIONS.filter {
+            PermissionUtil.isPermissionInManifest(context, it)
+        }.toTypedArray()
+    }
+
+    /**
      * Handle Requested Permission Result
      */
     fun onRequestPermissionsResult(requestCode: Int) {
@@ -152,15 +171,11 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             // Check again if permission is granted
             if (isPermissionGranted(this)) {
                 // Permission is granted, Start Camera Intent
-                startCameraIntent()
+                startIntent()
             } else {
                 // Exit with error message
-                val errorRes = if (mAskCameraPermission) {
-                    R.string.permission_camera_extended_denied
-                } else {
-                    R.string.permission_camera_denied
-                }
-                setError(getString(errorRes))
+                val error = getString(R.string.permission_camera_denied)
+                setError(error)
             }
         }
     }
@@ -172,10 +187,11 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
+    @Suppress("UNUSED_PARAMETER")
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_INTENT_REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                handleResult(data)
+                handleResult()
             } else {
                 setResultCancel()
             }
@@ -185,48 +201,24 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * This method will be called when final result fot this provider is enabled.
      */
-    private fun handleResult(data: Intent?) {
-        activity.setImage(mCameraFile!!)
+    private fun handleResult() {
+        activity.setImage(Uri.fromFile(mCameraFile))
     }
 
     /**
      * Delete Camera file is exists
      */
     override fun onFailure() {
-        mCameraFile?.delete()
+        delete()
     }
 
     /**
-     * Request Runtime Permission required for Taking Pictures.
-     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
-     */
-    private fun requestPermission() {
-        if (mAskCameraPermission) {
-            // If Camera permission defined in AndroidManifest then Need to request Camera Permission
-            // Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
-            requestPermissions(activity, REQUIRED_PERMISSIONS_EXTENDED, PERMISSION_INTENT_REQ_CODE)
-        } else {
-            // If Camera permission is not defined in AndroidManifest then no need to request Camera Permission
-            requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
-        }
-    }
-
-    /**
-     * Check if Check Require permission granted for Taking Picture.
-     *   Ref: https://github.com/Dhaval2404/ImagePicker/issues/34
+     * Delete Camera File, If not required
      *
-     * @param context Application Context
-     * @return boolean true if all required permission granted else false.
+     * After Camera Image Crop/Compress Original File will not required
      */
-    private fun isPermissionGranted(context: Context): Boolean {
-        // Check if Camera permission defined in manifest
-        if (mAskCameraPermission && isPermissionGranted(context, REQUIRED_PERMISSIONS_EXTENDED)) {
-            // Camera and Storage permission is granted
-            return true
-        } else if (!mAskCameraPermission && isPermissionGranted(context, REQUIRED_PERMISSIONS)) {
-            // Storage permission is granted
-            return true
-        }
-        return false
+    fun delete() {
+        mCameraFile?.delete()
+        mCameraFile = null
     }
 }

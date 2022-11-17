@@ -7,14 +7,8 @@
     <string name="title_gallery">Gallery</string>
     <string name="title_camera">Camera</string>
 
-    <string name="message_gallery_permission_denied">Read External Storage permission is needed to select Image. Please turn on the requested permission from Settings > Permissions.</string>
-    <string name="message_camera_permission_denied">Camera and External Storage permissions are needed to capture the image. Turning off any permission won\'t allow the application to run smoothly. Please turn on all requested permissions from Settings > Permissions.</string>
-    <string name="permission_gallery_denied">
-        <![CDATA[Storage permission is needed to pick gallery image. Please allow storage permission from Settings > Permissions.]]></string>
-    <string name="permission_camera_extended_denied">
-        <![CDATA[Camera and Storage permissions are needed to take a picture. Please allow both the requested permissions from Settings > Permissions.]]></string>
-    <string name="permission_camera_denied">
-        <![CDATA[Storage permission is needed to take a picture. Please allow storage permission from Settings > Permissions.]]></string>
+     <string name="permission_camera_denied">
+        <![CDATA[Camera permission is needed to take a picture. Please allow permission from Settings > Permissions.]]></string>
 
     <string name="error_failed_to_create_camera_image_file">Failed to create Camera image file</string>
     <string name="error_failed_pick_gallery_image">Failed to pick Gallery image</string>

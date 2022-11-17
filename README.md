@@ -1,12 +1,15 @@
 # 📸Image Picker Library for Android
 
-[![Download](https://api.bintray.com/packages/dhaval2404/maven/imagepicker/images/download.svg) ](https://bintray.com/dhaval2404/maven/imagepicker/_latestVersion) 
+[![Download](https://jitpack.io/v/Dhaval2404/ImagePicker.svg)](https://jitpack.io/#Dhaval2404/ImagePicker)
 [![Releases](https://img.shields.io/github/release/dhaval2404/imagePicker/all.svg?style=flat-square)](https://github.com/Dhaval2404/ImagePicker/releases)
 [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
+![Build Status](https://github.com/Dhaval2404/ImagePicker/workflows/Build/badge.svg)
 ![Language](https://img.shields.io/badge/language-Kotlin-orange.svg)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ImagePicker-green.svg?style=flat )]( https://android-arsenal.com/details/1/7510 )
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![PRWelcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Dhaval2404/ImagePicker)
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/Dhaval2404)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Dhaval2404/ImagePicker/blob/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/Dhaval2404/ImagePicker.svg?style=social)](https://twitter.com/intent/tweet?text=Check+out+an+ImagePicker+library+to+Pick+an+image+from+the+Gallery+or+Capture+an+image+with+Camera.+https%3A%2F%2Fgithub.com%2FDhaval2404%2FImagePicker+%40dhaval2404+%23Android+%23Kotlin+%23AndroidDev)
 
 <div align="center">
@@ -27,10 +30,11 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 * Pick Gallery Image
 * Pick Image from Google Drive
 * Capture Camera Image
-* Crop Image(Crop image based on provided aspect ratio or let user choose one)
-* Compress Image(Compress image based on provided resolution and size)
-* Retrieve Image Result as File, File Path as String or Uri object
-* Handle Runtime Permission for Camera and Storage
+* Crop Image (Crop image based on provided aspect ratio or let user choose one)
+* Compress Image (Compress image based on provided resolution and size)
+* Retrieve Image Result as Uri object (Retrieve as File object feature is removed in v2.0 to support scope storage)
+* Handle runtime permission for camera
+* Does not require storage permission to pick gallery image or capture new image.
 
 # 🎬Preview
 
@@ -47,42 +51,25 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 	```groovy
 	allprojects {
 	   repositories {
-	      	jcenter()
-           	maven { url "https://jitpack.io" }  //Make sure to add this in your project for uCrop
+           	maven { url "https://jitpack.io" }
 	   }
 	}
 	```
 
     ```groovy
-   implementation 'com.github.dhaval2404:imagepicker:1.8'
+   implementation 'com.github.dhaval2404:imagepicker:2.1'
     ```
-    
+
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
    ```groovy
    implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
     ```
 
-    **If you want to get the activity result inline in a modern way (lambda) install [InlineActivityResult](https://github.com/florent37/InlineActivityResult) library:**
-   ```groovy
-   implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
-    ```
-    
-2.  <span style="color:red">**If you target Android 10 or higher(targetSdkVersion >= 29)**</span>, set the value of ``requestLegacyExternalStorage`` to true in your app's manifest file:
 
-      ```xml
-    <manifest ... >
-          <!-- This attribute is "false" by default on apps targeting
-               Android 10 or higher. -->
-          <application android:requestLegacyExternalStorage="true" ... >
-            ...
-          </application>
-    </manifest>
-      ```
-
-3. The ImagePicker configuration is created using the builder pattern.
+2. The ImagePicker configuration is created using the builder pattern.
 
 	**Kotlin**
-    
+
 	```kotlin
     ImagePicker.with(this)
             .crop()	    			//Crop image(Optional), Check Customization for more option
@@ -90,36 +77,30 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
     ```
-    
+
     **Java**
-    
+
     ```kotlin
-    ImagePicker.Companion.with(this)
+    ImagePicker.with(this)
             .crop()	    			//Crop image(Optional), Check Customization for more option
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
     ```
-    
-4. Handling results
 
-    
-    **Default method(Preferred way)**<br>
-    Override `onActivityResult` method and handle ImagePicker result.
+3. Handling results
+
+    **Override `onActivityResult` method and handle ImagePicker result.**
 
     ```kotlin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
          super.onActivityResult(requestCode, resultCode, data)
          if (resultCode == Activity.RESULT_OK) {
              //Image Uri will not be null for RESULT_OK
-             val fileUri = data?.data
+             val uri: Uri = data?.data!!
+
+             // Use Uri object instead of File to avoid storage permissions
              imgProfile.setImageURI(fileUri)
-          
-            //You can get File object from intent
-            val file:File = ImagePicker.getFile(data)!!
-           
-            //You can also get File Path from intent
-            val filePath:String = ImagePicker.getFilePath(data)!!
          } else if (resultCode == ImagePicker.RESULT_ERROR) {
              Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
          } else {
@@ -128,30 +109,48 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     }
     ```
 
-    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity) (Not to be used with crop. See [#32](https://github.com/Dhaval2404/ImagePicker/issues/32))**
-    
+    **Inline method (with registerForActivityResult, Only Works with FragmentActivity and AppCompatActivity)**
+
+    i. Add required dependency for registerForActivityResult API
+
+    ```groovy
+	implementation "androidx.activity:activity-ktx:1.2.3"
+    implementation "androidx.fragment:fragment-ktx:1.3.3"
+    ```
+
+    ii. Declare this method inside fragment or activity class
+
+    ```kotlin
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val fileUri = data?.data!!
+
+                mProfileUri = fileUri
+                imgProfile.setImageURI(fileUri)
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+            }
+        }
+    ```
+
+    iii. Create ImagePicker instance and launch intent
+
     ```kotlin
     ImagePicker.with(this)
             .compress(1024)         //Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
-            .start { resultCode, data ->
-                if (resultCode == Activity.RESULT_OK) {
-                    //Image Uri will not be null for RESULT_OK
-                     val fileUri = data?.data
-                     imgProfile.setImageURI(fileUri)
-                  
-                    //You can get File object from intent
-                    val file:File = ImagePicker.getFile(data)
-                   
-                    //You can also get File Path from intent
-                    val filePath:String = ImagePicker.getFilePath(data)
-                } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
-                }
+            .createIntent { intent ->
+                startForProfileImageResult.launch(intent)
             }
     ```
+
 
 # 🎨Customization
 
@@ -171,7 +170,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 		.start()
     ```
  *  Crop image
- 		
+
     ```kotlin
     ImagePicker.with(this)
 		.crop()	    //Crop image and let user choose aspect ratio.
@@ -225,14 +224,39 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     	.start()
     ```
 
- *  Specify Directory to store captured, cropped or compressed images
+ *  Specify Directory to store captured, cropped or compressed images. *Do not use external public storage directory (i.e. Environment.getExternalStorageDirectory())*
 
     ```kotlin
     ImagePicker.with(this)
-        //Provide directory path to save images
-        .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
-        // .saveDir(Environment.getExternalStorageDirectory())
-        // .saveDir(getExternalFilesDir(null)!!)
+       /// Provide directory path to save images, Added example saveDir method. You can choose directory as per your need.
+
+       //  Path: /storage/sdcard0/Android/data/package/files
+       .saveDir(getExternalFilesDir(null)!!)
+       //  Path: /storage/sdcard0/Android/data/package/files/DCIM
+       .saveDir(getExternalFilesDir(Environment.DIRECTORY_DCIM)!!)
+       //  Path: /storage/sdcard0/Android/data/package/files/Download
+       .saveDir(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!)
+       //  Path: /storage/sdcard0/Android/data/package/files/Pictures
+       .saveDir(getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!)
+       //  Path: /storage/sdcard0/Android/data/package/files/Pictures/ImagePicker
+       .saveDir(File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!, "ImagePicker"))
+       //  Path: /storage/sdcard0/Android/data/package/files/ImagePicker
+       .saveDir(getExternalFilesDir("ImagePicker")!!)
+       //  Path: /storage/sdcard0/Android/data/package/cache/ImagePicker
+       .saveDir(File(getExternalCacheDir(), "ImagePicker"))
+       //  Path: /data/data/package/cache/ImagePicker
+       .saveDir(File(getCacheDir(), "ImagePicker"))
+       //  Path: /data/data/package/files/ImagePicker
+       .saveDir(File(getFilesDir(), "ImagePicker"))
+
+      // Below saveDir path will not work, So do not use it
+      //  Path: /storage/sdcard0/DCIM
+      //  .saveDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM))
+      //  Path: /storage/sdcard0/Pictures
+      //  .saveDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES))
+      //  Path: /storage/sdcard0/ImagePicker
+      //  .saveDir(File(Environment.getExternalStorageDirectory(), "ImagePicker"))
+
         .start()
     ```
 
@@ -275,6 +299,24 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
   * Sample - Android Kitkat 4.4+ (API 19)
 
 # ✔️Changelog
+
+### Version: 2.1
+  * Added uzbekistan translation (Special Thanks to Khudoyshukur Juraev)
+  * Removed requestLegacyExternalStorage flag
+  * Removed unused string resources
+
+### Version: 2.0
+
+  * Added arabic translation [#157](https://github.com/Dhaval2404/ImagePicker/pull/157)  (Special Thanks to [zhangzhu95](https://github.com/zhangzhu95))
+  * Added norwegian translation [#163](https://github.com/Dhaval2404/ImagePicker/pull/163) (Special Thanks to [TorkelV](https://github.com/TorkelV))
+  * Added german translation [#192](https://github.com/Dhaval2404/ImagePicker/pull/192) (Special Thanks to [MDXDave](https://github.com/MDXDave))
+  * Added method to return Intent for manual launching ImagePicker [#182](https://github.com/Dhaval2404/ImagePicker/pull/182) (Special Thanks to [tobiasKaminsky](https://github.com/tobiasKaminsky))
+  * Added support for android 11 [#199](https://github.com/Dhaval2404/ImagePicker/issues/199)
+  * Fixed android scope storage issue [#29](https://github.com/Dhaval2404/ImagePicker/issues/29)
+  * Removed storage permissions [#29](https://github.com/Dhaval2404/ImagePicker/issues/29)
+  * Fixed calculateInSampleSize leads to overly degraded quality [#152](https://github.com/Dhaval2404/ImagePicker/issues/152) (Special Thanks to [FlorianDenis](https://github.com/FlorianDenis))
+  * Fixed camera app not found issue [#162](https://github.com/Dhaval2404/ImagePicker/issues/162)
+  * Fixed Playstore requestLegacyExternalStorage flag issue [#199](https://github.com/Dhaval2404/ImagePicker/issues/199)
 
 ### Version: 1.8
 
@@ -339,7 +381,6 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 ## 📃 Libraries Used
 * uCrop [https://github.com/Yalantis/uCrop](https://github.com/Yalantis/uCrop)
 * Compressor [https://github.com/zetbaitsu/Compressor](https://github.com/zetbaitsu/Compressor)
-* InlineActivityResult [https://github.com/florent37/InlineActivityResult](https://github.com/florent37/InlineActivityResult)
 
 ### Let us know!
 
@@ -347,7 +388,7 @@ We'll be really happy if you sent us links to your projects where you use our co
 
 ## License
 
-    Copyright 2019-2020, Dhaval Patel
+    Copyright 2019-2021, Dhaval Patel
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

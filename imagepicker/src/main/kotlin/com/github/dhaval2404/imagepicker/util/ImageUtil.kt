@@ -41,20 +41,19 @@ object ImageUtil {
         reqWidth: Float,
         reqHeight: Float,
         compressFormat: Bitmap.CompressFormat,
-        quality: Int,
         destinationPath: String
     ): File {
         var fileOutputStream: FileOutputStream? = null
         val file = File(destinationPath).parentFile
-        if (!file.exists()) {
+        if (file?.exists() == false) {
             file.mkdirs()
         }
         try {
             fileOutputStream = FileOutputStream(destinationPath)
             // write the compressed bitmap at the destination specified by destinationPath.
-            decodeSampledBitmapFromFile(imageFile, reqWidth, reqHeight)!!.compress(
+            decodeSampledBitmapFromFile(imageFile, reqWidth, reqHeight)?.compress(
                 compressFormat,
-                quality,
+                100,
                 fileOutputStream
             )
         } finally {
@@ -163,9 +162,8 @@ object ImageUtil {
         var inSampleSize = 1
 
         if (height > reqHeight || width > reqWidth) {
-            inSampleSize *= 2
-            val halfHeight = height / 2
-            val halfWidth = width / 2
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
 
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
@@ -180,7 +178,10 @@ object ImageUtil {
     /**
      * Ref: https://developer.android.com/topic/performance/graphics/manage-memory#kotlin
      */
-    private fun canUseForInBitmap(candidate: Bitmap, targetOptions: BitmapFactory.Options): Boolean {
+    private fun canUseForInBitmap(
+        candidate: Bitmap,
+        targetOptions: BitmapFactory.Options
+    ): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // From Android 4.4 (KitKat) onward we can re-use if the byte size of
             // the new bitmap is smaller than the reusable bitmap candidate
@@ -192,14 +193,15 @@ object ImageUtil {
         } else {
             // On earlier versions, the dimensions must match exactly and the inSampleSize must be 1
             candidate.width == targetOptions.outWidth &&
-                    candidate.height == targetOptions.outHeight &&
-                    targetOptions.inSampleSize == 1
+                candidate.height == targetOptions.outHeight &&
+                targetOptions.inSampleSize == 1
         }
     }
 
     /**
      * A helper function to return the byte usage per pixel of a bitmap based on its configuration.
      */
+    @Suppress("DEPRECATION")
     private fun getBytesPerPixel(config: Bitmap.Config): Int {
         return when (config) {
             Bitmap.Config.ARGB_8888 -> 4

@@ -6,12 +6,6 @@
     <string name="title_gallery">Galleri</string>
     <string name="title_camera">Kamera</string>
 
-    <string name="message_gallery_permission_denied">Les Ekstern Lagring-tillatelse trengs for å velge bilde. Du kan endre tillatelser i Innstillinger > Tillatelser.</string>
-    <string name="message_camera_permission_denied">Kamera- og Les Ekstern Lagring-tillatelser trengs for å ta bilde med kamera. Hvis du ikke aksepterer tillatelsene vil ikke appen fungere optimalt. Du kan endre tillatelser i Innstillinger > Tillatelser.</string>
-    <string name="permission_gallery_denied">
-        <![CDATA[Lagrings-tillatelse trengs for å velge bilde fra galleriet. Du kan endre tillatelser i Innstillinger > Tillatelser.]]></string>
-    <string name="permission_camera_extended_denied">
-        <![CDATA[Kamera- og Lagrings-tillatelser trengs for å ta bilde med kamera. Du kan endre tillatelser i Innstillinger > Tillatelser.]]></string>
     <string name="permission_camera_denied">
         <![CDATA[Lagrings-tillatelse trengs for å ta bilde. Du kan endre tillatelser i Innstillinger > Tillatelser.]]></string>
 

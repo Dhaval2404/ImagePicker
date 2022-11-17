@@ -1,17 +1,13 @@
 package com.github.dhaval2404.imagepicker.provider
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
-import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.IntentUtils
-import com.github.dhaval2404.imagepicker.util.PermissionUtil
-import java.io.File
 
 /**
  * Select image from Storage
@@ -24,15 +20,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
     BaseProvider(activity) {
 
     companion object {
-        /**
-         * Permission Require for Image Pick, For image pick just storage permission is need but
-         * to crop or compress image write permission is also required. as both permission is in
-         * same group, we have used write permission here.
-         */
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
         private const val GALLERY_INTENT_REQ_CODE = 4261
-        private const val PERMISSION_INTENT_REQ_CODE = 4262
     }
 
     // Mime types restrictions for gallery. By default all mime types are valid
@@ -41,6 +29,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
     init {
         val bundle = activity.intent.extras ?: Bundle()
 
+        // Get MIME types
         mimeTypes = bundle.getStringArray(ImagePicker.EXTRA_MIME_TYPES) ?: emptyArray()
     }
 
@@ -48,20 +37,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
      * Start Gallery Capture Intent
      */
     fun startIntent() {
-        checkPermission()
-    }
-
-    /**
-     * Check Require permission for Picking Gallery Image.
-     *
-     * If permission is not granted request Permission, Else start gallery Intent
-     */
-    private fun checkPermission() {
-        if (!PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
-            requestPermissions(activity, REQUIRED_PERMISSIONS, PERMISSION_INTENT_REQ_CODE)
-        } else {
-            startGalleryIntent()
-        }
+        startGalleryIntent()
     }
 
     /**
@@ -73,25 +49,9 @@ class GalleryProvider(activity: ImagePickerActivity) :
     }
 
     /**
-     * Handle Requested Permission Result
-     */
-    fun onRequestPermissionsResult(requestCode: Int) {
-        if (requestCode == PERMISSION_INTENT_REQ_CODE) {
-            // Check again if permission is granted
-            if (PermissionUtil.isPermissionGranted(this, REQUIRED_PERMISSIONS)) {
-                // Permission is granted, Start Camera Intent
-                startGalleryIntent()
-            } else {
-                // Exit with error message
-                setError(getString(R.string.permission_gallery_denied))
-            }
-        }
-    }
-
-    /**
-     * Handle Camera Intent Activity Result
+     * Handle Gallery Intent Activity Result
      *
-     * @param requestCode It must be {@link CameraProvider#GALLERY_INTENT_REQ_CODE}
+     * @param requestCode It must be {@link GalleryProvider#GALLERY_INTENT_REQ_CODE}
      * @param resultCode For success it should be {@link Activity#RESULT_OK}
      * @param data Result Intent
      */
@@ -111,14 +71,18 @@ class GalleryProvider(activity: ImagePickerActivity) :
     private fun handleResult(data: Intent?) {
         val uri = data?.data
         if (uri != null) {
-            val filePath: String? = FileUriUtils.getRealPath(activity, uri)
-            if (!filePath.isNullOrEmpty()) {
-                activity.setImage(File(filePath))
-            } else {
-                setError(R.string.error_failed_pick_gallery_image)
-            }
+            takePersistableUriPermission(uri)
+            activity.setImage(uri)
         } else {
             setError(R.string.error_failed_pick_gallery_image)
         }
+    }
+
+    /**
+     * Take a persistable URI permission grant that has been offered. Once
+     * taken, the permission grant will be remembered across device reboots.
+     */
+    private fun takePersistableUriPermission(uri: Uri) {
+        contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 }

@@ -7,12 +7,6 @@
     <string name="title_gallery">Galeria</string>
     <string name="title_camera">Cámara</string>
 
-    <string name="message_gallery_permission_denied">Se necesitan permisos de Lectura de Datos Externos para seleccionar una imagen. Por favor activa los permisos seleccionados en Ajustes > Permisos.</string>
-    <string name="message_camera_permission_denied">Se necesitan permisos de Cámara y de  Almacenamiento Externo para seleccionar una imagen. Denegar cualquier permiso no ayudará a que la aplicación funcione de manera correcta. Por favor activa todos los permisos solicitados en Ajustes > Permisos.</string>
-    <string name="permission_gallery_denied">
-        <![CDATA[Se necesita permiso de Almacenamiento para elegir galería de imágenes. Por favor activa todos los permisos solicitados en Ajustes > Permisos.]]></string>
-    <string name="permission_camera_extended_denied">
-        <![CDATA[Se necesitan permisos de Cámara y Almacenamiento para tomar imágenes. Por favor activa todos los permisos solicitados en Ajustes > Permisos.]]></string>
     <string name="permission_camera_denied">
         <![CDATA[Se necesitan permisos de Almacenamiento para tomar imágenes. Por favor activa todos los permisos solicitados en Ajustes > Permisos.]]></string>
 
