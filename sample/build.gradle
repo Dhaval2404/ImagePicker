@@ -7,11 +7,11 @@ plugins {
 apply from: "../ktlint.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.github.dhaval2404.imagepicker.sample"
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 16
         versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
