@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
+
+    <string name="title_choose_image_provider">არჩევა</string>
+    <string name="action_cancel">გაუქმება</string>
+    <string name="title_gallery">გალერეა</string>
+    <string name="title_camera">კამერა</string>
+
+    <string name="permission_camera_denied">
+        <![CDATA[კამერის ნებართა არის საჭირო ფოტოს გადასაღებად. გთხოვთ პარამეტრებიდან დართოთ ნებართვა > Permissions.]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">ვერ მოხერხდა კამერის სურათის ფაილის შექმნა</string>
+    <string name="error_failed_pick_gallery_image">ვერ მოხერხდა გალერეიდან ფოტოს აღება</string>
+    <string name="error_failed_to_crop_image">ვერ მოხერხდა ფოტოს ამოჭრა</string>
+    <string name="error_failed_to_compress_image">ვერ მოხერხდა ფოტოს შეკუმშვა</string>
+    <string name="error_task_cancelled">დავალება გაუქმდა</string>
+    <string name="error_camera_app_not_found">კამერის აპლიკაცია ვერ მოიძებნა</string>
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">თავდაპირველი</string>
+    <string name="ucrop_label_edit_photo">ფოტოს რედაქტირება</string>
+    <string name="ucrop_menu_crop">ამოჭრა</string>
+    <string name="ucrop_rotate">ბრუნვა</string>
+    <string name="ucrop_scale">მასშტაბი</string>
+    <string name="ucrop_crop">ამოჭრა</string>
+    <!-- uCrop string resource end -->
+
+</resources>
