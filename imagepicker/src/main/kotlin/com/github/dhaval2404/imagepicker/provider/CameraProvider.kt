@@ -72,7 +72,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     override fun onSaveInstanceState(outState: Bundle) {
         // Save Camera File
         //outState.putSerializable(STATE_CAMERA_FILE, mCameraFile.canonicalPath)
-        outState.putString(STATE_CAMERA_FILE, mCameraFile?.canonicalPath)
     }
 
     /**
@@ -81,8 +80,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         // Restore Camera File
        // mCameraFile = savedInstanceState?.getSerializable(STATE_CAMERA_FILE) as File?
-        val canonicalPath = savedInstanceState?.getString(STATE_CAMERA_FILE) ?: return
-        mCameraFile = getFileDir(canonicalPath)
     }
 
     /**
