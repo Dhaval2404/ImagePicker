@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.net.toUri
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
@@ -71,7 +72,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      **/
     override fun onSaveInstanceState(outState: Bundle) {
         // Save Camera File
-        //outState.putSerializable(STATE_CAMERA_FILE, mCameraFile.canonicalPath)
+        outState.putString(STATE_CAMERA_FILE, mCameraFile?.absolutePath)
     }
 
     /**
@@ -79,7 +80,9 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         // Restore Camera File
-       // mCameraFile = savedInstanceState?.getSerializable(STATE_CAMERA_FILE) as File?
+        val path = savedInstanceState?.getString(STATE_CAMERA_FILE) ?: return
+        val file = File(path)
+        mCameraFile = file
     }
 
     /**
