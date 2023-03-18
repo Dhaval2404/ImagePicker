@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.net.toFile
-import androidx.core.net.toUri
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
@@ -39,6 +39,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             Manifest.permission.CAMERA
         )
 
+        val TAG = "Hello"
         private const val CAMERA_INTENT_REQ_CODE = 4281
         private const val PERMISSION_INTENT_REQ_CODE = 4282
     }
@@ -73,7 +74,9 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      **/
     override fun onSaveInstanceState(outState: Bundle) {
         // Save Camera File
-        outState.putParcelable(STATE_CAMERA_FILE, Uri.fromFile(mCameraFile))
+        if(mCameraFile != null) {
+            outState.putParcelable(STATE_CAMERA_FILE, Uri.fromFile(mCameraFile))
+        }
     }
 
     /**
@@ -83,14 +86,20 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         // Restore Camera File
         val uri : Uri = savedInstanceState?.getParcelable(STATE_CAMERA_FILE) ?: return
         mCameraFile = uri.toFile()
+        Log.d(TAG, "mCamera file after onRestoreInstanceState: $mCameraFile")
     }
 
-    /**
+    /**r
      * Start Camera Intent
      *
      * Create Temporary File object and Pass it to Camera Intent
      */
     fun startIntent() {
+        if(mCameraFile != null) {
+            handleResult()
+            return
+        }
+
         if (!IntentUtils.isCameraAppAvailable(this)) {
             setError(R.string.error_camera_app_not_found)
             return

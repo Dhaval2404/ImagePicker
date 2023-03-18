@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.core.net.toFile
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
@@ -70,7 +71,9 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     override fun onSaveInstanceState(outState: Bundle) {
         // Save crop file
-        outState.putSerializable(STATE_CROP_FILE, mCropImageFile)
+        if(mCropImageFile != null) {
+            outState.putParcelable(STATE_CROP_FILE, Uri.fromFile(mCropImageFile))
+        }
     }
 
     /**
@@ -79,6 +82,9 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         // Restore crop file
         mCropImageFile = savedInstanceState?.getSerializable(STATE_CROP_FILE) as File?
+
+        val uri : Uri = savedInstanceState?.getParcelable(STATE_CROP_FILE) ?: return
+        mCropImageFile = uri.toFile()
     }
 
     /**
