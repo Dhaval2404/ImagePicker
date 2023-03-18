@@ -125,6 +125,7 @@ class MainActivity : AppCompatActivity() {
         ImagePicker.with(this)
             // User can only capture image from Camera
             .cameraOnly()
+            .crop()
             // Image size will be less than 1024 KB
             // .compress(1024)
             //  Path: /storage/sdcard0/Android/data/package/files
