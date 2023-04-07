@@ -38,7 +38,27 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        binding.contentMain.contentProfile.imgProfile.setDrawableImage(R.drawable.ic_person, true)
+        binding.imgProfile.setDrawableImage(R.drawable.ic_person, true)
+
+        // Setup listeners to pick image
+        binding.fabAddPhoto.setOnClickListener(this::pickProfileImage)
+        binding.fabAddGalleryPhoto.setOnClickListener(this::pickGalleryImage)
+        binding.fabAddCameraPhoto.setOnClickListener(this::pickCameraImage)
+
+        // Setup listeners to show image
+        binding.imgProfile.setOnClickListener(this::showImage)
+        binding.imgGallery.setOnClickListener(this::showImage)
+        binding.imgCamera.setOnClickListener(this::showImage)
+
+        // Setup listeners to show code
+        binding.imgProfileCode.setOnClickListener(this::showImageCode)
+        binding.imgGalleryCode.setOnClickListener(this::showImageCode)
+        binding.imgCameraCode.setOnClickListener(this::showImageCode)
+
+        // Setup listeners to show info
+        binding.imgProfileInfo.setOnClickListener(this::showImageInfo)
+        binding.imgGalleryInfo.setOnClickListener(this::showImageInfo)
+        binding.imgCameraInfo.setOnClickListener(this::showImageInfo)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -158,7 +178,7 @@ class MainActivity : AppCompatActivity() {
             .createIntent { intent -> startForCameraImageResult.launch(intent) }
     }
 
-    fun showImageCode(view: View) {
+    private fun showImageCode(view: View) {
         val resource = when (view) {
             binding.imgProfileCode -> R.drawable.img_profile_code
             binding.imgCameraCode -> R.drawable.img_camera_code
@@ -168,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         ImageViewerDialog.newInstance(resource).show(supportFragmentManager, "")
     }
 
-    fun showImage(view: View) {
+    private fun showImage(view: View) {
         val uri = when (view) {
             binding.imgProfile -> mProfileUri
             binding.imgCamera -> mCameraUri
@@ -181,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showImageInfo(view: View) {
+    private fun showImageInfo(view: View) {
         val uri = when (view) {
             binding.imgProfileInfo -> mProfileUri
             binding.imgCameraInfo -> mCameraUri
@@ -200,9 +220,12 @@ class MainActivity : AppCompatActivity() {
 val ActivityMainBinding.imgProfile get() = contentMain.contentProfile.imgProfile
 val ActivityMainBinding.imgProfileCode get() = contentMain.contentProfile.imgProfileCode
 val ActivityMainBinding.imgProfileInfo get() = contentMain.contentProfile.imgProfileInfo
+val ActivityMainBinding.fabAddPhoto get() = contentMain.contentProfile.fabAddPhoto
 val ActivityMainBinding.imgCamera get() = contentMain.contentCamera.imgCamera
 val ActivityMainBinding.imgCameraCode get() = contentMain.contentCamera.imgCameraCode
 val ActivityMainBinding.imgCameraInfo get() = contentMain.contentCamera.imgCameraInfo
+val ActivityMainBinding.fabAddCameraPhoto get() = contentMain.contentCamera.fabAddCameraPhoto
 val ActivityMainBinding.imgGallery get() = contentMain.contentGallery.imgGallery
 val ActivityMainBinding.imgGalleryCode get() = contentMain.contentGallery.imgGalleryCode
 val ActivityMainBinding.imgGalleryInfo get() = contentMain.contentGallery.imgGalleryInfo
+val ActivityMainBinding.fabAddGalleryPhoto get() = contentMain.contentGallery.fabAddGalleryPhoto
