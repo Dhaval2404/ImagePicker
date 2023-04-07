@@ -34,12 +34,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.github.dhaval2404.imagepicker'
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

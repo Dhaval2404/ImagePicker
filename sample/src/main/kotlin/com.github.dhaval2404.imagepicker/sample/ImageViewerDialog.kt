@@ -1,11 +1,10 @@
 package com.github.dhaval2404.imagepicker.sample
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.dialog_imageviewer.*
+import com.github.dhaval2404.imagepicker.sample.databinding.DialogImageviewerBinding
 
 /**
  * Dialog to View Image
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.dialog_imageviewer.*
  * @version 1.6
  * @since 05 January 2019
  */
-class ImageViewerDialog : DialogFragment() {
+class ImageViewerDialog : DialogFragment(R.layout.dialog_imageviewer) {
 
     companion object {
 
@@ -28,17 +27,10 @@ class ImageViewerDialog : DialogFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_imageviewer, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        codeImg.setImageResource(arguments?.getInt(EXTRA_IMAGE_RESOURCE, 0) ?: 0)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = DialogImageviewerBinding.bind(view)
+        binding.codeImg.setImageResource(arguments?.getInt(EXTRA_IMAGE_RESOURCE, 0) ?: 0)
     }
 
     override fun onStart() {

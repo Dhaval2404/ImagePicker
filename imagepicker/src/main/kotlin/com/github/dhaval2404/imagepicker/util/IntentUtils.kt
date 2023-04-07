@@ -24,11 +24,9 @@ object IntentUtils {
      */
     @JvmStatic
     fun getGalleryIntent(context: Context, mimeTypes: Array<String>): Intent {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            val intent = getGalleryDocumentIntent(mimeTypes)
-            if (intent.resolveActivity(context.packageManager) != null) {
-                return intent
-            }
+        val intent = getGalleryDocumentIntent(mimeTypes)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            return intent
         }
         return getLegacyGalleryPickIntent(mimeTypes)
     }
@@ -69,7 +67,7 @@ object IntentUtils {
      * @return Intent Camera Intent
      */
     @JvmStatic
-    fun getCameraIntent(context: Context, file: File): Intent? {
+    fun getCameraIntent(context: Context, file: File): Intent {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -19,11 +19,17 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <include layout="@layout/content_profile" />
+            <include
+                android:id="@+id/content_profile"
+                layout="@layout/content_profile" />
 
-            <include layout="@layout/content_gallery_only" />
+            <include
+                android:id="@+id/content_gallery"
+                layout="@layout/content_gallery_only" />
 
-            <include layout="@layout/content_camera_only" />
+            <include
+                android:id="@+id/content_camera"
+                layout="@layout/content_camera_only" />
 
         </LinearLayout>
 
