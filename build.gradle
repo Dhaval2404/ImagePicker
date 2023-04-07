@@ -1,11 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.0'
+    ext.kotlin_version = '1.8.0'
     repositories {
         google()
+        mavenCentral()
         maven { url "https://jitpack.io" }
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.2'
@@ -20,7 +20,6 @@ allprojects {
     repositories {
         google()
         maven { url "https://jitpack.io" }
-        jcenter()
     }
 
     detekt {
