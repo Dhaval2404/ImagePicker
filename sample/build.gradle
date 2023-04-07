@@ -9,7 +9,7 @@ android {
     compileSdkVersion 33
     defaultConfig {
         applicationId "com.github.dhaval2404.imagepicker.sample"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 33
         versionCode 16
         versionName "2.1"
