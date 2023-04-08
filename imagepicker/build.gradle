@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
 
     //More Info: https://github.com/Yalantis/uCrop
-    implementation 'com.github.yalantis:ucrop:2.2.6'
+    implementation 'com.github.yalantis:ucrop:2.2.8'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
