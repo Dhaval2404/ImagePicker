@@ -15,12 +15,7 @@
  */
 package com.github.dhaval2404.imagepicker.util
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.os.Build
+import android.graphics.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -182,20 +177,13 @@ object ImageUtil {
         candidate: Bitmap,
         targetOptions: BitmapFactory.Options
     ): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // From Android 4.4 (KitKat) onward we can re-use if the byte size of
-            // the new bitmap is smaller than the reusable bitmap candidate
-            // allocation byte count.
-            val width: Int = targetOptions.outWidth / targetOptions.inSampleSize
-            val height: Int = targetOptions.outHeight / targetOptions.inSampleSize
-            val byteCount: Int = width * height * getBytesPerPixel(candidate.config)
-            byteCount <= candidate.allocationByteCount
-        } else {
-            // On earlier versions, the dimensions must match exactly and the inSampleSize must be 1
-            candidate.width == targetOptions.outWidth &&
-                candidate.height == targetOptions.outHeight &&
-                targetOptions.inSampleSize == 1
-        }
+        // From Android 4.4 (KitKat) onward we can re-use if the byte size of
+        // the new bitmap is smaller than the reusable bitmap candidate
+        // allocation byte count.
+        val width: Int = targetOptions.outWidth / targetOptions.inSampleSize
+        val height: Int = targetOptions.outHeight / targetOptions.inSampleSize
+        val byteCount: Int = width * height * getBytesPerPixel(candidate.config)
+        return byteCount <= candidate.allocationByteCount
     }
 
     /**

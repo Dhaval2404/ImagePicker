@@ -194,7 +194,7 @@ class CompressionProvider(activity: ImagePickerActivity) : BaseProvider(activity
             format = Bitmap.CompressFormat.PNG
         }
 
-        val extension = FileUtil.getImageExtension(file)
+        val extension = FileUtil.getImageExtension(this, file)
         val compressFile: File? = FileUtil.getImageFile(fileDir = mFileDir, extension = extension)
         return if (compressFile != null) {
             ImageUtil.compressImage(

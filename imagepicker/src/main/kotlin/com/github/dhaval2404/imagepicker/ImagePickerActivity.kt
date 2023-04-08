@@ -6,7 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.github.dhaval2404.imagepicker.activityResultContracts.CustomOpenDocument
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
 import com.github.dhaval2404.imagepicker.provider.CompressionProvider
@@ -42,6 +45,14 @@ class ImagePickerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadBundle(savedInstanceState)
+
+        // Handle Activity Back Press
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                setResultCancel()
+                remove()
+            }
+        })
     }
 
     /**
@@ -71,12 +82,12 @@ class ImagePickerActivity : AppCompatActivity() {
         // Create Gallery/Camera Provider
         when (provider) {
             ImageProvider.GALLERY -> {
-                mGalleryProvider = GalleryProvider(this)
+                mGalleryProvider = GalleryProvider(this, galleryLauncher, galleryWithMimetypesLauncher)
                 // Pick Gallery Image
                 savedInstanceState ?: mGalleryProvider?.startIntent()
             }
             ImageProvider.CAMERA -> {
-                mCameraProvider = CameraProvider(this)
+                mCameraProvider = CameraProvider(this, cameraLauncher)
                 mCameraProvider?.onRestoreInstanceState(savedInstanceState)
                 // Pick Camera Image
                 savedInstanceState ?: mCameraProvider?.startIntent()
@@ -101,21 +112,23 @@ class ImagePickerActivity : AppCompatActivity() {
         mCameraProvider?.onRequestPermissionsResult(requestCode)
     }
 
-    /**
-     * Dispatch incoming result to the correct provider.
-     */
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        mCameraProvider?.onActivityResult(requestCode, resultCode, data)
-        mGalleryProvider?.onActivityResult(requestCode, resultCode, data)
         mCropProvider.onActivityResult(requestCode, resultCode, data)
     }
 
-    /**
-     * Handle Activity Back Press
-     */
-    override fun onBackPressed() {
-        setResultCancel()
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
+      mCameraProvider?.onActivityResult(result)
+    }
+
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { result ->
+        mGalleryProvider?.onActivityResult(result)
+    }
+
+    private val galleryWithMimetypesLauncher = registerForActivityResult(CustomOpenDocument()) { result ->
+        mGalleryProvider?.onActivityResult(result)
     }
 
     /**

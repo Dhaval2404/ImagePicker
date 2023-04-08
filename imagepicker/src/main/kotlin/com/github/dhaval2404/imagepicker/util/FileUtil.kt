@@ -1,19 +1,22 @@
 package com.github.dhaval2404.imagepicker.util
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.StatFs
+import android.webkit.MimeTypeMap
+import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
+import com.github.dhaval2404.imagepicker.R
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 /**
  * File Utility Methods
@@ -192,8 +195,8 @@ object FileUtil {
      *
      * @return extension of image with dot, or default .jpg if it none.
      */
-    fun getImageExtension(file: File): String {
-        return getImageExtension(Uri.fromFile(file))
+    fun getImageExtension(context: Context, file: File): String {
+        return getImageExtension(context, Uri.fromFile(file))
     }
 
     /**
@@ -201,13 +204,20 @@ object FileUtil {
      *
      * @return extension of image with dot, or default .jpg if it none.
      */
-    fun getImageExtension(uriImage: Uri): String {
+    fun getImageExtension(context: Context, uriImage: Uri): String {
         var extension: String? = null
 
         try {
-            val imagePath = uriImage.path
-            if (imagePath != null && imagePath.lastIndexOf(".") != -1) {
-                extension = imagePath.substring(imagePath.lastIndexOf(".") + 1)
+            if (uriImage.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+                //If scheme is a content
+                val mime = MimeTypeMap.getSingleton()
+                extension =
+                    mime.getExtensionFromMimeType(context.contentResolver.getType(uriImage))
+            } else {
+                val imagePath = uriImage.path
+                if (imagePath != null && imagePath.lastIndexOf(".") != -1) {
+                    extension = imagePath.substring(imagePath.lastIndexOf(".") + 1)
+                }
             }
         } catch (e: Exception) {
             extension = null
@@ -227,6 +237,19 @@ object FileUtil {
      * @return Boolean, True if Uri is local file object else return false
      */
     private fun isFileUri(uri: Uri): Boolean {
-        return "file".equals(uri.scheme, ignoreCase = true)
+        return uri.scheme.equals(ContentResolver.SCHEME_FILE)
+    }
+
+    fun getFileUri(context: Context, file: File): Uri? {
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // authority = com.github.dhaval2404.imagepicker.provider
+            val authority =
+                context.packageName + context.getString(R.string.image_picker_provider_authority_suffix)
+            val photoURI = FileProvider.getUriForFile(context, authority, file)
+            photoURI
+        } else {
+            Uri.fromFile(file)
+        }
     }
 }

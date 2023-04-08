@@ -101,7 +101,7 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      */
     @Throws(IOException::class)
     private fun cropImage(uri: Uri) {
-        val extension = FileUtil.getImageExtension(uri)
+        val extension = FileUtil.getImageExtension(this, uri)
         mCropImageFile = FileUtil.getImageFile(fileDir = mFileDir, extension = extension)
 
         if (mCropImageFile == null || !mCropImageFile!!.exists()) {
@@ -129,11 +129,11 @@ class CropProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         } catch (ex: ActivityNotFoundException) {
             setError(
                 "uCrop not specified in manifest file." +
-                    "Add UCropActivity in Manifest" +
-                    "<activity\n" +
-                    "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
-                    "    android:screenOrientation=\"portrait\"\n" +
-                    "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
+                        "Add UCropActivity in Manifest" +
+                        "<activity\n" +
+                        "    android:name=\"com.yalantis.ucrop.UCropActivity\"\n" +
+                        "    android:screenOrientation=\"portrait\"\n" +
+                        "    android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>"
             )
             ex.printStackTrace()
         }

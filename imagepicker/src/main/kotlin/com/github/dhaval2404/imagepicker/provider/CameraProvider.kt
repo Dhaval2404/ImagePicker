@@ -1,11 +1,10 @@
 package com.github.dhaval2404.imagepicker.provider
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat.requestPermissions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
@@ -22,7 +21,7 @@ import java.io.File
  * @version 1.0
  * @since 04 January 2019
  */
-class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
+class CameraProvider(activity: ImagePickerActivity, private val cameraLauncher: ActivityResultLauncher<Uri>) : BaseProvider(activity) {
 
     companion object {
         /**
@@ -37,7 +36,6 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             Manifest.permission.CAMERA
         )
 
-        private const val CAMERA_INTENT_REQ_CODE = 4281
         private const val PERMISSION_INTENT_REQ_CODE = 4282
     }
 
@@ -93,7 +91,9 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
             return
         }
 
-        checkPermission()
+        checkPermission {
+            startCameraIntent(cameraLauncher)
+        }
     }
 
     /**
@@ -101,10 +101,10 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * If permission is not granted request Permission, Else start Camera Intent
      */
-    private fun checkPermission() {
+    private fun checkPermission(block: ()-> Unit) {
         if (isPermissionGranted(this)) {
             // Permission Granted, Start Camera Intent
-            startCameraIntent()
+            block()
         } else {
             // Request Permission
             requestPermission()
@@ -116,15 +116,15 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
      *
      * Create Temporary File object and Pass it to Camera Intent
      */
-    private fun startCameraIntent() {
+    private fun startCameraIntent(cameraLauncher: ActivityResultLauncher<Uri>) {
         // Create and get empty file to store capture image content
         val file = FileUtil.getImageFile(fileDir = mFileDir)
         mCameraFile = file
 
         // Check if file exists
         if (file != null && file.exists()) {
-            val cameraIntent = IntentUtils.getCameraIntent(this, file)
-            activity.startActivityForResult(cameraIntent, CAMERA_INTENT_REQ_CODE)
+            val uri = FileUtil.getFileUri(this, file)
+            cameraLauncher.launch(uri)
         } else {
             setError(R.string.error_failed_to_create_camera_image_file)
         }
@@ -183,18 +183,14 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
     /**
      * Handle Camera Intent Activity Result
      *
-     * @param requestCode It must be {@link CameraProvider#CAMERA_INTENT_REQ_CODE}
-     * @param resultCode For success it should be {@link Activity#RESULT_OK}
-     * @param data Result Intent
+     * @param result true if the image save to the URI false otherwise
      */
     @Suppress("UNUSED_PARAMETER")
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == CAMERA_INTENT_REQ_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                handleResult()
-            } else {
-                setResultCancel()
-            }
+    fun onActivityResult(result: Boolean) {
+        if (result) {
+            handleResult()
+        } else {
+            setResultCancel()
         }
     }
 

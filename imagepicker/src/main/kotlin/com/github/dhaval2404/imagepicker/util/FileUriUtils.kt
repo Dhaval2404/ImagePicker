@@ -1,18 +1,14 @@
 package com.github.dhaval2404.imagepicker.util
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 
 /**
  * This file was taken from
@@ -34,10 +30,8 @@ object FileUriUtils {
     }
 
     private fun getPathFromLocalUri(context: Context, uri: Uri): String? {
-        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-
         // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+        if (DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
@@ -65,7 +59,7 @@ object FileUriUtils {
             } else if (isMediaDocument(uri)) {
                 return getMediaDocument(context, uri)
             }
-        } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
+        } else if (uri.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
             // Return the remote address
             return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
                 context,
@@ -73,7 +67,7 @@ object FileUriUtils {
                 null,
                 null
             )
-        } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
+        } else if (uri.scheme.equals(ContentResolver.SCHEME_FILE)) {
             return uri.path
         }
         return null
@@ -131,12 +125,16 @@ object FileUriUtils {
         val type = split[0]
 
         var contentUri: Uri? = null
-        if ("image" == type) {
-            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        } else if ("video" == type) {
-            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-        } else if ("audio" == type) {
-            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        when (type) {
+            "image" -> {
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            }
+            "video" -> {
+                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            }
+            "audio" -> {
+                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            }
         }
 
         val selection = "_id=?"
@@ -169,7 +167,7 @@ object FileUriUtils {
         var outputStream: OutputStream? = null
         var success = false
         try {
-            val extension = FileUtil.getImageExtension(uri)
+            val extension = FileUtil.getImageExtension(context, uri)
             inputStream = context.contentResolver.openInputStream(uri)
             file = FileUtil.getImageFile(context.cacheDir, extension)
             if (file == null) return null
