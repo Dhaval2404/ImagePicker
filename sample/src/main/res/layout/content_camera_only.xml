@@ -19,14 +19,14 @@
             android:id="@+id/imgCameraCode"
             style="@style/ImageButtonStyle"
             android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/outline_code_24"
+            android:src="@drawable/outline_code_24"
             tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/imgCameraInfo"
             style="@style/ImageButtonStyle"
             android:layout_toStartOf="@id/imgCameraCode"
-            app:srcCompat="@drawable/outline_info_24"
+            android:src="@drawable/outline_info_24"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -50,7 +50,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_camera_photo"
         style="@style/FabStyle"
-        app:srcCompat="@drawable/baseline_photo_camera_24"
+        android:src="@drawable/baseline_photo_camera_24"
         tools:ignore="ContentDescription" />
 
 </androidx.cardview.widget.CardView>
