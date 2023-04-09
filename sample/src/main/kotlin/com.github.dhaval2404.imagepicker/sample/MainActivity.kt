@@ -101,10 +101,9 @@ class MainActivity : AppCompatActivity() {
         }
 
     @Suppress("UNUSED_PARAMETER")
-    fun pickProfileImage(view: View) {
+    private fun pickProfileImage(view: View) {
         ImagePicker.with(this)
             // Crop Square image
-            .galleryOnly()
             .cropSquare()
             .setImageProviderInterceptor { imageProvider -> // Intercept ImageProvider
                 Log.d("ImagePicker", "Selected ImageProvider: " + imageProvider.name)
@@ -118,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun pickGalleryImage(view: View) {
+    private fun pickGalleryImage(view: View) {
         ImagePicker.with(this)
             // Crop Image(User can choose Aspect Ratio)
             .crop()
@@ -142,7 +141,7 @@ class MainActivity : AppCompatActivity() {
      * Ref: https://gist.github.com/granoeste/5574148
      */
     @Suppress("UNUSED_PARAMETER")
-    fun pickCameraImage(view: View) {
+    private fun pickCameraImage(view: View) {
         ImagePicker.with(this)
             // User can only capture image from Camera
             .cameraOnly()
