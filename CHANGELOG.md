@@ -114,6 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Retrieve Image Result as File, File Path as String or Uri object
 
 [Unreleased]: https://github.com/Dhaval2404/ImagePicker/compare/v2.2...HEAD
+[3.0]: https://github.com/Dhaval2404/ImagePicker/compare/v2.1...v3.0
 [2.1]: https://github.com/Dhaval2404/ImagePicker/compare/v2.0...v2.1
 [2.0]: https://github.com/Dhaval2404/ImagePicker/compare/v1.8...v2.0
 [1.8]: https://github.com/Dhaval2404/ImagePicker/compare/v1.7.5...v1.8
