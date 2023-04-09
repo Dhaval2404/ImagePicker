@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="280dp"
     android:layout_marginTop="24dp"
-    app:cardCornerRadius="12dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
     tools:context=".MainActivity"
@@ -41,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/txtCamera"
-            android:background="@color/grey_50"
+            android:background="?colorSurfaceVariant"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
@@ -53,4 +52,4 @@
         android:src="@drawable/baseline_photo_camera_24"
         tools:ignore="ContentDescription" />
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -1,11 +1,8 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="materialCardViewStyle">?materialCardViewElevatedStyle</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -19,8 +16,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">end|bottom</item>
         <item name="srcCompat">@drawable/outline_cloud_upload_24</item>
-        <item name="backgroundTint">@color/colorPrimary</item>
-        <item name="tint">@color/white</item>
         <item name="useCompatPadding">true</item>
     </style>
 
@@ -28,7 +23,6 @@
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:scaleType">centerInside</item>
-        <item name="tint">@color/grey_800</item>
     </style>
 
     <style name="TitleTextStyle">
@@ -38,7 +32,6 @@
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
-        <item name="android:textColor">@color/grey_900</item>
     </style>
 
 </resources>
