@@ -109,7 +109,7 @@ object FileUriUtils {
         val fileName = getFilePath(context, uri)
         if (fileName != null) {
             val path =
-                Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName
+                context.getExternalFilesDir("Download").toString() + "/" + fileName
             if (File(path).exists()) {
                 return path
             }
