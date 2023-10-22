@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name" translatable="false">Image Picker</string>
+    <string name="image_picker_provider_authority_suffix" translatable="false">.imagepicker.provider</string>
+
+    <string name="title_choose_image_provider">নির্বাচন করুন</string>
+    <string name="action_cancel">বাতিল করুন</string>
+    <string name="title_gallery">গ্যালারি</string>
+    <string name="title_camera">ক্যামেরা</string>
+
+     <string name="permission_camera_denied">
+        <![CDATA[ছবি তোলার জন্য ক্যামেরার অনুমতি প্রয়োজন। অনুগ্রহ করে সেটিংস > অনুমতিগুলি থেকে অনুমতি দিন৷]]></string>
+
+    <string name="error_failed_to_create_camera_image_file">ক্যামেরা ইমেজ ফাইল তৈরি করতে ব্যর্থ হয়েছে</string>
+    <string name="error_failed_pick_gallery_image">গ্যালারি ছবি বাছাই করতে ব্যর্থ হয়েছে৷</string>
+    <string name="error_failed_to_crop_image">ছবি কাটছাঁট করতে ব্যর্থ হয়েছে৷</string>
+    <string name="error_failed_to_compress_image">ছবি সংকুচিত করতে ব্যর্থ হয়েছে৷</string>
+    <string name="error_task_cancelled">টাস্ক বাতিল করা হয়েছে</string>
+    <string name="error_camera_app_not_found">ক্যামেরা অ্যাপ পাওয়া যায়নি</string>
+
+    <!-- uCrop string resource start -->
+    <string name="ucrop_label_original">অরিজিনাল</string>
+    <string name="ucrop_label_edit_photo">এডিট করুন</string>
+    <string name="ucrop_menu_crop">ক্রপ করুন</string>
+    <string name="ucrop_rotate">ঘোরান</string>
+    <string name="ucrop_scale">স্কেল</string>
+    <string name="ucrop_crop">ক্রপ করুন</string>
+    <!-- uCrop string resource end -->
+
+</resources>
